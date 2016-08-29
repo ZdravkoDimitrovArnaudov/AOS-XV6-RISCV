@@ -1,12 +1,6 @@
 <center>
 
-<table>
-
-<tbody>
-
-<tr>
-
-<td width="800pt">
+| 
 
 <center><font color="#00aacc">
 
@@ -32,382 +26,42 @@ to unpack all the scripts once you've downloaded the tar file.
 
 ### Virtualization
 
-<table>
- <tbody>
- <tr>
- <td>**Topic of Interest**</td>
- <td>**Chapter**</td>
- <td>**Video**</td> 
-> <td>**What To Do**</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Process Intro_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-intro.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`process-run.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-CPU-Intro.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Process API_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-api.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Write some code</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Direct Execution_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-mechanisms.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Write some code</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Scheduling Basics_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-sched.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`scheduler.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Scheduler.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_MLFQ Scheduling_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-sched-mlfq.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`mlfq.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-MLFQ.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Lottery Scheduling_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-sched-lottery.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`lottery.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Lottery.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_VM API_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-api.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Write some code</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Relocation_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-mechanism.pdf)</td>
-> 
-> <td>[Video](http://youtu.be/mC3u99x8nqE)</td>
-> 
-> <td>Run [`relocation.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Relocation.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Segmentation_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-segmentation.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`segmentation.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Segmentation.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Free Space_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-freespace.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`freespace.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Freespace.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Paging_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-paging.pdf)</td>
-> 
-> <td>[Video](http://youtu.be/AhfSDqud3j4)</td>
-> 
-> <td>Run [`paging-linear-translate.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Paging-LinearTranslate.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_TLBs_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-tlbs.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Write some code</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Multi-level Paging_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-smalltables.pdf)</td>
-> 
-> <td>[Video](http://youtu.be/m1BQZPZduWk)</td>
-> 
-> <td>Run [`paging-multilevel-translate.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Paging-MultiLevelTranslate.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Paging Mechanism_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`mem.c`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Paging-BeyondPhys-Real.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Paging Policy_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys-policy.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`paging-policy.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Paging-Policy.tgz)</td>
-> 
-> </tr>
-> 
-> </tbody>
-> 
-> </table>
+> | **Topic of Interest** | **Chapter** | **Video** | **What To Do** |
+> | _Process Intro_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-intro.pdf) | Video | Run [`process-run.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-CPU-Intro.tgz) |
+> | _Process API_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-api.pdf) | Video | Write some code |
+> | _Direct Execution_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-mechanisms.pdf) | Video | Write some code |
+> | _Scheduling Basics_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-sched.pdf) | Video | Run [`scheduler.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Scheduler.tgz) |
+> | _MLFQ Scheduling_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-sched-mlfq.pdf) | Video | Run [`mlfq.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-MLFQ.tgz) |
+> | _Lottery Scheduling_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/cpu-sched-lottery.pdf) | Video | Run [`lottery.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Lottery.tgz) |
+> | _VM API_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-api.pdf) | Video | Write some code |
+> | _Relocation_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-mechanism.pdf) | [Video](http://youtu.be/mC3u99x8nqE) | Run [`relocation.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Relocation.tgz) |
+> | _Segmentation_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-segmentation.pdf) | Video | Run [`segmentation.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Segmentation.tgz) |
+> | _Free Space_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-freespace.pdf) | Video | Run [`freespace.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Freespace.tgz) |
+> | _Paging_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-paging.pdf) | [Video](http://youtu.be/AhfSDqud3j4) | Run [`paging-linear-translate.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Paging-LinearTranslate.tgz) |
+> | _TLBs_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-tlbs.pdf) | Video | Write some code |
+> | _Multi-level Paging_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-smalltables.pdf) | [Video](http://youtu.be/m1BQZPZduWk) | Run [`paging-multilevel-translate.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Paging-MultiLevelTranslate.tgz) |
+> | _Paging Mechanism_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys.pdf) | Video | Run [`mem.c`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Paging-BeyondPhys-Real.tgz) |
+> | _Paging Policy_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/vm-beyondphys-policy.pdf) | Video | Run [`paging-policy.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Paging-Policy.tgz) |
 
 ### Concurrency
 
-> <table>
-> 
-> <tbody>
-> 
-> <tr>
-> 
-> <td>**Topic of Interest**</td>
-> 
-> <td>**Chapter**</td>
-> 
-> <td>**Video**</td>
-> 
-> <td>**What To Do**</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Threads (Intro)_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/threads-intro.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`x86.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-ThreadsIntro.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Threads (API)_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/threads-api.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`main-*.c`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Threads-RealAPI.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Threads (Locks)_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/threads-locks.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`x86.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-ThreadsLocks.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Threads (CVs)_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/threads-cv.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`main-*.c`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Threads-RealCV.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Threads (Bugs)_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/threads-bugs.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`vector-*.c`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Threads-RealDeadlock.tgz)</td>
-> 
-> </tr>
-> 
-> </tbody>
-> 
-> </table>
+> | **Topic of Interest** | **Chapter** | **Video** | **What To Do** |
+> | _Threads (Intro)_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/threads-intro.pdf) | Video | Run [`x86.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-ThreadsIntro.tgz) |
+> | _Threads (API)_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/threads-api.pdf) | Video | Run [`main-*.c`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Threads-RealAPI.tgz) |
+> | _Threads (Locks)_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/threads-locks.pdf) | Video | Run [`x86.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-ThreadsLocks.tgz) |
+> | _Threads (CVs)_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/threads-cv.pdf) | Video | Run [`main-*.c`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Threads-RealCV.tgz) |
+> | _Threads (Bugs)_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/threads-bugs.pdf) | Video | Run [`vector-*.c`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Threads-RealDeadlock.tgz) |
 
 ### Persistence
 
-> <table>
-> 
-> <tbody>
-> 
-> <tr>
-> 
-> <td>**Topic of Interest**</td>
-> 
-> <td>**Chapter**</td>
-> 
-> <td>**Video**</td>
-> 
-> <td>**What To Do**</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_Disks_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/file-disks.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`disk.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Disk.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_RAID_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/file-raid.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`raid.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Raid.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_FS Intro_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/file-intro.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Write some code</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_FS Implement_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`vsfs.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-VSFS.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_FFS_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/file-ffs.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`ffs.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-FFS.tgz)</td>
-> 
-> </tr>
-> 
-> <tr>
-> 
-> <td>_AFS_</td>
-> 
-> <td>[PDF](http://www.cs.wisc.edu/~remzi/OSTEP/dist-afs.pdf)</td>
-> 
-> <td>Video</td>
-> 
-> <td>Run [`afs.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-AFS.tgz)</td>
-> 
-> </tr>
-> 
-> </tbody>
-> 
-> </table>
+> | **Topic of Interest** | **Chapter** | **Video** | **What To Do** |
+> | _Disks_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/file-disks.pdf) | Video | Run [`disk.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Disk.tgz) |
+> | _RAID_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/file-raid.pdf) | Video | Run [`raid.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-Raid.tgz) |
+> | _FS Intro_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/file-intro.pdf) | Video | Write some code |
+> | _FS Implement_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/file-implementation.pdf) | Video | Run [`vsfs.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-VSFS.tgz) |
+> | _FFS_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/file-ffs.pdf) | Video | Run [`ffs.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-FFS.tgz) |
+> | _AFS_ | [PDF](http://www.cs.wisc.edu/~remzi/OSTEP/dist-afs.pdf) | Video | Run [`afs.py`](http://pages.cs.wisc.edu/~remzi/OSTEP/Homework/HW-AFS.tgz) |
 
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
+ |
 
 </center>
