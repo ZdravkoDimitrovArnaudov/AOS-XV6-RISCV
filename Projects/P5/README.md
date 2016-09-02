@@ -1,4 +1,3 @@
-
 # Project 5: The Small File Optimization
 
 
@@ -42,6 +41,6 @@ There is no need to do any of this for directories; they should remain as is.
 
 Note that a real file system likely wouldn't create a new file type (T_SMALLFILE) for this type of optimization; rather, it would store small files' data in the inode, and then, when the file grew beyond what fits in the inode, it would allocate data blocks and put all the data in there. In this project, small files always just use the inode to store data, and are not allowed to grow beyond what fits in there. This simplification is in place to make your life easier.
 
-##Environement
+## Environement
 
 Vagrant as usual.
