@@ -1,18 +1,7 @@
-<center>
 
-<table>
-
-<tbody>
-
-<tr>
-
-<td width="500pt">
-
-<center><font color="#00aacc">
 
 # Project 1b: xv6 Intro
 
-</font></center>
 
 We'll be doing kernel hacking projects in **xv6.** Xv6 is a port of a classic version of unix to a modern processor, Intel's x86\. It is a clean and beautiful little kernel, and thus a perfect object for our study and usage.
 
@@ -40,12 +29,4 @@ You may also find the following readings about xv6 useful, written by the same t
 
 **Particularly useful for this project: Chapters 0, 1, 2.**
 
-</td>
 
-</tr>
-
-</tbody>
-
-</table>
-
-</center>
