@@ -1,18 +1,12 @@
-<center>
 
-| 
+# Project 4: xv6 Threads
 
-<center><font color="#00aacc">
-
-# Project 4b: xv6 Threads
-
-</font></center>
 
 ## Overview
 
 In this project, you'll be adding real kernel threads to xv6\. Sound like fun? Well, it should. Because you are on your way to becoming a real kernel hacker. And what could be more fun than that?
 
-Specifically, you'll do three things. First, you'll define a new system call to create a kernel thread, called `clone()` , as well as one to wait for a thread called `join()` . Then, you'll use `clone()` to build a little thread library, with a `thread_create()` call and `lock_acquire()` and `lock_release()` functions. Finally, you'll show these things work by using the TA's tests. That's it! And now, for some details.
+Specifically, you'll do three things. First, you'll define a new system call to create a kernel thread, called `clone()` , as well as one to wait for a thread called `join()` . Then, you'll use `clone()` to build a little thread library, with a `thread_create()` call and `lock_acquire()` and `lock_release()` functions. And now, for some details.
 
 ## Details
 
@@ -36,12 +30,10 @@ The contest for this project will be a little different than usual: it is based 
 
 ## The Code
 
-The code (and associated README) can be found in **~cs537-1/ta/xv6/** . Everything you need to build and run and even debug the kernel is in there, as before.
-
-As usual, it might be good to read the xv6 book a bit: [Here](xv6book.pdf) .
+As usual, code and book.
 
 You may also find this book useful: [Programming from the Ground Up](http://download.savannah.gnu.org/releases/pgubook/ProgrammingGroundUp-1-0-booksize.pdf) . Particular attention should be paid to the first few chapters, including the calling convention (i.e., what's on the stack when you make a function call, and how it all is manipulated).
 
- |
+## Environement 
 
-</center>
+As usual

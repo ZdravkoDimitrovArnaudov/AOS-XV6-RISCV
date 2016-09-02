@@ -1,16 +1,10 @@
-<center>
 
-| 
+# Project 5: The Small File Optimization
 
-<center><font color="#00aacc">
-
-# Project 5b: The Small File Optimization
-
-</font></center>
 
 ## Notes
 
-Start with this kernel, not the usual one: **~cs537-1/ta/xv6/xv6.fspatch.tar.gz**
+Start with this kernel, not the usual one: use the file provided in this directory **xv6.fspatch.tar.gz**
 
 **5/2:** The semantics of a write() should follow those of typical Unix systems. That is, if you try to write 100 bytes to a small file, the first 52 bytes should be written to the file, and the return value should indicate that 52 bytes are written. Similarly, if the file is already 10 bytes in size, and then someone issues a 100-byte write, 42 bytes should be written and 42 returned. Writes after the file is full (unless truncated) should fail and return an error (-1).
 
@@ -28,13 +22,17 @@ Thus, you'll have to be able to handle a new flag to open() (O_SMALLFILE), which
 
 To start, look in **include/stat.h.** You'll have to add the T_SMALLFILE in there, and define it to be 4, e.g.
 
-> #define T_SMALLFILE 4
+```c
+#define T_SMALLFILE 4
+```
 
 This will let us determine if the file being accessed is indeed one of these small files.
 
 You also need to poke around to find where a new flag to open should be defined. You'll find that **include/fcntl.h** has these definitions. You'll need to add:
 
-> #define O_SMALLFILE 0x400
+```c
+ #define O_SMALLFILE 0x400
+```
 
 in there. Note: these must be followed exactly, or tests will not work.
 
@@ -44,10 +42,6 @@ There is no need to do any of this for directories; they should remain as is.
 
 Note that a real file system likely wouldn't create a new file type (T_SMALLFILE) for this type of optimization; rather, it would store small files' data in the inode, and then, when the file grew beyond what fits in the inode, it would allocate data blocks and put all the data in there. In this project, small files always just use the inode to store data, and are not allowed to grow beyond what fits in there. This simplification is in place to make your life easier.
 
-## The Code
+##Environement
 
-The code (and associated README) can be found in **~cs537-1/ta/xv6/** . Everything you need to build and run and even debug the kernel is in there, as before.
-
- |
-
-</center>
+Vagrant as usual.

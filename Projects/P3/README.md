@@ -1,14 +1,5 @@
-<center>
 
-| 
-
-<center><font color="#00aacc">
-
-# Project 3b: The Null Pointer and Shared Memory
-
-</font></center>
-
-## Only section 1 does this part!
+# Project 3: The Null Pointer and Shared Memory
 
 ## Objectives
 
@@ -59,13 +50,10 @@ Some things to think about:
 
 ## The Code
 
-The source code for xv6 (and associated README) can be found in **~cs537-1/ta/xv6/** . Everything you need to build and run and even debug the kernel is in there.
+As usual
 
-Might be good to read the xv6 book a bit: [Here](xv6book.pdf) .
+##Environement
 
-**Particularly useful for this project: Chapter 1 .**
+As usual
 
- |
-
-</center>
 

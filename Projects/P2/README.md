@@ -1,18 +1,5 @@
-<center>
 
-<table>
-
-<tbody>
-
-<tr>
-
-<td width="500pt">
-
-<center><font color="#00aacc">
-
-# Project 2b: xv6 Scheduler
-
-</font></center>
+# Project 2: xv6 Scheduler
 
 ## Objectives
 
@@ -53,22 +40,15 @@ You'll need to understand how to fill in the structure **pstat** in the kernel a
 
 ## The Code
 
-The source code for xv6 (and associated README) can be found in **~cs537-1/ta/xv6/** . Everything you need to build and run and even debug the kernel is in there.
+This kernel was developed by [MIT OS Enegeneering](https://pdos.csail.mit.edu/6.828/2016/). Nevertheless, the version used here has been "reorganized" by OSTEP author. We will use that version (which is avaliable in **../xv6/xv6-wisc/**).
 
-You may also find the following readings about xv6 useful, written by the same team that ported xv6 to x86: [xv6 book](https://pdos.csail.mit.edu/6.828/2014/xv6/book-rev8.pdf)
+You may also find the following readings about xv6 useful, written by the same team that ported xv6 to x86: [xv6 book.](https://pdos.csail.mit.edu/6.828/2014/xv6/book-rev8.pdf) However, remeber that the kernel version we use is a little different than the book.
+
+##Environement
+
+Use at least version 1.3 of [vpuente/AOSUC1516](https://atlas.hashicorp.com/vpuente/boxes/AOSUC1617) vagrant box. This box includes all the tools required to perform the project (gcc, qemu, shared dirs with the guest, etc...). Create a instance in this directory and copy xv6 code to start working in your branch.
 
 **Particularly useful for this project: Chapter 5.**
 
-## What To Turn In
 
-Turn in your source code, as usual.
 
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</center>
