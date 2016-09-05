@@ -1,5 +1,5 @@
 # Project 5: The Small File Optimization
-
+[TOC]
 
 ## Notes
 

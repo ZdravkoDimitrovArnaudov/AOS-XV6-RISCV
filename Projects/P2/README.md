@@ -1,6 +1,5 @@
-
 # Project 2: xv6 Scheduler
-
+[TOC]
 ## Objectives
 
 There are two objectives to this assignment:
@@ -44,7 +43,7 @@ This kernel was developed by [MIT OS Enegeneering](https://pdos.csail.mit.edu/6.
 
 You may also find the following readings about xv6 useful, written by the same team that ported xv6 to x86: [xv6 book.](https://pdos.csail.mit.edu/6.828/2014/xv6/book-rev8.pdf) However, remeber that the kernel version we use is a little different than the book.
 
-##Environement
+## Environement
 
 Use at least version 1.3 of [vpuente/AOSUC1516](https://atlas.hashicorp.com/vpuente/boxes/AOSUC1617) vagrant box. This box includes all the tools required to perform the project (gcc, qemu, shared dirs with the guest, etc...). Create a instance in this directory and copy xv6 code to start working in your branch.
 

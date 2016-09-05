@@ -1,6 +1,8 @@
 
 # Project 3: The Null Pointer and Shared Memory
 
+[TOC]
+
 ## Objectives
 
 There are two objectives to this assignment:
@@ -52,7 +54,7 @@ Some things to think about:
 
 As usual
 
-##Environement
+## Environement
 
 As usual
 

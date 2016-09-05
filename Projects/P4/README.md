@@ -1,7 +1,6 @@
 
 # Project 4: xv6 Threads
-
-
+[TOC]
 ## Overview
 
 In this project, you'll be adding real kernel threads to xv6\. Sound like fun? Well, it should. Because you are on your way to becoming a real kernel hacker. And what could be more fun than that?

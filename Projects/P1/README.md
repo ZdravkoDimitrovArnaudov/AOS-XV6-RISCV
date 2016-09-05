@@ -1,6 +1,6 @@
 
 # Project: xv6 Intro
-
+[TOC]
 
 We'll be doing kernel hacking projects in **xv6.** Xv6 is a port of a classic version of unix to a modern processor, Intel's x86\. It is a clean and beautiful little kernel, and thus a perfect object for our study and usage.
 
