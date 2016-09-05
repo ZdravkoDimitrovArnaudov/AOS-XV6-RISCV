@@ -1,4 +1,4 @@
-#Project 0: Intro to the lab & Warmup
+# Project 0: Intro to the lab & Warmup
 
 [TOC]
 
