@@ -1,7 +1,12 @@
-## [Intro](00_Intro.pptx)
 
 ## [Projects](Projects)
 
+Lab work goes there. [Intro to the lab](00_Intro.pptx)
+
 ## [Homework](Homework)
 
-## [Slides](https://gitlab.com/vpuente/aosuc1617) External Public repo.
+Homework files. Solve it there.
+
+## [Slides](https://gitlab.com/vpuente/aosuc1617) 
+
+External Public repo. PDF of slides
