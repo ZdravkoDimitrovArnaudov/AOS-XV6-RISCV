@@ -116,12 +116,17 @@ If you don't know how to use these functions, use the man pages. For example, ty
 
 
 ## Reference
+
+[Video-tutorial(spanish)](https://youtu.be/W15-Yx_zdsc)
+
 **Before beginning:** Read [OSTEP tutorial](http://pages.cs.wisc.edu/~remzi/OSTEP/lab-tutorial.pdf). It has some useful tips for programming in the C environment.
 
 A nice guide for **git** can be found [here](https://www.atlassian.com/git/tutorials/what-is-version-control). The subset used here is quite sparse. In particular we need to do git clone/git pull/git push/git commit/git add and git rebase.
 
 **Vagrant** information can be found [here](https://www.vagrantup.com/docs/getting-started/). Although it is quite useful, we will use here just as _simplication tool_. Shared folders allow to use the text editor you want in the host. Yes you can use Eclipse (although I recommend to take a look to others such as [Atom](http://atom.org/), [SublimeText](https://www.sublimetext.com/3), [Visual Code](https://code.visualstudio.com) or **VIM**😬). Try and pick your poison. Some of them has a nice git integration.
 
+
 # Evaluation
 You dont need to do anything to handin the material.  The profesor will run a script at deadline date 00:00AM, grabbing all the material in ur repository. Any further change beyond this date will be ignored. This course, this material will be considered as a +10% extra to your final grade (yes, u can get a 11). The evaluation will be supported (experimentally) by automatic scripts.
+
 
