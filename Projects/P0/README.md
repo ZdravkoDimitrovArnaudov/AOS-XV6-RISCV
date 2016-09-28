@@ -29,7 +29,7 @@ LAB designed to get used to the tools used in forthcoming labs and refresh OS co
 
 You will write a simple sorting program. This program should be invoked as follows:
 
-`shell% ./fastsort [ -3] file`
+`shell%./fastsort [ -3] file`
 
 The above line means the users typed in the name of the sorting program `./fastsort` and gave it one or two inputs. If just one input is given, the input file `file` should be sorted and the sorted output printed to the screen; it is assumed that the file is a text file (full of ASCII characters) and, when no other arguments are given, the sorting should be over the first word in each line.
 
