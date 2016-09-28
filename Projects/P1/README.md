@@ -31,8 +31,13 @@ You may also find the following readings about xv6 useful, written by the same t
 
 ## Environement
 
-Use at least version 1.3 of vpuente/AOSUC1516 vagrant box. This box includes all the tools required to perform the project (gcc, qemu, shared dirs with the guest, etc...). Alternativelly you can create your own "tailored" box. Any linux will be fine!
+Use at least version 1.21 of vpuente/AOSUC1516 vagrant box. This box includes all the tools required to perform the project (gcc, qemu, shared dirs with the guest, etc...). Alternativelly you can create your own "tailored" box. Any linux will be fine! (you can use also port or homebrew on OSX but requires some tinkering witht he compilers).
+
+## Reference
+
+A small [Video-intro(spanish)](https://www.youtube.com/watch?v=7B-P9m29wFk)
 
 **Particularly useful for this project: Chapter 6 (Direct Execution).**
+
 
 
