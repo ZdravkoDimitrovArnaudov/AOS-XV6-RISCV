@@ -1,4 +1,3 @@
-
 # Project: xv6 Intro
 [TOC]
 
@@ -35,7 +34,8 @@ Use at least version 1.21 of vpuente/AOSUC1516 vagrant box. This box includes al
 
 ## Reference
 
-A small [Video-intro(spanish)](https://www.youtube.com/watch?v=7B-P9m29wFk)
+[![Intro (spanish)](http://img.youtube.com/vi/7B-P9m29wFk/0.jpg)](https://www.youtube.com/watch?v=7B-P9m29wFk)
+
 
 **Particularly useful for this project: Chapter 6 (Direct Execution).**
 
