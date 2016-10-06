@@ -20,7 +20,8 @@ all: xv6.img fs.img
 
 # C compiler options
 # http://gcc.gnu.org/onlinedocs/gcc-4.4.6/gcc/Invoking-GCC.html
-CC = gcc
+CC  = $(TOOLPREFIX)gcc
+NCC = gcc 
 # enable extra warnings
 CFLAGS += -Wall
 # treat warnings as errors
@@ -33,20 +34,20 @@ CFLAGS += -ggdb
 #CFLAGS += -O2
 
 # C Preprocessor
-CPP := cpp
+CPP := $(TOOLPREFIX)cpp
 
 # Assembler options
 # http://sourceware.org/binutils/docs/as/Invoking.html
-AS := gcc
+AS := $(TOOLPREFIX)gcc
 ASFLAGS += -ggdb # produce debugging information for use by gdb
 
 # Linker options
 # http://sourceware.org/binutils/docs/ld/Options.html
-LD := ld
+LD := $(TOOLPREFIX)ld
 
-OBJCOPY := objcopy
+OBJCOPY := $(TOOLPREFIX)objcopy
 
-OBJDUMP := objdump
+OBJDUMP := $(TOOLPREFIX)objdump
 
 ################################################################################
 # Emulator Options

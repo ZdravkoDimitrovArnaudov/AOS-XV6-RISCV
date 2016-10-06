@@ -10,14 +10,14 @@ TOOLS_CPPFLAGS := -iquote include
 
 # mkfs
 tools/mkfs: tools/mkfs.o
-	$(CC) $(LDFLAGS) $< -o $@
+	$(NCC) $(LDFLAGS) $< -o $@
 
 # build object files from c files
 tools/%.o: tools/%.c
-	$(CC) -c $(CPPFLAGS) $(TOOLS_CPPFLAGS) $(CFLAGS) $(TOOLS_CLFAGS) -o $@ $<
+	$(NCC) -c $(CPPFLAGS) $(TOOLS_CPPFLAGS) $(CFLAGS) $(TOOLS_CLFAGS) -o $@ $<
 
 # build dependency files form c files
 tools/%.d: tools/%.c
-	$(CC) $(CPPFLAGS) $(TOOLS_CPPFLAGS) $(CFLAGS) $(TOOLS_CFLAGS) \
+	$(NCC) $(CPPFLAGS) $(TOOLS_CPPFLAGS) $(CFLAGS) $(TOOLS_CFLAGS) \
 	  -M -MG $< -MF $@ -MT $@ -MT $(<:.c=.o)
 
