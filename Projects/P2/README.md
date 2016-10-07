@@ -11,9 +11,7 @@ There are two objectives to this assignment:
 
 Read these updates to keep up with any small fixes in the specification.
 
-When a bad priority (not 1 or 2) is passed to your setpri() system call, return -1 (indicating an error). Otherwise return 0 (indicating success). Similarly, if a bad pointer is passed to your getpinfo() call, return -1; otherwise, if the call is successful, return 0.
-
-In your Makefile, replace `CPUS := 2` with `CPUS := 1` . The old setting runs xv6 with two CPU cores, but you only need to do scheduling for a single core in this project.
+ >NONE
 
 ## Overview
 
@@ -23,11 +21,15 @@ In this project, you'll be putting a new scheduler into xv6\. It is called a sim
 
 You will need to implement a couple of new system calls to implement this scheduler. The first is **int setpri(int num),** which sets the priority for the calling process. By default, each process should get a priority of 1; calling this routine makes it such that a process can raise or lower its priority.
 
-The second is **int getpinfo(struct pstat *).** This routine returns some basic information about each running process, including <strike>how many times it has been chosen to run</strike> how long it has run at each priority (measured in clock ticks) and its process ID. You can use this system call to build a variant of the command line program **ps,** which can then be called to see what is going on.
+The second is **int getpinfo(struct pstat *).** This routine returns some basic information about each running process, including how long it has run at each priority (measured in clock ticks) and its process ID. You can use this system call to build a variant of the command line program **ps,** which can then be called to see what is going on.
 
-If either of these calls are passed bad parameters, return -1 to indicate a failure. Otherwise, return 0 upon success.
+If either of these calls are passed bad parameters, **return -1** to indicate a failure. Otherwise, **return 0** upon success.
 
 One thing you'll have to do is make sure to initialize the priority of a process correctly. All processes, when created, should start at priority level 1\. Only by calling **setpri()** can a process change its priority to 2.
+
+When a bad priority (not 1 or 2) is passed to your setpri() system call, **return -1** (indicating an error). Otherwise return 0 (indicating success). Similarly, if a bad pointer is passed to your **getpinfo()** call, **return -1**; otherwise, if the call is successful, **return 0**.
+
+In your Makefile, replace `CPUS := 2` with `CPUS := 1` . The old setting runs xv6 with two CPU cores, but you only need to do scheduling for a single core in this project.
 
 ## Tips
 
@@ -39,15 +41,15 @@ You'll need to understand how to fill in the structure **pstat** in the kernel a
 
 ## The Code
 
-This kernel was developed by [MIT OS Enegeneering](https://pdos.csail.mit.edu/6.828/2016/). Nevertheless, the version used here has been "reorganized" by OSTEP author. We will use that version (which is avaliable in **../xv6/xv6-wisc/**).
+This kernel was developed by [MIT OS Enegeneering](https://pdos.csail.mit.edu/6.828/2016/). Nevertheless, the version used here has been ´reorganized by OSTEP author. We will use that version (which is avaliable in **../xv6/xv6-wisc/**).
 
 You may also find the following readings about xv6 useful, written by the same team that ported xv6 to x86: [xv6 book.](https://pdos.csail.mit.edu/6.828/2014/xv6/book-rev8.pdf) However, remeber that the kernel version we use is a little different than the book.
 
 ## Environement
 
-Use at least version 1.3 of [vpuente/AOSUC1516](https://atlas.hashicorp.com/vpuente/boxes/AOSUC1617) vagrant box. This box includes all the tools required to perform the project (gcc, qemu, shared dirs with the guest, etc...). Create a instance in this directory and copy xv6 code to start working in your branch.
+Use at least version 1.21 of [vpuente/AOSUC1516](https://atlas.hashicorp.com/vpuente/boxes/AOSUC1617) vagrant box. This box includes all the tools required to perform the project (gcc, qemu, shared dirs with the guest, etc...). Create a instance in this directory and copy xv6 code to start working in your branch.
 
-**Particularly useful for this project: Chapter 5.**
+**Particularly useful for this project: Chapters 7-9**
 
 
 
