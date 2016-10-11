@@ -35,7 +35,24 @@ In your Makefile, replace `CPUS := 2` with `CPUS := 1` . The old setting runs xv
 
 Most of the code for the scheduler is quite localized and can be found in **proc.c.** The associated header file, **proc.h** is also quite useful to examine. To change the scheduler, not much needs to be done; study its control flow and then try some small changes.
 
-You'll need to understand how to fill in the structure **pstat** in the kernel and pass the results to user space. The structure looks like what you see in [here.](pstat.h)
+You'll need to understand how to fill in the structure **pstat** in the kernel and pass the results to user space. The structure looks like:
+
+```c
+#ifndef _PSTAT_H_
+#define _PSTAT_H_
+
+#include "param.h"
+
+struct pstat {
+    int inuse[NPROC];  // whether this slot of the process process table is in use (1 or 0)
+    int pid[NPROC];    // the PID of each process
+    int hticks[NPROC]; // the number of ticks each process has accumulated at priority 2
+    int lticks[NPROC]; // the number of ticks each process has accumulated at priority 1
+};
+
+
+#endif // _PSTAT_H_
+```
 
 **Random xv6 tip:** To run the xv6 environment, use **make qemu-nox.** Doing so avoids the use of X windows and is generally fast and easy. However, quitting is not so easy; to quit, you have to know the shortcuts provided by the machine emulator, qemu. Type **control-a** followed by **x** to exit the emulation. There are a few other commands like this available; to see them, type **control-a** followed by an **h.**
 
