@@ -19,7 +19,7 @@ In this project, you'll be putting a new scheduler into xv6\. It is called a sim
 
 ## Details
 
-You will need to implement a couple of new system calls to implement this scheduler. The first is **int setpri(int num),** which sets the priority for the calling process. By default, each process should get a priority of 1; calling this routine makes it such that a process can raise or lower its priority.
+You will need to implement a couple of new system calls to implement this scheduler. The first is **int setpri(int num),** which sets the priority for the calling process. By default, each process should get a priority of 1; calling this routine makes it such that a process can raise or lower its priority. The argument of the system call is either **1** or **2**.
 
 The second is **int getpinfo(struct pstat *).** This routine returns some basic information about each running process, including how long it has run at each priority (measured in clock ticks) and its process ID. You can use this system call to build a variant of the command line program **ps,** which can then be called to see what is going on.
 
