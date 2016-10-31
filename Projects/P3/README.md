@@ -50,7 +50,12 @@ Some things to think about:
 *   How to handle fork(): Upon fork, must also make sure child process has access to shared page, and that reference counts are updated appropriately.
 *   How to track reference counts to each page so as to be able to implement shmem_count().
 
-## The Code
+## Reference
+
+### Part 1 Video
+
+[![Intro (spanish)](http://img.youtube.com/vi/1qiCOa9cMJc/0.jpg)](https://www.youtube.com/watch?v=1qiCOa9cMJc)
+
 
 As usual
 
