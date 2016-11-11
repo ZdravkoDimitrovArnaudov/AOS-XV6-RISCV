@@ -56,8 +56,9 @@ Some things to think about:
 
 [![Intro (spanish)](http://img.youtube.com/vi/1qiCOa9cMJc/0.jpg)](https://www.youtube.com/watch?v=1qiCOa9cMJc)
 
+### Part 2 Video
 
-As usual
+[![Intro (spanish)](http://img.youtube.com/vi/spoHfmBPGmg/0.jpg)](https://www.youtube.com/watch?v=spoHfmBPGmg)
 
 ## Environement
 
