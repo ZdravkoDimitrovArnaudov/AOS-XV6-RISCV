@@ -37,7 +37,7 @@ lock, and two routines `lock_acquire(lock_t *)` and `lock_release(lock_t *)` , w
 spin lock should use x86 atomic exchange to built the spin lock (see the xv6 kernel for an example of something close 
 to what you need to do). One last routine, `lock_init(lock_t *)` , is used to initialize the lock as need be.
 
-To test your code, use the TAs tests, as usual! But of course you should write your own little code snippets to test pieces as you go.
+To test your code, use the provided tests, as usual! But of course you should write your own little code snippets to test pieces as you go.
 
 One thing you need to be careful with is when an address space is grown by a thread in a multi-threaded process. Trace 
 this code path carefully and see where a new lock is needed and what else needs to be updated to grow an address space 
