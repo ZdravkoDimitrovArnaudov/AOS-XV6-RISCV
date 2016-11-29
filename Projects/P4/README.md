@@ -13,7 +13,11 @@ and `cv_init()`, `cv_wait()` and `cv_signal()` for conditional variables. And no
 
 ## Details
 
-Your new clone system call should look like this: `int clone(void(*fcn)(void*), void *arg, void*stack)` . This call 
+Your new clone system call should look like this: 
+
+```cint clone(void(*fcn)(void*), void *arg, void*stack)``` 
+
+This call 
 creates a new kernel thread which shares the calling process's address space. File descriptors are copied as in fork. 
 The new process uses `stack` as its user stack, which is passed the given argument `arg` and uses a fake return PC (0xffffffff). 
 The stack should be one page in size and page-aligned. The new thread starts executing at the address specified by `fcn` . 
@@ -44,7 +48,8 @@ to what you need to do). One last routine, `lock_init(lock_t *)` , is used to in
 
 
 Finally, you should have a simple condition variable and related routines: `cond_t` and `cv_wait(cond_t *, lock_t *)` and `cv_signal(cond_t *)`.
-These routines should do what is expected: either put the caller to sleep (and release the lock) or wake a sleeping thread, respectively.
+These routines should do what is expected: either put the caller to sleep (and release the lock) or wake a sleeping thread, respectively. 
+You will have to add additional system calls to achieve this. Just left it to the end of the project.
 
 
 To test your code, use the provided tests, as usual! But of course you should write your own little code snippets to test pieces as you go.
