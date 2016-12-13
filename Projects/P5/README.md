@@ -13,7 +13,7 @@ Thus, you'll have to be able to handle a new flag to open() (`O_SMALLFILE`), whi
 
 ## Details
 
-To start, look in **include/stat.h.** You'll have to add the T_SMALLFILE in there, and define it to be 4, e.g.
+To start, look in **include/stat.h**. You'll have to add the `T_SMALLFILE` in there, and define it to be 4, e.g.
 
 ```c
 #define T_SMALLFILE 4
@@ -29,15 +29,15 @@ You also need to poke around to find where a new flag to open should be defined.
 
 in there. Note: these must be followed exactly, or tests will not work.
 
-Then you need to go about following the read/write paths to see where to make your changes. Start in **kernel/sysfile.c** (looking at sys_open() and sys_write(), as well as create()), and follow through the read and write paths to **kernel/file.c** and eventually **kernel/fs.c.** In that last file, make sure to understand readi() and writei(), as well as the inode update routine iupdate().
+Then you need to go about following the read/write paths to see where to make your changes. Start in **kernel/sysfile.c** (looking at `sys_open()` and `sys_write()`, as well as `create())`, and follow through the read and write paths to **kernel/file.c** and eventually **kernel/fs.c**. In that last file, make sure to understand `readi()` and `writei()`, as well as the inode update routine `iupdate()`.
 
 There is no need to do any of this for directories; they should remain as is.
 
-Note that a real file system likely wouldn't create a new file type (T_SMALLFILE) for this type of optimization; rather, it would store small files' data in the inode, and then, when the file grew beyond what fits in the inode, it would allocate data blocks and put all the data in there. In this project, small files always just use the inode to store data, and are not allowed to grow beyond what fits in there. This simplification is in place to make your life easier.
+Note that a real file system likely wouldn't create a new file type (`T_SMALLFILE`) for this type of optimization; rather, it would store small files' data in the inode, and then, when the file grew beyond what fits in the inode, it would allocate data blocks and put all the data in there. In this project, small files always just use the inode to store data, and are not allowed to grow beyond what fits in there. This simplification is in place to make your life easier.
 
 ## Notes
 
-* Start with the `xv6` provided in this directory, not the usual one. This has some customizations for this lab. 
+* Start with the `xv6` provided in this directory, not the usual one. This has some customizations for this lab.
 
 * The semantics of a write() should follow those of typical Unix systems. That is, if you try to write 100 bytes to a small file, the first 52 bytes should be written to the file, and the return value should indicate that 52 bytes are written. Similarly, if the file is already 10 bytes in size, and then someone issues a 100-byte write, 42 bytes should be written and 42 returned. Writes after the file is full (unless truncated) should fail and return an error (-1).
 
