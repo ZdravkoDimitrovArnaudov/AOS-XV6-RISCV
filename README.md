@@ -15,6 +15,6 @@ Results.
 
 Homework files. Solve it there.
 
-## [Slides](https://gitlab.com/vpuente/aosuc1617) 
+## [Lecture Notes](https://ceunican.github.io/aos/) 
 
 External Public repo. PDF of slides
