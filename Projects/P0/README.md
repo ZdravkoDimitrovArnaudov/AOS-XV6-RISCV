@@ -129,6 +129,6 @@ A nice guide for **git** can be found [here](https://www.atlassian.com/git/tutor
 [![Intro (spanish)](http://img.youtube.com/vi/W15-Yx_zdsc/0.jpg)](https://www.youtube.com/watch?v=W15-Yx_zdsc)
 
 # Evaluation
-You dont need to do anything to handin the material.  The profesor will run a script at deadline date 00:00AM, grabbing all the material in ur repository. Any further change beyond this date will be ignored. This course, this material will be considered as a +10% extra to your final grade (yes, u can get a 11). The evaluation will be supported (experimentally) by automatic scripts.
+You dont need to do anything to handin the material.  The profesor will run a script at deadline date 00:00AM, grabbing all the material in your repository. Any further change beyond this date will be ignored. The results of the evaluation will be provided in **Results/P0**. This lab has no test availble: just some text files with some tricky cases. See **Tests/P0**. 
 
 
