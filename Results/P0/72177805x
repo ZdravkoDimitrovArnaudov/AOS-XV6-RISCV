@@ -27,7 +27,7 @@ empty input file
 
 **********************************************************************
 Running fastsort
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpAzVrJu/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/empty
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpLvwkc5/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/empty
 Checking output
 
 
@@ -43,7 +43,7 @@ a single record
 
 **********************************************************************
 Running fastsort
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpAzVrJu/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/one
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpLvwkc5/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/one
 Checking output
 
 
@@ -59,7 +59,7 @@ five records
 
 **********************************************************************
 Running fastsort
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpAzVrJu/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/five1
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpLvwkc5/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/five1
 Checking output
 
 
@@ -75,7 +75,7 @@ five records
 
 **********************************************************************
 Running fastsort
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpAzVrJu/p/fastsort -2 /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/five2
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpLvwkc5/p/fastsort -2 /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/five2
 Checking output
 
 
@@ -91,7 +91,7 @@ missing keys in some lines
 
 **********************************************************************
 Running fastsort
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpAzVrJu/p/fastsort -5 /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/missing_keys
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpLvwkc5/p/fastsort -5 /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/missing_keys
 Checking output
 
 
@@ -106,7 +106,7 @@ Test arg
 Bad arguments
 
 **********************************************************************
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpAzVrJu/p/fastsort
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpLvwkc5/p/fastsort
 
 
 test arg PASSED (10 of 10)
@@ -120,7 +120,7 @@ Test arg2
 Bad arguments
 
 **********************************************************************
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpAzVrJu/p/fastsort a b c d
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpLvwkc5/p/fastsort a b c d
 
 
 test arg2 PASSED (10 of 10)
@@ -134,7 +134,7 @@ Test arg3
 Invalid key value
 
 **********************************************************************
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpAzVrJu/p/fastsort -i input/empty
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpLvwkc5/p/fastsort -i input/empty
 Failure: fastsort gave incorrect standard error.
 Expected: "Error: Bad command line parameters\n"
 Got:      "Error: Cannot open file input/empty\n"
@@ -152,7 +152,7 @@ Test badin
 Bad input file
 
 **********************************************************************
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpAzVrJu/p/fastsort /invalid/path/Y5qZRP
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpLvwkc5/p/fastsort /invalid/path/KbGo66
 
 
 test badin PASSED (10 of 10)
@@ -166,7 +166,7 @@ Test toolong
 some line has more than 128 characters
 
 **********************************************************************
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpAzVrJu/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/toolong
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpLvwkc5/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/toolong
 
 
 test toolong PASSED (10 of 10)

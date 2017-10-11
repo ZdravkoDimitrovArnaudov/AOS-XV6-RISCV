@@ -8,13 +8,11 @@ build project using make
 **********************************************************************
 Trying to clean project using make clean
 make clean
-rm -f *.o
-rm -f *.gch
+make: *** No rule to make target `clean'.  Stop.
 Trying to build project using make
 make
-gcc -c main.c
-gcc -c fastsort.c
-gcc -o fastsort main.o fastsort.o
+gcc -Werror -Wall -c -o main.o main.c
+gcc -Werror -Wall -o fastsort main.o
 
 
 test build PASSED
@@ -29,7 +27,7 @@ empty input file
 
 **********************************************************************
 Running fastsort
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpai8EFG/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/empty
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpJhqCB3/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/empty
 Checking output
 
 
@@ -45,7 +43,7 @@ a single record
 
 **********************************************************************
 Running fastsort
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpai8EFG/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/one
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpJhqCB3/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/one
 Checking output
 
 
@@ -61,7 +59,7 @@ five records
 
 **********************************************************************
 Running fastsort
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpai8EFG/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/five1
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpJhqCB3/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/five1
 Checking output
 
 
@@ -77,7 +75,7 @@ five records
 
 **********************************************************************
 Running fastsort
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpai8EFG/p/fastsort -2 /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/five2
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpJhqCB3/p/fastsort -2 /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/five2
 Checking output
 
 
@@ -93,7 +91,7 @@ missing keys in some lines
 
 **********************************************************************
 Running fastsort
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpai8EFG/p/fastsort -5 /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/missing_keys
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpJhqCB3/p/fastsort -5 /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/missing_keys
 Checking output
 
 
@@ -108,7 +106,7 @@ Test arg
 Bad arguments
 
 **********************************************************************
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpai8EFG/p/fastsort
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpJhqCB3/p/fastsort
 
 
 test arg PASSED (10 of 10)
@@ -122,7 +120,7 @@ Test arg2
 Bad arguments
 
 **********************************************************************
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpai8EFG/p/fastsort a b c d
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpJhqCB3/p/fastsort a b c d
 
 
 test arg2 PASSED (10 of 10)
@@ -136,11 +134,15 @@ Test arg3
 Invalid key value
 
 **********************************************************************
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpai8EFG/p/fastsort -i input/empty
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpJhqCB3/p/fastsort -i input/empty
+Failure: fastsort gave incorrect standard error.
+Expected: "Error: Bad command line parameters\n"
+Got:      "Error: Cannot open file foo\n"
 
 
-test arg3 PASSED (10 of 10)
+test arg3 FAILED (0 of 10)
  (Invalid key value)
+ fastsort gave incorrect standard error.
 
 starting badin
 
@@ -150,11 +152,15 @@ Test badin
 Bad input file
 
 **********************************************************************
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpai8EFG/p/fastsort /invalid/path/SIVvZd
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpJhqCB3/p/fastsort /invalid/path/gFuu5m
+Failure: fastsort gave incorrect standard error.
+Expected: "Error: Cannot open file /invalid/path/gFuu5m\n"
+Got:      "Error: Cannot open file foo\n"
 
 
-test badin PASSED (10 of 10)
+test badin FAILED (0 of 10)
  (Bad input file)
+ fastsort gave incorrect standard error.
 
 starting toolong
 
@@ -164,7 +170,7 @@ Test toolong
 some line has more than 128 characters
 
 **********************************************************************
-/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpai8EFG/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/toolong
+/var/folders/gh/n22701ln0j12hmr3k5tb9qlc0000gn/T/tmpJhqCB3/p/fastsort /Users/vpuente/CloudStation/Docencia/SOA/MATERIAL/LAB/GRADING/tests/1a/input/toolong
 
 
 test toolong PASSED (10 of 10)
@@ -196,15 +202,17 @@ test arg PASSED (10 of 10)
 test arg2 PASSED (10 of 10)
  (Bad arguments)
 
-test arg3 PASSED (10 of 10)
+test arg3 FAILED (0 of 10)
  (Invalid key value)
+ fastsort gave incorrect standard error.
 
-test badin PASSED (10 of 10)
+test badin FAILED (0 of 10)
  (Bad input file)
+ fastsort gave incorrect standard error.
 
 test toolong PASSED (10 of 10)
  (some line has more than 128 characters)
 
-Passed 11 of 11 tests.
-Overall 11 of 11
-Points 100 of 100
+Passed 9 of 11 tests.
+Overall 9 of 11
+Points 80 of 100
