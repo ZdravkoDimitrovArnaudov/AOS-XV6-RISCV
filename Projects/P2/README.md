@@ -21,7 +21,7 @@ In this project, you'll be putting a new scheduler into xv6\. It is called a sim
 
 You will need to implement a couple of new system calls to implement this scheduler. The first is **int setpri(int num),** which sets the priority for the calling process. By default, each process should get a priority of 1; calling this routine makes it such that a process can raise or lower its priority. The argument of the system call is either **1** or **2**.
 
-The second is **int getpinfo(struct pstat *).** This routine returns some basic information about each running process, including how long it has run at each priority (measured in clock ticks) and its process ID. You can use this system call to build a variant of the command line program **ps,** which can then be called to see what is going on.
+The second is **int getpinfo(struct pstat *).** This routine returns some basic information about each running process (through the pointer), including how long it has run at each priority (measured in clock ticks) and its process ID. You can use this system call to build a variant of the command line program **ps,** which can then be called to see what is going on.
 
 If either of these calls are passed bad parameters, **return -1** to indicate a failure. Otherwise, **return 0** upon success.
 
@@ -53,6 +53,9 @@ struct pstat {
 
 #endif // _PSTAT_H_
 ```
+**getpinfo(struct pstat *)** syscall interface is a bit complex. We should allocate a *pstat* variable in the user address space and tell to the system call the the results 
+of the coll should be stored there. In other words, we pass a pointer to where we want the output results. In order to perform complex parameters in system calls (like this one)
+we need to access from the system call routine to the user stack pointer. Xv6 provdes some helpers to do that. Take look at the [xv6 book.](https://pdos.csail.mit.edu/6.828/2014/xv6/book-rev8.pdf) and search for **argint/argptr** helpers.
 
 **Random xv6 tip:** To run the xv6 environment, use **make qemu-nox.** Doing so avoids the use of X windows and is generally fast and easy. However, quitting is not so easy; to quit, you have to know the shortcuts provided by the machine emulator, qemu. Type **control-a** followed by **x** to exit the emulation. There are a few other commands like this available; to see them, type **control-a** followed by an **h.**
 
