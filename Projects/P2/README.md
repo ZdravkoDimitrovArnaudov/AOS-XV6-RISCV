@@ -57,7 +57,26 @@ struct pstat {
 of the coll should be stored there. In other words, we pass a pointer to where we want the output results. In order to perform complex parameters in system calls (like this one)
 we need to access from the system call routine to the user stack pointer. Xv6 provdes some helpers to do that. Take look at the [xv6 book.](https://pdos.csail.mit.edu/6.828/2014/xv6/book-rev8.pdf) and search for **argint/argptr** helpers.
 
-**Random xv6 tip:** To run the xv6 environment, use **make qemu-nox.** Doing so avoids the use of X windows and is generally fast and easy. However, quitting is not so easy; to quit, you have to know the shortcuts provided by the machine emulator, qemu. Type **control-a** followed by **x** to exit the emulation. There are a few other commands like this available; to see them, type **control-a** followed by an **h.**
+**Random xv6 tip I:** To run the xv6 environment, use **make qemu-nox.** Doing so avoids the use of X windows and is generally fast and easy. However, quitting is not so easy; to quit, you have to know the shortcuts provided by the machine emulator, qemu. Type **control-a** followed by **x** to exit the emulation. There are a few other commands like this available; to see them, type **control-a** followed by an **h.**
+
+**Random xv6 tip II:** To debug the xv6 kernel you need two terminals. For example you can open a **tmux** session with two pannes with **ctr-B and %**, or and aditional ssh session in the working directory with **vagrant ssh**. Next we show how to debug a system call such as **fork()**.
+
+```sh
+host[1]$ make qemu-nox-gdb
+host[2]$ gdb -tui kernel
+(gdb) target remote localhost:26000
+(gdb) continue
+(gdb) ^C
+(gdb) break fork
+host[1]$ ls
+host[2]$
+(gdb) step #to jump into allocproc
+(gdb) next
+(gdb) print p->name #should print init (process 0)
+(gdb) br 41 #to place a breakpoint into first available entry
+(gdb) continue 
+(gdb) ... etc ... etc...  
+```
 
 ## The Code
 
