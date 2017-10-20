@@ -53,15 +53,15 @@ struct pstat {
 
 #endif // _PSTAT_H_
 ```
-**getpinfo(struct pstat *)** syscall interface is a bit complex. We should allocate a *pstat* variable in the user address space and tell to the system call the the results 
-of the coll should be stored there. In other words, we pass a pointer to where we want the output results. In order to perform complex parameters in system calls (like this one)
-we need to access from the system call routine to the user stack pointer. Xv6 provdes some helpers to do that. Take look at the [xv6 book.](https://pdos.csail.mit.edu/6.828/2014/xv6/book-rev8.pdf) and search for **argint/argptr** helpers.
+**getpinfo(struct pstat *)** syscall interface is a bit complex. We should allocate a *pstat* struct variable in the user space and instruct to the system call that the results 
+of it should be stored there. In other words, we pass a pointer to where we want the output results. In order to perform complex parameters in system calls (like this one)
+we need to access from the system call routine to the user stack pointer. Xv6 provides some helpers to do that. Take look at the [xv6 book.](https://pdos.csail.mit.edu/6.828/2014/xv6/book-rev8.pdf) and search for **argint/argptr** description.
 
 **Random xv6 tip I:** To run the xv6 environment, use **make qemu-nox.** Doing so avoids the use of X windows and is generally fast and easy. However, quitting is not so easy; to quit, you have to know the shortcuts provided by the machine emulator, qemu. Type **control-a** followed by **x** to exit the emulation. There are a few other commands like this available; to see them, type **control-a** followed by an **h.**
 
 **Random xv6 tip II:** To debug the xv6 kernel you need two terminals. For example you can open a **tmux** session with two pannes with **ctr-B and %**, or and aditional ssh session in the working directory with **vagrant ssh**. Next we show how to debug a system call such as **fork()**.
 
-```sh
+```code
 host[1]$ make qemu-nox-gdb
 host[2]$ gdb -tui kernel
 (gdb) target remote localhost:26000
