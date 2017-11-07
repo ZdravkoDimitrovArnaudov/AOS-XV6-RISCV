@@ -8,7 +8,9 @@ build xv6 using make
 **********************************************************************
 Trying to clean project using make clean
 make clean
-rm -rf kernel/bio.o kernel/console.o kernel/exec.o kernel/file.o kernel/fs.o kernel/ide.o kernel/ioapic.o kernel/kalloc.o kernel/kbd.o kernel/lapic.o kernel/main.o kernel/mp.o kernel/picirq.o kernel/pipe.o kernel/proc.o kernel/spinlock.o kernel/string.o kernel/swtch.o kernel/syscall.o kernel/sysfile.o kernel/sysproc.o kernel/timer.o kernel/trapasm.o kernel/trap.o kernel/uart.o kernel/vectors.o kernel/vm.o kernel/bootmain.o kernel/bootasm.o kernel/multiboot.o kernel/data.o kernel/bootother.o kernel/initcode.o kernel/bio.d kernel/console.d kernel/exec.d kernel/file.d kernel/fs.d kernel/ide.d kernel/ioapic.d kernel/kalloc.d kernel/kbd.d kernel/lapic.d kernel/main.d kernel/mp.d kernel/picirq.d kernel/pipe.d kernel/proc.d kernel/spinlock.d kernel/string.d kernel/swtch.d kernel/syscall.d kernel/sysfile.d kernel/sysproc.d kernel/timer.d kernel/trapasm.d kernel/trap.d kernel/uart.d kernel/vectors.d kernel/vm.d kernel/bootmain.d kernel/bootasm.d kernel/multiboot.d kernel/data.d kernel/bootother.d kernel/initcode.d kernel/vectors.S kernel/bootblock kernel/bootblock.out kernel/bootother.out kernel/initcode.out kernel/kernel bootother initcode xv6.img user/bin user/cat user/echo user/forktest user/grep user/init user/kill user/ln user/ls user/mkdir user/rm user/sh user/stressfs user/tester user/usertests user/wc user/awake_high_priority user/change_priority user/check_hticks user/default_priority user/getpinfo user/multiple_high_priority user/processesinuse user/run_high_priority user/setpri user/sleep_high_priority user/zombie user/cat.o user/echo.o user/forktest.o user/grep.o user/init.o user/kill.o user/ln.o user/ls.o user/mkdir.o user/rm.o user/sh.o user/stressfs.o user/tester.o user/usertests.o user/wc.o user/awake_high_priority.o user/change_priority.o user/check_hticks.o user/default_priority.o user/getpinfo.o user/multiple_high_priority.o user/processesinuse.o user/run_high_priority.o user/setpri.o user/sleep_high_priority.o user/zombie.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/cat.d user/echo.d user/forktest.d user/grep.d user/init.d user/kill.d user/ln.d user/ls.d user/mkdir.d user/rm.d user/sh.d user/stressfs.d user/tester.d user/usertests.d user/wc.d user/awake_high_priority.d user/change_priority.d user/check_hticks.d user/default_priority.d user/getpinfo.d user/multiple_high_priority.d user/processesinuse.d user/run_high_priority.d user/setpri.d user/sleep_high_priority.d user/zombie.d user/ulib.d user/usys.d user/printf.d user/umalloc.d tools/mkfs tools/mkfs.o tools/mkfs.d fs fs.img .gdbinit .bochsrc dist
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
+rm -rf kernel/bio.o kernel/console.o kernel/exec.o kernel/file.o kernel/fs.o kernel/ide.o kernel/ioapic.o kernel/kalloc.o kernel/kbd.o kernel/lapic.o kernel/main.o kernel/mp.o kernel/picirq.o kernel/pipe.o kernel/proc.o kernel/spinlock.o kernel/string.o kernel/swtch.o kernel/syscall.o kernel/sysfile.o kernel/sysproc.o kernel/timer.o kernel/trapasm.o kernel/trap.o kernel/uart.o kernel/vectors.o kernel/vm.o kernel/bootmain.o kernel/bootasm.o kernel/multiboot.o kernel/data.o kernel/bootother.o kernel/initcode.o kernel/bio.d kernel/console.d kernel/exec.d kernel/file.d kernel/fs.d kernel/ide.d kernel/ioapic.d kernel/kalloc.d kernel/kbd.d kernel/lapic.d kernel/main.d kernel/mp.d kernel/picirq.d kernel/pipe.d kernel/proc.d kernel/spinlock.d kernel/string.d kernel/swtch.d kernel/syscall.d kernel/sysfile.d kernel/sysproc.d kernel/timer.d kernel/trapasm.d kernel/trap.d kernel/uart.d kernel/vectors.d kernel/vm.d kernel/bootmain.d kernel/bootasm.d kernel/multiboot.d kernel/data.d kernel/bootother.d kernel/initcode.d kernel/vectors.S kernel/bootblock kernel/bootblock.out kernel/bootother.out kernel/initcode.out kernel/kernel bootother initcode xv6.img user/bin user/cat user/echo user/forktest user/grep user/init user/kill user/ln user/ls user/mkdir user/rm user/sh user/stressfs user/tester user/usertests user/wc user/awake_high_priority user/change_priority user/check_hticks user/default_priority user/getpinfo user/multiple_high_priority user/processesinuse user/run_high_priority user/setpri user/sleep_high_priority user/t user/zombie user/cat.o user/echo.o user/forktest.o user/grep.o user/init.o user/kill.o user/ln.o user/ls.o user/mkdir.o user/rm.o user/sh.o user/stressfs.o user/tester.o user/usertests.o user/wc.o user/awake_high_priority.o user/change_priority.o user/check_hticks.o user/default_priority.o user/getpinfo.o user/multiple_high_priority.o user/processesinuse.o user/run_high_priority.o user/setpri.o user/sleep_high_priority.o user/t.o user/zombie.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/cat.d user/echo.d user/forktest.d user/grep.d user/init.d user/kill.d user/ln.d user/ls.d user/mkdir.d user/rm.d user/sh.d user/stressfs.d user/tester.d user/usertests.d user/wc.d user/awake_high_priority.d user/change_priority.d user/check_hticks.d user/default_priority.d user/getpinfo.d user/multiple_high_priority.d user/processesinuse.d user/run_high_priority.d user/setpri.d user/sleep_high_priority.d user/t.d user/zombie.d user/ulib.d user/usys.d user/printf.d user/umalloc.d tools/mkfs tools/mkfs.o tools/mkfs.d fs fs.img .gdbinit .bochsrc dist
 Trying to build project using make
 make
 Makefile:150: kernel/bio.d: No such file or directory
@@ -69,6 +71,7 @@ Makefile:150: user/processesinuse.d: No such file or directory
 Makefile:150: user/run_high_priority.d: No such file or directory
 Makefile:150: user/setpri.d: No such file or directory
 Makefile:150: user/sleep_high_priority.d: No such file or directory
+Makefile:150: user/t.d: No such file or directory
 Makefile:150: user/zombie.d: No such file or directory
 Makefile:150: user/ulib.d: No such file or directory
 Makefile:150: user/usys.d: No such file or directory
@@ -87,6 +90,7 @@ gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-
 	-M -MG user/ulib.c -MF user/ulib.d -MT user/ulib.d -MT user/ulib.o
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/zombie.c -MF user/zombie.d -MT user/zombie.d -MT user/zombie.o
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/sleep_high_priority.c -MF user/sleep_high_priority.d -MT user/sleep_high_priority.d -MT user/sleep_high_priority.o
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
@@ -204,6 +208,8 @@ gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-
 	-M -MG kernel/console.c -MF kernel/console.d -MT kernel/console.d -MT kernel/console.o
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG kernel/bio.c -MF kernel/bio.d -MT kernel/bio.d -MT kernel/bio.o
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -ggdb  -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c kernel/bootasm.S -o kernel/bootasm.o
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	 -Os -c -o kernel/bootmain.o kernel/bootmain.c
@@ -259,15 +265,15 @@ ld  -m    elf_i386 -nostdlib --omagic \
 dd if=/dev/zero of=xv6.img count=10000
 10000+0 records in
 10000+0 records out
-5120000 bytes (5.1 MB) copied, 0.015432 s, 332 MB/s
+5120000 bytes (5.1 MB) copied, 0.0196215 s, 261 MB/s
 dd if=kernel/bootblock of=xv6.img conv=notrunc
 1+0 records in
 1+0 records out
-512 bytes (512 B) copied, 0.00017952 s, 2.9 MB/s
+512 bytes (512 B) copied, 0.000850401 s, 602 kB/s
 dd if=kernel/kernel of=xv6.img seek=1 conv=notrunc
 250+1 records in
 250+1 records out
-128200 bytes (128 kB) copied, 0.000439981 s, 291 MB/s
+128204 bytes (128 kB) copied, 0.00112359 s, 114 MB/s
 gcc  -c  -iquote include -Wall -Werror -ggdb  -o tools/mkfs.o tools/mkfs.c
 gcc   tools/mkfs.o -o tools/mkfs
 mkdir -p fs
@@ -352,6 +358,7 @@ cp user/bin/setpri fs/setpri
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/sleep_high_priority.o user/sleep_high_priority.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/sleep_high_priority user/sleep_high_priority.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/sleep_high_priority fs/sleep_high_priority
+No rule to make target fs/t
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/zombie.o user/zombie.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/zombie user/zombie.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/zombie fs/zombie
@@ -404,11 +411,16 @@ call getpinfo() from a user program
 Running xv6 user progam ../../../../Material/LAB/GRADING/tests/2b/ctests/getpinfo.c
 Trying to build project using make
 make
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
+No rule to make target fs/t
 ./tools/mkfs fs.img fs
 used 29 (bit 1 ninode 26) free 29 total 1024
 run_high_priority
@@ -442,6 +454,40 @@ balloc: first 631 blocks have been allocated
 balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
+No rule to make target fs/t
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+run_high_priority
+rm
+echo
+ls
+zombie
+multiple_high_priority
+kill
+setpri
+processesinuse
+sleep_high_priority
+mkdir
+change_priority
+grep
+usertests
+forktest
+check_hticks
+tester
+init
+ln
+wc
+default_priority
+cat
+awake_high_priority
+sh
+getpinfo
+stressfs
+README
+balloc: first 631 blocks have been allocated
+balloc: write bitmap block at sector 28
 Ctrl+a h for help
 qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
 xv6...
@@ -452,9 +498,9 @@ tester
 
  **** PInfo **** 
 pid: 1 hticks: 0 lticks: 17
-pid: 2 hticks: 0 lticks: 19
+pid: 2 hticks: 0 lticks: 20
 pid: 3 hticks: 0 lticks: 8
-Should print 1 then 2$ 
+Should print 1 then 2
 
 test getpinfo PASSED (10 of 10)
  (call getpinfo() from a user program 
@@ -472,11 +518,16 @@ call setpri() from a user program
 Running xv6 user progam ../../../../Material/LAB/GRADING/tests/2b/ctests/setpri.c
 Trying to build project using make
 make
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
+No rule to make target fs/t
 ./tools/mkfs fs.img fs
 used 29 (bit 1 ninode 26) free 29 total 1024
 run_high_priority
@@ -510,6 +561,40 @@ balloc: first 631 blocks have been allocated
 balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
+No rule to make target fs/t
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+run_high_priority
+rm
+echo
+ls
+zombie
+multiple_high_priority
+kill
+setpri
+processesinuse
+sleep_high_priority
+mkdir
+change_priority
+grep
+usertests
+forktest
+check_hticks
+tester
+init
+ln
+wc
+default_priority
+cat
+awake_high_priority
+sh
+getpinfo
+stressfs
+README
+balloc: first 631 blocks have been allocated
+balloc: write bitmap block at sector 28
 Ctrl+a h for help
 qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
 xv6...
@@ -535,11 +620,16 @@ check number of processes in use by calling getpinfo()
 Running xv6 user progam ../../../../Material/LAB/GRADING/tests/2b/ctests/processesinuse.c
 Trying to build project using make
 make
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
+No rule to make target fs/t
 ./tools/mkfs fs.img fs
 used 29 (bit 1 ninode 26) free 29 total 1024
 run_high_priority
@@ -573,6 +663,40 @@ balloc: first 632 blocks have been allocated
 balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
+No rule to make target fs/t
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+run_high_priority
+rm
+echo
+ls
+zombie
+multiple_high_priority
+kill
+setpri
+processesinuse
+sleep_high_priority
+mkdir
+change_priority
+grep
+usertests
+forktest
+check_hticks
+tester
+init
+ln
+wc
+default_priority
+cat
+awake_high_priority
+sh
+getpinfo
+stressfs
+README
+balloc: first 632 blocks have been allocated
+balloc: write bitmap block at sector 28
 Ctrl+a h for help
 qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
 xv6...
@@ -582,13 +706,13 @@ $ tester
 tester
 
 **** PInfo ****
-pid: 1 hticks: 0 lticks: 17
+pid: 1 hticks: 0 lticks: 19
 pid: 2 hticks: 0 lticks: 19
 pid: 3 hticks: 0 lticks: 82
-pid: 4 hticks: 0 lticks: 73
+pid: 4 hticks: 0 lticks: 74
 pid: 5 hticks: 0 lticks: 73
 pid: 6 hticks: 0 lticks: 73
-pid: 7 hticks: 0 lticks: 72
+pid: 7 hticks: 0 lticks: 73
 pid: 8 hticks: 0 lticks: 72
 pid: 9 hticks: 0 lticks: 72
 pid: 10 hticks: 0 lticks: 72
@@ -611,11 +735,16 @@ check default priority set for processes by measuring hticks
 Running xv6 user progam ../../../../Material/LAB/GRADING/tests/2b/ctests/default_priority.c
 Trying to build project using make
 make
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
+No rule to make target fs/t
 ./tools/mkfs fs.img fs
 used 29 (bit 1 ninode 26) free 29 total 1024
 run_high_priority
@@ -649,6 +778,40 @@ balloc: first 633 blocks have been allocated
 balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
+No rule to make target fs/t
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+run_high_priority
+rm
+echo
+ls
+zombie
+multiple_high_priority
+kill
+setpri
+processesinuse
+sleep_high_priority
+mkdir
+change_priority
+grep
+usertests
+forktest
+check_hticks
+tester
+init
+ln
+wc
+default_priority
+cat
+awake_high_priority
+sh
+getpinfo
+stressfs
+README
+balloc: first 633 blocks have been allocated
+balloc: write bitmap block at sector 28
 Ctrl+a h for help
 qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
 xv6...
@@ -661,7 +824,7 @@ tester
 pid: 1 hticks: 0 lticks: 18
 pid: 2 hticks: 0 lticks: 19
 pid: 3 hticks: 0 lticks: 168
-Should print 1 then 2
+Should print 1 then 2$ 
 
 test default_priority PASSED (20 of 20)
  (check default priority set for processes by measuring hticks 
@@ -679,11 +842,16 @@ check if hticks being incremented for high priority process
 Running xv6 user progam ../../../../Material/LAB/GRADING/tests/2b/ctests/check_hticks.c
 Trying to build project using make
 make
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
+No rule to make target fs/t
 ./tools/mkfs fs.img fs
 used 29 (bit 1 ninode 26) free 29 total 1024
 run_high_priority
@@ -717,6 +885,40 @@ balloc: first 634 blocks have been allocated
 balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
+No rule to make target fs/t
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+run_high_priority
+rm
+echo
+ls
+zombie
+multiple_high_priority
+kill
+setpri
+processesinuse
+sleep_high_priority
+mkdir
+change_priority
+grep
+usertests
+forktest
+check_hticks
+tester
+init
+ln
+wc
+default_priority
+cat
+awake_high_priority
+sh
+getpinfo
+stressfs
+README
+balloc: first 634 blocks have been allocated
+balloc: write bitmap block at sector 28
 Ctrl+a h for help
 qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
 xv6...
@@ -726,15 +928,15 @@ $ tester
 tester
 
  **** PInfo Before**** 
-pid: 1 hticks: 0 lticks: 17
-pid: 2 hticks: 0 lticks: 19
-pid: 3 hticks: 0 lticks: 9
+pid: 1 hticks: 0 lticks: 18
+pid: 2 hticks: 0 lticks: 20
+pid: 3 hticks: 1 lticks: 8
 
  **** PInfo After**** 
-pid: 1 hticks: 0 lticks: 17
-pid: 2 hticks: 0 lticks: 19
-pid: 3 hticks: 719 lticks: 9
-Should print 1 then 2$ 
+pid: 1 hticks: 0 lticks: 18
+pid: 2 hticks: 0 lticks: 20
+pid: 3 hticks: 717 lticks: 8
+Should print 1 then 2
 
 test check_hticks PASSED (20 of 20)
  (check if hticks being incremented for high priority process 
@@ -752,11 +954,16 @@ check if hticks and lticks being incremented as expected when the priority is ch
 Running xv6 user progam ../../../../Material/LAB/GRADING/tests/2b/ctests/change_priority.c
 Trying to build project using make
 make
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
+No rule to make target fs/t
 ./tools/mkfs fs.img fs
 used 29 (bit 1 ninode 26) free 29 total 1024
 run_high_priority
@@ -790,6 +997,40 @@ balloc: first 635 blocks have been allocated
 balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
+No rule to make target fs/t
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+run_high_priority
+rm
+echo
+ls
+zombie
+multiple_high_priority
+kill
+setpri
+processesinuse
+sleep_high_priority
+mkdir
+change_priority
+grep
+usertests
+forktest
+check_hticks
+tester
+init
+ln
+wc
+default_priority
+cat
+awake_high_priority
+sh
+getpinfo
+stressfs
+README
+balloc: first 635 blocks have been allocated
+balloc: write bitmap block at sector 28
 Ctrl+a h for help
 qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
 xv6...
@@ -800,24 +1041,24 @@ tester
 
  ****PInfo before**** 
 pid: 1 hticks: 0 lticks: 18
-pid: 2 hticks: 0 lticks: 20
-pid: 3 hticks: 0 lticks: 10
+pid: 2 hticks: 0 lticks: 19
+pid: 3 hticks: 1 lticks: 9
 
  ****PInfo after**** 
 pid: 1 hticks: 0 lticks: 18
-pid: 2 hticks: 0 lticks: 20
-pid: 3 hticks: 724 lticks: 10
+pid: 2 hticks: 0 lticks: 19
+pid: 3 hticks: 720 lticks: 9
 
  ****PInfo before**** 
 pid: 1 hticks: 0 lticks: 18
-pid: 2 hticks: 0 lticks: 20
-pid: 3 hticks: 725 lticks: 10
+pid: 2 hticks: 0 lticks: 19
+pid: 3 hticks: 722 lticks: 10
 
  ****PInfo after**** 
 pid: 1 hticks: 0 lticks: 18
-pid: 2 hticks: 0 lticks: 20
-pid: 3 hticks: 725 lticks: 758
-Should print 1 then 2$ 
+pid: 2 hticks: 0 lticks: 19
+pid: 3 hticks: 722 lticks: 731
+Should print 1 then 2
 
 test change_priority PASSED (20 of 20)
  (check if hticks and lticks being incremented as expected when the priority is changed back and forth 
@@ -835,11 +1076,16 @@ check no low priority processes are running when there is high priority
 Running xv6 user progam ../../../../Material/LAB/GRADING/tests/2b/ctests/run_high_priority.c
 Trying to build project using make
 make
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
+No rule to make target fs/t
 ./tools/mkfs fs.img fs
 used 29 (bit 1 ninode 26) free 29 total 1024
 run_high_priority
@@ -873,6 +1119,40 @@ balloc: first 635 blocks have been allocated
 balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
+No rule to make target fs/t
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+run_high_priority
+rm
+echo
+ls
+zombie
+multiple_high_priority
+kill
+setpri
+processesinuse
+sleep_high_priority
+mkdir
+change_priority
+grep
+usertests
+forktest
+check_hticks
+tester
+init
+ln
+wc
+default_priority
+cat
+awake_high_priority
+sh
+getpinfo
+stressfs
+README
+balloc: first 635 blocks have been allocated
+balloc: write bitmap block at sector 28
 Ctrl+a h for help
 qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
 xv6...
@@ -883,15 +1163,15 @@ tester
 
  ****PInfo before**** 
 pid: 1 hticks: 0 lticks: 18
-pid: 2 hticks: 0 lticks: 20
+pid: 2 hticks: 0 lticks: 19
 pid: 3 hticks: 0 lticks: 11
-pid: 4 hticks: 0 lticks: 0
+pid: 4 hticks: 1 lticks: -1
 
  ****PInfo after**** 
 pid: 1 hticks: 0 lticks: 18
-pid: 2 hticks: 0 lticks: 20
+pid: 2 hticks: 0 lticks: 19
 pid: 3 hticks: 0 lticks: 11
-pid: 4 hticks: 1441 lticks: 0
+pid: 4 hticks: 1434 lticks: -1
 Should print 1 then 2
 
 test run_high_priority PASSED (20 of 20)
@@ -910,11 +1190,16 @@ check if low priority processes run when high priority is put to sleep
 Running xv6 user progam ../../../../Material/LAB/GRADING/tests/2b/ctests/sleep_high_priority.c
 Trying to build project using make
 make
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
+No rule to make target fs/t
 ./tools/mkfs fs.img fs
 used 29 (bit 1 ninode 26) free 29 total 1024
 run_high_priority
@@ -948,6 +1233,40 @@ balloc: first 634 blocks have been allocated
 balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
+No rule to make target fs/t
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+run_high_priority
+rm
+echo
+ls
+zombie
+multiple_high_priority
+kill
+setpri
+processesinuse
+sleep_high_priority
+mkdir
+change_priority
+grep
+usertests
+forktest
+check_hticks
+tester
+init
+ln
+wc
+default_priority
+cat
+awake_high_priority
+sh
+getpinfo
+stressfs
+README
+balloc: first 634 blocks have been allocated
+balloc: write bitmap block at sector 28
 Ctrl+a h for help
 qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
 xv6...
@@ -957,17 +1276,17 @@ $ tester
 tester
 
  ****PInfo before**** 
-pid: 1 hticks: 0 lticks: 17
+pid: 1 hticks: 0 lticks: 18
 pid: 2 hticks: 0 lticks: 19
-pid: 3 hticks: 0 lticks: 109
+pid: 3 hticks: 1 lticks: 109
 pid: 4 hticks: 0 lticks: 100
 
  ****PInfo after**** 
-pid: 1 hticks: 0 lticks: 17
+pid: 1 hticks: 0 lticks: 18
 pid: 2 hticks: 0 lticks: 19
-pid: 3 hticks: 500 lticks: 109
+pid: 3 hticks: 504 lticks: 109
 pid: 4 hticks: 0 lticks: 600
-Should print 1 then 2$ 
+Should print 1 then 2
 
 test sleep_high_priority PASSED (20 of 20)
  (check if low priority processes run when high priority is put to sleep 
@@ -985,11 +1304,16 @@ check if only high priority process run when high priority is awake from sleep
 Running xv6 user progam ../../../../Material/LAB/GRADING/tests/2b/ctests/awake_high_priority.c
 Trying to build project using make
 make
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
+No rule to make target fs/t
 ./tools/mkfs fs.img fs
 used 29 (bit 1 ninode 26) free 29 total 1024
 run_high_priority
@@ -1023,6 +1347,40 @@ balloc: first 634 blocks have been allocated
 balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
+No rule to make target fs/t
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+run_high_priority
+rm
+echo
+ls
+zombie
+multiple_high_priority
+kill
+setpri
+processesinuse
+sleep_high_priority
+mkdir
+change_priority
+grep
+usertests
+forktest
+check_hticks
+tester
+init
+ln
+wc
+default_priority
+cat
+awake_high_priority
+sh
+getpinfo
+stressfs
+README
+balloc: first 634 blocks have been allocated
+balloc: write bitmap block at sector 28
 Ctrl+a h for help
 qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
 xv6...
@@ -1032,17 +1390,24 @@ $ tester
 tester
 
  ****PInfo before**** 
-pid: 1 hticks: 0 lticks: 17
+pid: 1 hticks: 0 lticks: 20
 pid: 2 hticks: 0 lticks: 19
-pid: 3 hticks: 200 lticks: 11
+pid: 3 hticks: 201 lticks: 9
 pid: 4 hticks: 0 lticks: 200
 pid: 5 hticks: 0 lticks: 200
-
+ then 2
+ ****PInfo after**** 
+pid: 1 hticks: 0 lticks: 20
+pid: 2 hticks: 0 lticks: 19
+pid: 3 hticks: 1642 lticks: 9
+pid: 4 hticks: 0 lticks: 1528
+pid: 5 hticks: 0 lticks: 963
+Should print 1$ 
 
 test awake_high_priority FAILED (0 of 20)
  (check if only high priority process run when high priority is awake from sleep 
  The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/awake_high_priority.c)
- Timelimit (24.0s) exceeded
+ tester failed
 
 starting multiple_high_priority
 
@@ -1056,11 +1421,16 @@ check if multiple high priority processes run in round robin
 Running xv6 user progam ../../../../Material/LAB/GRADING/tests/2b/ctests/multiple_high_priority.c
 Trying to build project using make
 make
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
+No rule to make target fs/t
 ./tools/mkfs fs.img fs
 used 29 (bit 1 ninode 26) free 29 total 1024
 run_high_priority
@@ -1094,6 +1464,40 @@ balloc: first 634 blocks have been allocated
 balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
+Makefile:150: user/t.d: No such file or directory
+No rule to make target user/t.d
+No rule to make target fs/t
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+run_high_priority
+rm
+echo
+ls
+zombie
+multiple_high_priority
+kill
+setpri
+processesinuse
+sleep_high_priority
+mkdir
+change_priority
+grep
+usertests
+forktest
+check_hticks
+tester
+init
+ln
+wc
+default_priority
+cat
+awake_high_priority
+sh
+getpinfo
+stressfs
+README
+balloc: first 634 blocks have been allocated
+balloc: write bitmap block at sector 28
 Ctrl+a h for help
 qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
 xv6...
@@ -1103,17 +1507,25 @@ $ tester
 tester
 
  ****PInfo before**** 
-pid: 1 hticks: 0 lticks: 18
+pid: 1 hticks: 0 lticks: 19
 pid: 2 hticks: 0 lticks: 19
-pid: 3 hticks: 200 lticks: 11
-pid: 4 hticks: 200 lticks: 0
+pid: 3 hticks: 201 lticks: 9
+pid: 4 hticks: 201 lticks: -1
 pid: 5 hticks: 0 lticks: 200
-
+ then 2
+ ****PInfo after**** 
+pid: 1 hticks: 0 lticks: 19
+pid: 2 hticks: 0 lticks: 19
+pid: 3 hticks: 927 lticks: 9
+pid: 4 hticks: 926 lticks: -1
+pid: 5 hticks: 0 lticks: 908
+user/tester.c:78 check (lowpriorityrun == 0) failed: Expected no low priority processes to run when high priority running
+z$ 
 
 test multiple_high_priority FAILED (0 of 20)
  (check if multiple high priority processes run in round robin 
  The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/multiple_high_priority.c)
- Timelimit (24.0s) exceeded
+ tester failed
 
 **********************************************************************
 Summary:
@@ -1155,14 +1567,13 @@ test sleep_high_priority PASSED (20 of 20)
 test awake_high_priority FAILED (0 of 20)
  (check if only high priority process run when high priority is awake from sleep 
  The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/awake_high_priority.c)
- Timelimit (24.0s) exceeded
+ tester failed
 
 test multiple_high_priority FAILED (0 of 20)
  (check if multiple high priority processes run in round robin 
  The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/multiple_high_priority.c)
- Timelimit (24.0s) exceeded
+ tester failed
 
 Passed 9 of 11 tests.
 Overall 9 of 11
 Points 140 of 180
-fallo en programa de usario t.c. He tenido que corregirlo a mano. Es la ultima vez, la proxima la practica quedara como no presnetada
