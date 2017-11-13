@@ -60,6 +60,10 @@ Some things to think about:
 
 [![Intro (spanish)](http://img.youtube.com/vi/spoHfmBPGmg/0.jpg)](https://www.youtube.com/watch?v=spoHfmBPGmg)
 
+## Some excerps from xv6 book
+
++[xv6 Adress space](Infomem.md)
+
 ## Environement
 
 As usual
