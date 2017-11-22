@@ -8,7 +8,7 @@ Because you are on your way to becoming a real kernel hacker. And what could be 
 Specifically, you'll do three things. First, you'll define a new system call to create a kernel 
 thread, called `clone()` , as well as one to wait for a thread called `join()` . Then, you'll use `clone()`
 to build a little thread library (in the user space), with a `thread_create()` and `thread_join()` call. Additionally we need to add 
-the support for locks and conditional variables. Hence, we need `lock_ini()`, `lock_acquire()` and `lock_release()` for locks
+the support for locks and conditional variables. Hence, we need `lock_init()`, `lock_acquire()` and `lock_release()` for locks
 and `cv_init()`, `cv_wait()` and `cv_signal()` for conditional variables. And now, for some details.
 
 ## Details
@@ -71,6 +71,10 @@ Particular attention should be paid to the first few chapters, including the cal
 and how it all is manipulated). Since the book uses x86, it should be perfect to translate your MIPS knowledge to xv6 context. Although it sounds scary, the only place
 where we need to tinkering with this is when `clone()` has to _start_ the `fcn` with the right `args`. We don need to write a single line in assembler, just to put 
 the things in the stack in the proper order to guarantee that `fcn` works as desired!
+
+###  Video
+
+[![Intro (spanish)](http://img.youtube.com/vi/aeg5TNS9dm4/0.jpg)](https://youtu.be/aeg5TNS9dm4)
 
 ## Environment 
 
