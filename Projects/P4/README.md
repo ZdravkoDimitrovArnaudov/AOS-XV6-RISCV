@@ -74,7 +74,7 @@ the things in the stack in the proper order to guarantee that `fcn` works as des
 
 ###  Video
 
-[![Intro (spanish)](http://img.youtube.com/vi/aeg5TNS9dm4/0.jpg)](https://youtu.be/aeg5TNS9dm4)
+[![Intro (spanish)](http://img.youtube.com/vi/aeg5TNS9dm4/102.jpg)](https://youtu.be/aeg5TNS9dm4)
 
 ## Environment 
 
