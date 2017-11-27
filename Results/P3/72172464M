@@ -1,0 +1,1002 @@
+starting build
+
+**********************************************************************
+
+Test build
+build xv6 using make
+
+**********************************************************************
+Trying to build project using make
+make
+Makefile:150: kernel/bio.d: No such file or directory
+Makefile:150: kernel/console.d: No such file or directory
+Makefile:150: kernel/exec.d: No such file or directory
+Makefile:150: kernel/file.d: No such file or directory
+Makefile:150: kernel/fs.d: No such file or directory
+Makefile:150: kernel/ide.d: No such file or directory
+Makefile:150: kernel/ioapic.d: No such file or directory
+Makefile:150: kernel/kalloc.d: No such file or directory
+Makefile:150: kernel/kbd.d: No such file or directory
+Makefile:150: kernel/lapic.d: No such file or directory
+Makefile:150: kernel/main.d: No such file or directory
+Makefile:150: kernel/mp.d: No such file or directory
+Makefile:150: kernel/picirq.d: No such file or directory
+Makefile:150: kernel/pipe.d: No such file or directory
+Makefile:150: kernel/proc.d: No such file or directory
+Makefile:150: kernel/spinlock.d: No such file or directory
+Makefile:150: kernel/string.d: No such file or directory
+Makefile:150: kernel/swtch.d: No such file or directory
+Makefile:150: kernel/syscall.d: No such file or directory
+Makefile:150: kernel/sysfile.d: No such file or directory
+Makefile:150: kernel/sysproc.d: No such file or directory
+Makefile:150: kernel/timer.d: No such file or directory
+Makefile:150: kernel/trapasm.d: No such file or directory
+Makefile:150: kernel/trap.d: No such file or directory
+Makefile:150: kernel/uart.d: No such file or directory
+Makefile:150: kernel/vectors.d: No such file or directory
+Makefile:150: kernel/vm.d: No such file or directory
+Makefile:150: kernel/bootmain.d: No such file or directory
+Makefile:150: kernel/bootasm.d: No such file or directory
+Makefile:150: kernel/multiboot.d: No such file or directory
+Makefile:150: kernel/data.d: No such file or directory
+Makefile:150: kernel/bootother.d: No such file or directory
+Makefile:150: kernel/initcode.d: No such file or directory
+Makefile:150: user/cat.d: No such file or directory
+Makefile:150: user/echo.d: No such file or directory
+Makefile:150: user/forktest.d: No such file or directory
+Makefile:150: user/grep.d: No such file or directory
+Makefile:150: user/init.d: No such file or directory
+Makefile:150: user/kill.d: No such file or directory
+Makefile:150: user/ln.d: No such file or directory
+Makefile:150: user/ls.d: No such file or directory
+Makefile:150: user/mkdir.d: No such file or directory
+Makefile:150: user/rm.d: No such file or directory
+Makefile:150: user/sh.d: No such file or directory
+Makefile:150: user/stressfs.d: No such file or directory
+Makefile:150: user/tester.d: No such file or directory
+Makefile:150: user/usertests.d: No such file or directory
+Makefile:150: user/wc.d: No such file or directory
+Makefile:150: user/zombie.d: No such file or directory
+Makefile:150: user/ulib.d: No such file or directory
+Makefile:150: user/usys.d: No such file or directory
+Makefile:150: user/printf.d: No such file or directory
+Makefile:150: user/umalloc.d: No such file or directory
+Makefile:150: tools/mkfs.d: No such file or directory
+gcc   -iquote include -Wall -Werror -ggdb  \
+  -M -MG tools/mkfs.c -MF tools/mkfs.d -MT tools/mkfs.d -MT tools/mkfs.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/umalloc.c -MF user/umalloc.d -MT user/umalloc.d -MT user/umalloc.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/printf.c -MF user/printf.d -MT user/printf.d -MT user/printf.o
+gcc  -I include -nostdinc -ggdb  -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/usys.S -MF user/usys.d -MT user/usys.d -MT user/usys.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/ulib.c -MF user/ulib.d -MT user/ulib.d -MT user/ulib.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/zombie.c -MF user/zombie.d -MT user/zombie.d -MT user/zombie.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/wc.c -MF user/wc.d -MT user/wc.d -MT user/wc.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/usertests.c -MF user/usertests.d -MT user/usertests.d -MT user/usertests.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/stressfs.c -MF user/stressfs.d -MT user/stressfs.d -MT user/stressfs.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/sh.c -MF user/sh.d -MT user/sh.d -MT user/sh.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/rm.c -MF user/rm.d -MT user/rm.d -MT user/rm.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/mkdir.c -MF user/mkdir.d -MT user/mkdir.d -MT user/mkdir.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/ls.c -MF user/ls.d -MT user/ls.d -MT user/ls.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/ln.c -MF user/ln.d -MT user/ln.d -MT user/ln.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/kill.c -MF user/kill.d -MT user/kill.d -MT user/kill.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/init.c -MF user/init.d -MT user/init.d -MT user/init.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/grep.c -MF user/grep.d -MT user/grep.d -MT user/grep.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/forktest.c -MF user/forktest.d -MT user/forktest.d -MT user/forktest.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/echo.c -MF user/echo.d -MT user/echo.d -MT user/echo.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/cat.c -MF user/cat.d -MT user/cat.d -MT user/cat.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/initcode.S -MF kernel/initcode.d -MT kernel/initcode.d -MT kernel/initcode.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/bootother.S -MF kernel/bootother.d -MT kernel/bootother.d -MT kernel/bootother.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/data.S -MF kernel/data.d -MT kernel/data.d -MT kernel/data.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/multiboot.S -MF kernel/multiboot.d -MT kernel/multiboot.d -MT kernel/multiboot.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/bootasm.S -MF kernel/bootasm.d -MT kernel/bootasm.d -MT kernel/bootasm.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/bootmain.c -MF kernel/bootmain.d -MT kernel/bootmain.d -MT kernel/bootmain.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/vm.c -MF kernel/vm.d -MT kernel/vm.d -MT kernel/vm.o
+perl kernel/vectors.pl > kernel/vectors.S
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/vectors.S -MF kernel/vectors.d -MT kernel/vectors.d -MT kernel/vectors.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/uart.c -MF kernel/uart.d -MT kernel/uart.d -MT kernel/uart.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/trap.c -MF kernel/trap.d -MT kernel/trap.d -MT kernel/trap.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/trapasm.S -MF kernel/trapasm.d -MT kernel/trapasm.d -MT kernel/trapasm.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/timer.c -MF kernel/timer.d -MT kernel/timer.d -MT kernel/timer.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/sysproc.c -MF kernel/sysproc.d -MT kernel/sysproc.d -MT kernel/sysproc.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/sysfile.c -MF kernel/sysfile.d -MT kernel/sysfile.d -MT kernel/sysfile.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/syscall.c -MF kernel/syscall.d -MT kernel/syscall.d -MT kernel/syscall.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/swtch.S -MF kernel/swtch.d -MT kernel/swtch.d -MT kernel/swtch.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/string.c -MF kernel/string.d -MT kernel/string.d -MT kernel/string.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/spinlock.c -MF kernel/spinlock.d -MT kernel/spinlock.d -MT kernel/spinlock.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/proc.c -MF kernel/proc.d -MT kernel/proc.d -MT kernel/proc.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/pipe.c -MF kernel/pipe.d -MT kernel/pipe.d -MT kernel/pipe.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/picirq.c -MF kernel/picirq.d -MT kernel/picirq.d -MT kernel/picirq.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/mp.c -MF kernel/mp.d -MT kernel/mp.d -MT kernel/mp.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/main.c -MF kernel/main.d -MT kernel/main.d -MT kernel/main.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/lapic.c -MF kernel/lapic.d -MT kernel/lapic.d -MT kernel/lapic.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/kbd.c -MF kernel/kbd.d -MT kernel/kbd.d -MT kernel/kbd.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/kalloc.c -MF kernel/kalloc.d -MT kernel/kalloc.d -MT kernel/kalloc.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/ioapic.c -MF kernel/ioapic.d -MT kernel/ioapic.d -MT kernel/ioapic.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/ide.c -MF kernel/ide.d -MT kernel/ide.d -MT kernel/ide.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/fs.c -MF kernel/fs.d -MT kernel/fs.d -MT kernel/fs.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/file.c -MF kernel/file.d -MT kernel/file.d -MT kernel/file.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/exec.c -MF kernel/exec.d -MT kernel/exec.d -MT kernel/exec.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/console.c -MF kernel/console.d -MT kernel/console.d -MT kernel/console.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/bio.c -MF kernel/bio.d -MT kernel/bio.d -MT kernel/bio.o
+gcc  -I include -nostdinc -ggdb  -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c kernel/bootasm.S -o kernel/bootasm.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	 -Os -c -o kernel/bootmain.o kernel/bootmain.c
+ld  -m    elf_i386 -nostdlib --omagic \
+	--entry=start --section-start=.text=0x7C00 \
+	--output=kernel/bootblock.out kernel/bootasm.o kernel/bootmain.o
+objcopy -S -O binary -j .text kernel/bootblock.out kernel/bootblock
+./kernel/sign.pl kernel/bootblock
+boot block is 419 bytes (max 510)
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/bio.o kernel/bio.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/console.o kernel/console.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/exec.o kernel/exec.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/file.o kernel/file.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/fs.o kernel/fs.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/ide.o kernel/ide.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/ioapic.o kernel/ioapic.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/kalloc.o kernel/kalloc.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/kbd.o kernel/kbd.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/lapic.o kernel/lapic.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/main.o kernel/main.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/mp.o kernel/mp.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/picirq.o kernel/picirq.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/pipe.o kernel/pipe.c
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test build FAILED
+ (build xv6 using make)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting null
+
+**********************************************************************
+
+Test null
+null pointer dereference should kill process
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/null.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test null FAILED (0 of 10)
+ (null pointer dereference should kill process)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting null2
+
+**********************************************************************
+
+Test null2
+any dereference from first page should fault
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/null2.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test null2 FAILED (0 of 10)
+ (any dereference from first page should fault)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting bounds
+
+**********************************************************************
+
+Test bounds
+syscall argument checks (null page). ***NOTE*** only write system call is tested here; when grading, we may change the test to any other system call that may take a NULL pointer.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/bounds.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test bounds FAILED (0 of 10)
+ (syscall argument checks (null page). ***NOTE*** only write system call is tested here; when grading, we may change the test to any other system call that may take a NULL pointer.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_invalid_input
+
+**********************************************************************
+
+Test shmem_access_invalid_input
+shmem_access invalid input test
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_invalid_input.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_invalid_input FAILED (0 of 10)
+ (shmem_access invalid input test)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_return_value
+
+**********************************************************************
+
+Test shmem_access_return_value
+shmem_access return value needs to be one of 4 pages of virtual address space; first access needs to return last virtual page, second access needs to return second to last virtual page, etc.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_return_value.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_return_value FAILED (0 of 10)
+ (shmem_access return value needs to be one of 4 pages of virtual address space; first access needs to return last virtual page, second access needs to return second to last virtual page, etc.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_double_call
+
+**********************************************************************
+
+Test shmem_access_double_call
+shmem_access called twice with same page number, making sure same physical page is not mapped into 2 different places in virtual address space
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_double_call.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_double_call FAILED (0 of 10)
+ (shmem_access called twice with same page number, making sure same physical page is not mapped into 2 different places in virtual address space)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_double_call_fork
+
+**********************************************************************
+
+Test shmem_access_double_call_fork
+shmem_access called once in parent process. It is then called again after fork in child process. The address received should be the same address the parent process received.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_double_call_fork.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_double_call_fork FAILED (0 of 10)
+ (shmem_access called once in parent process. It is then called again after fork in child process. The address received should be the same address the parent process received.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_read_write
+
+**********************************************************************
+
+Test shmem_access_read_write
+making sure shared pages are readable and writable
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_read_write.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_read_write FAILED (0 of 10)
+ (making sure shared pages are readable and writable)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_communication
+
+**********************************************************************
+
+Test shmem_access_communication
+one process writing something and the other process reading it.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_communication.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_communication FAILED (0 of 10)
+ (one process writing something and the other process reading it.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_full_address_space
+
+**********************************************************************
+
+Test shmem_access_full_address_space
+shmem_access should failed if the entire address space is full.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_full_address_space.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_full_address_space FAILED (0 of 10)
+ (shmem_access should failed if the entire address space is full.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_full_address_space2
+
+**********************************************************************
+
+Test shmem_access_full_address_space2
+sbrk should not allocate and go past a shared memory.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_full_address_space2.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_full_address_space2 FAILED (0 of 10)
+ (sbrk should not allocate and go past a shared memory.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_persistent
+
+**********************************************************************
+
+Test shmem_access_persistent
+making sure shared pages are not deallocated when no one references them.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_persistent.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_persistent FAILED (0 of 10)
+ (making sure shared pages are not deallocated when no one references them.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_exec
+
+**********************************************************************
+
+Test shmem_access_exec
+a new exec-ed program should not have access to shared pages when it begins.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_exec.c
+overwritting tester_helper with /vagrant/tests/3b/ctests/shmem_access_exec_helper.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/echo.c -MF user/echo.d -MT user/echo.d -MT user/echo.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_exec FAILED (0 of 10)
+ (a new exec-ed program should not have access to shared pages when it begins.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_exec2
+
+**********************************************************************
+
+Test shmem_access_exec2
+a new exec-ed program should reallocate virtual pages if shmem_access is called.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_exec2.c
+overwritting tester_helper with /vagrant/tests/3b/ctests/shmem_access_exec2_helper.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/echo.c -MF user/echo.d -MT user/echo.d -MT user/echo.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_exec2 FAILED (0 of 10)
+ (a new exec-ed program should reallocate virtual pages if shmem_access is called.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_access_syscall_args
+
+**********************************************************************
+
+Test shmem_access_syscall_args
+making sure pointers from shared pages can be successfully passed to system calls. ***NOTE*** only open and write system calls are tested here; when grading, we may change the test to any other system call that may take pointers.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_access_syscall_args.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_access_syscall_args FAILED (0 of 10)
+ (making sure pointers from shared pages can be successfully passed to system calls. ***NOTE*** only open and write system calls are tested here; when grading, we may change the test to any other system call that may take pointers.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_count_invalid_input
+
+**********************************************************************
+
+Test shmem_count_invalid_input
+shmem_count invalid input test
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_count_invalid_input.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_count_invalid_input FAILED (0 of 10)
+ (shmem_count invalid input test)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_count_zero
+
+**********************************************************************
+
+Test shmem_count_zero
+shmem_count should return 0 if no one is referencing the page.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_count_zero.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_count_zero FAILED (0 of 10)
+ (shmem_count should return 0 if no one is referencing the page.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_count_zero2
+
+**********************************************************************
+
+Test shmem_count_zero2
+shmem_count should return 0 after child process accesses and exits.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_count_zero2.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_count_zero2 FAILED (0 of 10)
+ (shmem_count should return 0 after child process accesses and exits.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_count_one
+
+**********************************************************************
+
+Test shmem_count_one
+shmem_count should return 1 after 1 access.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_count_one.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_count_one FAILED (0 of 10)
+ (shmem_count should return 1 after 1 access.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_count_one2
+
+**********************************************************************
+
+Test shmem_count_one2
+shmem_count should return 1 after 2 accesses to the same page.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_count_one2.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_count_one2 FAILED (0 of 10)
+ (shmem_count should return 1 after 2 accesses to the same page.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_count_fork
+
+**********************************************************************
+
+Test shmem_count_fork
+shmem_count should return 2 after fork if the parent process has accessed a shared page.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_count_fork.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_count_fork FAILED (0 of 10)
+ (shmem_count should return 2 after fork if the parent process has accessed a shared page.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+starting shmem_count_exec
+
+**********************************************************************
+
+Test shmem_count_exec
+Exec should decrement count for shared pages. Parent accesses a shared page, then it forks. Child performs exec to start a new program. In the new program, the count for the shared page should be 1.
+
+**********************************************************************
+Running xv6 user progam /vagrant/tests/3b/ctests/shmem_count_exec.c
+overwritting tester_helper with /vagrant/tests/3b/ctests/shmem_count_exec_helper.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/echo.c -MF user/echo.d -MT user/echo.d -MT user/echo.o
+gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+kernel/proc.c: In function ‘allocproc’:
+kernel/proc.c:72:3: error: ‘for’ loop initial declarations are only allowed in C99 or C11 mode
+   for (int i=0;i<3;i++){
+   ^
+kernel/proc.c:72:3: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
+kernel/makefile.mk:132: recipe for target 'kernel/proc.o' failed
+make: *** [kernel/proc.o] Error 1
+
+
+test shmem_count_exec FAILED (0 of 10)
+ (Exec should decrement count for shared pages. Parent accesses a shared page, then it forks. Child performs exec to start a new program. In the new program, the count for the shared page should be 1.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+**********************************************************************
+Summary:
+test build FAILED
+ (build xv6 using make)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test null FAILED (0 of 10)
+ (null pointer dereference should kill process)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test null2 FAILED (0 of 10)
+ (any dereference from first page should fault)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test bounds FAILED (0 of 10)
+ (syscall argument checks (null page). ***NOTE*** only write system call is tested here; when grading, we may change the test to any other system call that may take a NULL pointer.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_invalid_input FAILED (0 of 10)
+ (shmem_access invalid input test)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_return_value FAILED (0 of 10)
+ (shmem_access return value needs to be one of 4 pages of virtual address space; first access needs to return last virtual page, second access needs to return second to last virtual page, etc.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_double_call FAILED (0 of 10)
+ (shmem_access called twice with same page number, making sure same physical page is not mapped into 2 different places in virtual address space)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_double_call_fork FAILED (0 of 10)
+ (shmem_access called once in parent process. It is then called again after fork in child process. The address received should be the same address the parent process received.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_read_write FAILED (0 of 10)
+ (making sure shared pages are readable and writable)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_communication FAILED (0 of 10)
+ (one process writing something and the other process reading it.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_full_address_space FAILED (0 of 10)
+ (shmem_access should failed if the entire address space is full.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_full_address_space2 FAILED (0 of 10)
+ (sbrk should not allocate and go past a shared memory.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_persistent FAILED (0 of 10)
+ (making sure shared pages are not deallocated when no one references them.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_exec FAILED (0 of 10)
+ (a new exec-ed program should not have access to shared pages when it begins.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_exec2 FAILED (0 of 10)
+ (a new exec-ed program should reallocate virtual pages if shmem_access is called.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_access_syscall_args FAILED (0 of 10)
+ (making sure pointers from shared pages can be successfully passed to system calls. ***NOTE*** only open and write system calls are tested here; when grading, we may change the test to any other system call that may take pointers.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_count_invalid_input FAILED (0 of 10)
+ (shmem_count invalid input test)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_count_zero FAILED (0 of 10)
+ (shmem_count should return 0 if no one is referencing the page.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_count_zero2 FAILED (0 of 10)
+ (shmem_count should return 0 after child process accesses and exits.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_count_one FAILED (0 of 10)
+ (shmem_count should return 1 after 1 access.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_count_one2 FAILED (0 of 10)
+ (shmem_count should return 1 after 2 accesses to the same page.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_count_fork FAILED (0 of 10)
+ (shmem_count should return 2 after fork if the parent process has accessed a shared page.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+test shmem_count_exec FAILED (0 of 10)
+ (Exec should decrement count for shared pages. Parent accesses a shared page, then it forks. Child performs exec to start a new program. In the new program, the count for the shared page should be 1.)
+ make failed (error 2)
+ required file 'xv6.img' does not exist after make
+ required file 'fs.img' does not exist after make
+
+Passed 0 of 23 tests.
+Overall 0 of 23
+Points 0 of 220
