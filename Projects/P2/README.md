@@ -32,6 +32,7 @@ When a bad priority (not 1 or 2) is passed to your setpri() system call, **retur
 In your Makefile, replace `CPUS := 2` with `CPUS := 1` . The old setting runs xv6 with two CPU cores, but you only need to do scheduling for a single core in this project.
 
 ## Tips
+In order to maintain the complexity of the lab attained, we assume that the priority will be not inherited after performing a `fork()`.
 
 Most of the code for the scheduler is quite localized and can be found in **proc.c.** The associated header file, **proc.h** is also quite useful to examine. To change the scheduler, not much needs to be done; study its control flow and then try some small changes.
 
