@@ -1,4 +1,3 @@
-
 # Homework
 
 Homeworks can be used to solidify your knowledge of the material in each of the chapters. Most homeworks are based on running little **simulators,** which mimic some aspect of an operating system. For example, a disk scheduling simulator could be useful in understanding how different disk scheduling algorithms work. Some homeworks are just short programming exercises, allowing you to explore how real systems work.
@@ -7,7 +6,7 @@ For the simulators, the basic idea is simple: each of the simulators below let y
 
 Each simulator has a README file that explains how to run the simulator. Previously, this material had been included in the chapters themselves, but that was making the book too long. Now, all that is left in the book are the questions you might want to answer with the simulator; the details on how to run the simulator are all in the README.
 
-**NEW: Video.** Each simulation will soon have a short video with one of the authors introducing the basic concepts of how to use the simulator to generate homework problems. Exciting, because you have to read less! Not exciting, because you have to hear us speak.
+**NEW: Video.** Some simulations have a short video with one of the authors introducing the basic concepts of how to use the simulator to generate homework problems.
 
 
 ### Virtualization
