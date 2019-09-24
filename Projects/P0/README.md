@@ -123,7 +123,7 @@ If you don't know how to use these functions, use the man pages. For example, ty
 A nice guide for **git** can be found [here](https://www.atlassian.com/git/tutorials/what-is-version-control). The subset used here is quite sparse. In particular we need to do git clone/git pull/git push/git commit/git add and git rebase.
 Since we all make mistakes with git, another intersting resource is [ohshitgit!](https://ohshitgit.com)
 
-**Vagrant** information can be found [here](https://www.vagrantup.com/docs/getting-started/). Although it is quite useful, we will use here just as _simplication tool_. Shared folders allow to use the text editor you want in the host. Yes you can use Eclipse (although I recommend to take a look to others such as [Atom](http://atom.org/), [SublimeText](https://www.sublimetext.com/3), [Visual Code](https://code.visualstudio.com) or MS free alternative [VS Codium][https://vscodium.com]  or **VIM**😬). Try and pick your poison. Some of them has a nice git integration.
+**Vagrant** information can be found [here](https://www.vagrantup.com/docs/getting-started/). Although it is quite useful, we will use here just as _simplication tool_. Shared folders allow to use the text editor you want in the host. Yes you can use Eclipse (although I recommend to take a look to others such as [Atom](http://atom.org/), [SublimeText](https://www.sublimetext.com/3), [Visual Code](https://code.visualstudio.com) or MS free alternative [VS Codium](https://vscodium.com)  or **VIM**😬). Try and pick your poison. Some of them has a nice git integration.
 
 **Video Tutorial (Spanish)**
 
