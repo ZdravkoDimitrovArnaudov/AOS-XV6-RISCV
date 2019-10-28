@@ -1,0 +1,263 @@
+starting build
+
+**********************************************************************
+
+Test build
+build project using make
+
+**********************************************************************
+Trying to clean project using make clean
+make clean
+rm p0main.o
+rm: cannot remove ‘p0main.o’: No such file or directory
+makefile:11: recipe for target 'clean' failed
+make: *** [clean] Error 1
+Trying to build project using make
+make
+gcc -O3 p0main.c p0main.h -c -Wall
+p0main.c: In function ‘getNthWord’:
+p0main.c:84:11: warning: ‘palabraAnterior’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+     char *palabraAnterior;
+           ^
+p0main.c: In function ‘imprimirOrdenacion’:
+p0main.c:118:29: warning: ‘palabraAnterior’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+         palabrasAuxiliar[i] = getNthWord(palabrasAuxiliar[i], numPalabra);
+                             ^
+p0main.c: In function ‘main’:
+p0main.c:63:9: warning: ‘palabraAnterior’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+         strcpy(palabrasParaOrdenar[i], auxiliar);
+         ^
+gcc -O3 -o fastsort p0main.o
+
+
+test build PASSED
+ (build project using make)
+
+starting empty
+
+**********************************************************************
+
+Test empty
+empty input file
+
+**********************************************************************
+Running fastsort
+/tmp/tmpkJl481/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/empty
+Checking output
+
+
+test empty PASSED (10 of 10)
+ (empty input file)
+
+starting one
+
+**********************************************************************
+
+Test one
+a single record
+
+**********************************************************************
+Running fastsort
+/tmp/tmpkJl481/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/one
+Checking output
+expected output is: 
+
+this line is first
+
+but got:
+
+this line is first
+
+
+Failure: Output mismatched
+
+
+test one FAILED (0 of 10)
+ (a single record)
+ Output mismatched
+
+starting five1
+
+**********************************************************************
+
+Test five1
+five records
+
+**********************************************************************
+Running fastsort
+/tmp/tmpkJl481/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/five1
+Checking output
+expected output is: 
+
+and then this one
+bet there is also this line
+but this line is second
+finally there is this line
+this line is first
+
+but got:
+
+and then this one
+
+bet there is also this line
+
+but this line is second
+
+finally there is this line
+
+this line is first
+
+
+Failure: Output mismatched
+
+
+test five1 FAILED (0 of 10)
+ (five records)
+ Output mismatched
+
+starting five2
+
+**********************************************************************
+
+Test five2
+five records
+
+**********************************************************************
+Running fastsort
+/tmp/tmpkJl481/p/fastsort -2 /vagrant/Material/LAB/GRADING/tests/1a/input/five2
+Failure: /tmp/tmpkJl481/p/fastsort returned incorrect status code. Expected 0 got 1
+
+
+test five2 FAILED (0 of 10)
+ (five records)
+ /tmp/tmpkJl481/p/fastsort returned incorrect status code. Expected 0 got 1
+
+starting misskeys
+
+**********************************************************************
+
+Test misskeys
+missing keys in some lines
+
+**********************************************************************
+Running fastsort
+/tmp/tmpkJl481/p/fastsort -5 /vagrant/Material/LAB/GRADING/tests/1a/input/missing_keys
+Failure: /tmp/tmpkJl481/p/fastsort returned incorrect status code. Expected 0 got 1
+
+
+test misskeys FAILED (0 of 10)
+ (missing keys in some lines)
+ /tmp/tmpkJl481/p/fastsort returned incorrect status code. Expected 0 got 1
+
+starting arg
+
+**********************************************************************
+
+Test arg
+Bad arguments
+
+**********************************************************************
+/tmp/tmpkJl481/p/fastsort
+
+
+test arg PASSED (10 of 10)
+ (Bad arguments)
+
+starting arg2
+
+**********************************************************************
+
+Test arg2
+Bad arguments
+
+**********************************************************************
+/tmp/tmpkJl481/p/fastsort a b c d
+
+
+test arg2 PASSED (10 of 10)
+ (Bad arguments)
+
+starting arg3
+
+**********************************************************************
+
+Test arg3
+Invalid key value
+
+**********************************************************************
+/tmp/tmpkJl481/p/fastsort -i input/empty
+
+
+test arg3 PASSED (10 of 10)
+ (Invalid key value)
+
+starting badin
+
+**********************************************************************
+
+Test badin
+Bad input file
+
+**********************************************************************
+/tmp/tmpkJl481/p/fastsort /invalid/path/xLlyQc
+
+
+test badin PASSED (10 of 10)
+ (Bad input file)
+
+starting toolong
+
+**********************************************************************
+
+Test toolong
+some line has more than 128 characters
+
+**********************************************************************
+/tmp/tmpkJl481/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/toolong
+
+
+test toolong PASSED (10 of 10)
+ (some line has more than 128 characters)
+
+**********************************************************************
+Summary:
+test build PASSED
+ (build project using make)
+
+test empty PASSED (10 of 10)
+ (empty input file)
+
+test one FAILED (0 of 10)
+ (a single record)
+ Output mismatched
+
+test five1 FAILED (0 of 10)
+ (five records)
+ Output mismatched
+
+test five2 FAILED (0 of 10)
+ (five records)
+ /tmp/tmpkJl481/p/fastsort returned incorrect status code. Expected 0 got 1
+
+test misskeys FAILED (0 of 10)
+ (missing keys in some lines)
+ /tmp/tmpkJl481/p/fastsort returned incorrect status code. Expected 0 got 1
+
+test arg PASSED (10 of 10)
+ (Bad arguments)
+
+test arg2 PASSED (10 of 10)
+ (Bad arguments)
+
+test arg3 PASSED (10 of 10)
+ (Invalid key value)
+
+test badin PASSED (10 of 10)
+ (Bad input file)
+
+test toolong PASSED (10 of 10)
+ (some line has more than 128 characters)
+
+Passed 7 of 11 tests.
+Overall 7 of 11
+Points 60 of 100
