@@ -25,7 +25,7 @@ main(int argc, char *argv[])
   for (i = 0; i < 4; i++) {
     n = shmem_count(i);
 		printf(1, "n = %d\n", n);
-    if (n != 0) {
+    if (n != 1) {
       test_failed();
     }
   }
