@@ -66,7 +66,7 @@ in a multi-threaded process correctly.
 
 As usual, code and book.
 
-You may also find this book useful: [Programming from the Ground Up](http://download.savannah.gnu.org/releases/pgubook/ProgrammingGroundUp-1-0-booksize.pdf) .
+You may also find this book useful: [Programming from the Ground Up](http://ftp.isu.edu.tw/pub/Unix/GNU/ftp/savannah/files/pgubook/pgubook.pkg/0.6/ProgrammingGroundUp-0.6.pdf) .
 Particular attention should be paid to the first few chapters, including the calling convention (i.e., what's on the stack when you make a function call,
 and how it all is manipulated). Since the book uses x86, it should be perfect to translate your MIPS knowledge to xv6 context. Although it sounds scary, the only place
 where we need to tinkering with this is when `clone()` has to _start_ the `fcn` with the right `args`. We don need to write a single line in assembler, just to put 
