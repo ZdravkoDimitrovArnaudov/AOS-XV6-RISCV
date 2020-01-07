@@ -18,7 +18,7 @@ test_passed()
  exit();
 }
 
-#define MAX 55
+#define MAX (NDIRECT + 1)*4
 
 int
 main(int argc, char *argv[])
