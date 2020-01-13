@@ -12,97 +12,10 @@ rm -f fastsort debug_fastsort
 Trying to build project using make
 make
 gcc fastsort.c -o fastsort -Wall
-fastsort.c: In function 'main':
-fastsort.c:62:9: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-         for (int i = 1; i < strlen(argv[1]); i++){
-         ^
-fastsort.c:62:9: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
-fastsort.c:82:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i< num_lineas; i++){
-     ^
-fastsort.c: In function 'formatea_texto':
-fastsort.c:101:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i<num_lineas; i++){
-     ^
-fastsort.c: In function 'ordena_texto':
-fastsort.c:133:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i<num_lineas; i++){
-     ^
-fastsort.c:143:13: error: redefinition of 'i'
-     for(int i = 0; i<num_lineas; i++){
-             ^
-fastsort.c:133:13: note: previous definition of 'i' was here
-     for(int i = 0; i<num_lineas; i++){
-             ^
-fastsort.c:143:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i<num_lineas; i++){
-     ^
-fastsort.c:172:13: error: redefinition of 'i'
-     for(int i = 0; i<num_lineas; i++){
-             ^
-fastsort.c:143:13: note: previous definition of 'i' was here
-     for(int i = 0; i<num_lineas; i++){
-             ^
-fastsort.c:172:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i<num_lineas; i++){
-     ^
-fastsort.c:174:9: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-         for(int j = 0; j<num_lineas; j++){
-         ^
-fastsort.c: In function 'copia_lista_strings':
-fastsort.c:204:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i<num_lineas; i++){
-     ^
-Makefile:3: recipe for target 'fastsort' failed
-make: *** [fastsort] Error 1
-Trying to build using gcc
-gcc -O -Wall -o fastsort fastsort.c -I/vagrant/Material/LAB/GRADING/tests/1a
-fastsort.c: In function 'main':
-fastsort.c:62:9: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-         for (int i = 1; i < strlen(argv[1]); i++){
-         ^
-fastsort.c:62:9: note: use option -std=c99, -std=gnu99, -std=c11 or -std=gnu11 to compile your code
-fastsort.c:82:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i< num_lineas; i++){
-     ^
-fastsort.c: In function 'formatea_texto':
-fastsort.c:101:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i<num_lineas; i++){
-     ^
-fastsort.c: In function 'ordena_texto':
-fastsort.c:133:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i<num_lineas; i++){
-     ^
-fastsort.c:143:13: error: redefinition of 'i'
-     for(int i = 0; i<num_lineas; i++){
-             ^
-fastsort.c:133:13: note: previous definition of 'i' was here
-     for(int i = 0; i<num_lineas; i++){
-             ^
-fastsort.c:143:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i<num_lineas; i++){
-     ^
-fastsort.c:172:13: error: redefinition of 'i'
-     for(int i = 0; i<num_lineas; i++){
-             ^
-fastsort.c:143:13: note: previous definition of 'i' was here
-     for(int i = 0; i<num_lineas; i++){
-             ^
-fastsort.c:172:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i<num_lineas; i++){
-     ^
-fastsort.c:174:9: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-         for(int j = 0; j<num_lineas; j++){
-         ^
-fastsort.c: In function 'copia_lista_strings':
-fastsort.c:204:5: error: 'for' loop initial declarations are only allowed in C99 or C11 mode
-     for(int i = 0; i<num_lineas; i++){
-     ^
 
 
-test build FAILED
+test build PASSED
  (build project using make)
- gcc returned error 1
 
 starting empty
 
@@ -113,13 +26,12 @@ empty input file
 
 **********************************************************************
 Running fastsort
-/tmp/tmpkZKXOJ/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/empty
-OSError: [Errno 2] No such file or directory
+/tmp/tmpV3O_Vb/p/fastsort /vagrant/Lab/Tests/P0/input/empty
+Checking output
 
 
-test empty FAILED (0 of 10)
+test empty PASSED (10 of 10)
  (empty input file)
- Unexpected exception [Errno 2] No such file or directory
 
 starting one
 
@@ -130,13 +42,12 @@ a single record
 
 **********************************************************************
 Running fastsort
-/tmp/tmpkZKXOJ/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/one
-OSError: [Errno 2] No such file or directory
+/tmp/tmpV3O_Vb/p/fastsort /vagrant/Lab/Tests/P0/input/one
+Checking output
 
 
-test one FAILED (0 of 10)
+test one PASSED (10 of 10)
  (a single record)
- Unexpected exception [Errno 2] No such file or directory
 
 starting five1
 
@@ -147,13 +58,31 @@ five records
 
 **********************************************************************
 Running fastsort
-/tmp/tmpkZKXOJ/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/five1
-OSError: [Errno 2] No such file or directory
+/tmp/tmpV3O_Vb/p/fastsort /vagrant/Lab/Tests/P0/input/five1
+Checking output
+expected output is: 
+
+and then this one
+bet there is also this line
+but this line is second
+finally there is this line
+this line is first
+
+but got:
+
+and then this one
+bet there is also this line
+but this line is second
+1
+finally there is this line
+this line is first
+
+Failure: Output mismatched
 
 
 test five1 FAILED (0 of 10)
  (five records)
- Unexpected exception [Errno 2] No such file or directory
+ Output mismatched
 
 starting five2
 
@@ -164,13 +93,12 @@ five records
 
 **********************************************************************
 Running fastsort
-/tmp/tmpkZKXOJ/p/fastsort -2 /vagrant/Material/LAB/GRADING/tests/1a/input/five2
-OSError: [Errno 2] No such file or directory
+/tmp/tmpV3O_Vb/p/fastsort -2 /vagrant/Lab/Tests/P0/input/five2
+Checking output
 
 
-test five2 FAILED (0 of 10)
+test five2 PASSED (10 of 10)
  (five records)
- Unexpected exception [Errno 2] No such file or directory
 
 starting misskeys
 
@@ -181,13 +109,12 @@ missing keys in some lines
 
 **********************************************************************
 Running fastsort
-/tmp/tmpkZKXOJ/p/fastsort -5 /vagrant/Material/LAB/GRADING/tests/1a/input/missing_keys
-OSError: [Errno 2] No such file or directory
+/tmp/tmpV3O_Vb/p/fastsort -5 /vagrant/Lab/Tests/P0/input/missing_keys
+Checking output
 
 
-test misskeys FAILED (0 of 10)
+test misskeys PASSED (10 of 10)
  (missing keys in some lines)
- Unexpected exception [Errno 2] No such file or directory
 
 starting arg
 
@@ -197,13 +124,11 @@ Test arg
 Bad arguments
 
 **********************************************************************
-/tmp/tmpkZKXOJ/p/fastsort
-OSError: [Errno 2] No such file or directory
+/tmp/tmpV3O_Vb/p/fastsort
 
 
-test arg FAILED (0 of 10)
+test arg PASSED (10 of 10)
  (Bad arguments)
- Unexpected exception [Errno 2] No such file or directory
 
 starting arg2
 
@@ -213,13 +138,11 @@ Test arg2
 Bad arguments
 
 **********************************************************************
-/tmp/tmpkZKXOJ/p/fastsort a b c d
-OSError: [Errno 2] No such file or directory
+/tmp/tmpV3O_Vb/p/fastsort a b c d
 
 
-test arg2 FAILED (0 of 10)
+test arg2 PASSED (10 of 10)
  (Bad arguments)
- Unexpected exception [Errno 2] No such file or directory
 
 starting arg3
 
@@ -229,13 +152,11 @@ Test arg3
 Invalid key value
 
 **********************************************************************
-/tmp/tmpkZKXOJ/p/fastsort -i input/empty
-OSError: [Errno 2] No such file or directory
+/tmp/tmpV3O_Vb/p/fastsort -i input/empty
 
 
-test arg3 FAILED (0 of 10)
+test arg3 PASSED (10 of 10)
  (Invalid key value)
- Unexpected exception [Errno 2] No such file or directory
 
 starting badin
 
@@ -245,13 +166,11 @@ Test badin
 Bad input file
 
 **********************************************************************
-/tmp/tmpkZKXOJ/p/fastsort /invalid/path/hkXBM8
-OSError: [Errno 2] No such file or directory
+/tmp/tmpV3O_Vb/p/fastsort /invalid/path/_4dFz1
 
 
-test badin FAILED (0 of 10)
+test badin PASSED (10 of 10)
  (Bad input file)
- Unexpected exception [Errno 2] No such file or directory
 
 starting toolong
 
@@ -261,60 +180,48 @@ Test toolong
 some line has more than 128 characters
 
 **********************************************************************
-/tmp/tmpkZKXOJ/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/toolong
-OSError: [Errno 2] No such file or directory
+/tmp/tmpV3O_Vb/p/fastsort /vagrant/Lab/Tests/P0/input/toolong
 
 
-test toolong FAILED (0 of 10)
+test toolong PASSED (10 of 10)
  (some line has more than 128 characters)
- Unexpected exception [Errno 2] No such file or directory
 
 **********************************************************************
 Summary:
-test build FAILED
+test build PASSED
  (build project using make)
- gcc returned error 1
 
-test empty FAILED (0 of 10)
+test empty PASSED (10 of 10)
  (empty input file)
- Unexpected exception [Errno 2] No such file or directory
 
-test one FAILED (0 of 10)
+test one PASSED (10 of 10)
  (a single record)
- Unexpected exception [Errno 2] No such file or directory
 
 test five1 FAILED (0 of 10)
  (five records)
- Unexpected exception [Errno 2] No such file or directory
+ Output mismatched
 
-test five2 FAILED (0 of 10)
+test five2 PASSED (10 of 10)
  (five records)
- Unexpected exception [Errno 2] No such file or directory
 
-test misskeys FAILED (0 of 10)
+test misskeys PASSED (10 of 10)
  (missing keys in some lines)
- Unexpected exception [Errno 2] No such file or directory
 
-test arg FAILED (0 of 10)
+test arg PASSED (10 of 10)
  (Bad arguments)
- Unexpected exception [Errno 2] No such file or directory
 
-test arg2 FAILED (0 of 10)
+test arg2 PASSED (10 of 10)
  (Bad arguments)
- Unexpected exception [Errno 2] No such file or directory
 
-test arg3 FAILED (0 of 10)
+test arg3 PASSED (10 of 10)
  (Invalid key value)
- Unexpected exception [Errno 2] No such file or directory
 
-test badin FAILED (0 of 10)
+test badin PASSED (10 of 10)
  (Bad input file)
- Unexpected exception [Errno 2] No such file or directory
 
-test toolong FAILED (0 of 10)
+test toolong PASSED (10 of 10)
  (some line has more than 128 characters)
- Unexpected exception [Errno 2] No such file or directory
 
-Passed 0 of 11 tests.
-Overall 0 of 11
-Points 0 of 100
+Passed 10 of 11 tests.
+Overall 10 of 11
+Points 90 of 100
