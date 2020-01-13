@@ -13,11 +13,7 @@ Trying to build project using make
 make
 make: *** No targets specified and no makefile found.  Stop.
 Trying to build using gcc
-gcc -O -Wall -o fastsort fastsort.c -I/vagrant/Material/LAB/GRADING/tests/1a
-fastsort.c: In function 'readFile':
-fastsort.c:168:1: warning: control reaches end of non-void function [-Wreturn-type]
- }
- ^
+gcc -O -Wall -o fastsort fastsort.c -I/vagrant/P0
 
 
 test build PASSED
@@ -32,13 +28,12 @@ empty input file
 
 **********************************************************************
 Running fastsort
-/tmp/tmpYvMKNi/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/empty
-Failure: /tmp/tmpYvMKNi/p/fastsort returned incorrect status code. Expected 0 got 1
+/tmp/tmpkzT0yI/p/fastsort /vagrant/P0/input/empty
+Checking output
 
 
-test empty FAILED (0 of 10)
+test empty PASSED (10 of 10)
  (empty input file)
- /tmp/tmpYvMKNi/p/fastsort returned incorrect status code. Expected 0 got 1
 
 starting one
 
@@ -49,25 +44,12 @@ a single record
 
 **********************************************************************
 Running fastsort
-/tmp/tmpYvMKNi/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/one
+/tmp/tmpkzT0yI/p/fastsort /vagrant/P0/input/one
 Checking output
-expected output is: 
-
-this line is first
-
-but got:
-
----Comparing by (default order): 
-this
----Output: 
-this line is first
-
-Failure: Output mismatched
 
 
-test one FAILED (0 of 10)
+test one PASSED (10 of 10)
  (a single record)
- Output mismatched
 
 starting five1
 
@@ -78,37 +60,12 @@ five records
 
 **********************************************************************
 Running fastsort
-/tmp/tmpYvMKNi/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/five1
+/tmp/tmpkzT0yI/p/fastsort /vagrant/P0/input/five1
 Checking output
-expected output is: 
-
-and then this one
-bet there is also this line
-but this line is second
-finally there is this line
-this line is first
-
-but got:
-
----Comparing by (default order): 
-and
-bet
-but
-finally
-this
----Output: 
-and then this one
-bet there is also this line
-but this line is second
-finally there is this line
-this line is first
-
-Failure: Output mismatched
 
 
-test five1 FAILED (0 of 10)
+test five1 PASSED (10 of 10)
  (five records)
- Output mismatched
 
 starting five2
 
@@ -119,37 +76,12 @@ five records
 
 **********************************************************************
 Running fastsort
-/tmp/tmpYvMKNi/p/fastsort -2 /vagrant/Material/LAB/GRADING/tests/1a/input/five2
+/tmp/tmpkzT0yI/p/fastsort -2 /vagrant/P0/input/five2
 Checking output
-expected output is: 
-
-we also have the third line
-followed by fourth one
-and finally the fifth one
-This is the first line
-second line to be sorted
-
-but got:
-
----Comparing by (default order): 
-also
-by
-finally
-is
-line
----Output: 
-we also have the third line
-followed by fourth one
-and finally the fifth one
-This is the first line
-second line to be sorted
-
-Failure: Output mismatched
 
 
-test five2 FAILED (0 of 10)
+test five2 PASSED (10 of 10)
  (five records)
- Output mismatched
 
 starting misskeys
 
@@ -160,52 +92,12 @@ missing keys in some lines
 
 **********************************************************************
 Running fastsort
-/tmp/tmpYvMKNi/p/fastsort -5 /vagrant/Material/LAB/GRADING/tests/1a/input/missing_keys
+/tmp/tmpkzT0yI/p/fastsort -5 /vagrant/P0/input/missing_keys
 Checking output
-expected output is: 
-
-and we also have a seventh
-the faster the better
-this will be the final of all
-this project is to implement sorting
-there are totally ten lines
-but this line is next
-followed by the third one
-first line to sort
-which is followed by the fifth
-just to wrap up
-
-but got:
-
----Comparing by (default order): 
-a
-better
-final
-implement
-lines
-next
-one
-sort
-the
-up
----Output: 
-and we also have a seventh
-the faster the better
-this will be the final of all
-this project is to implement sorting
-there are totally ten lines
-but this line is next
-followed by the third one
-first line to sort
-which is followed by the fifth
-just to wrap up
-
-Failure: Output mismatched
 
 
-test misskeys FAILED (0 of 10)
+test misskeys PASSED (10 of 10)
  (missing keys in some lines)
- Output mismatched
 
 starting arg
 
@@ -215,24 +107,11 @@ Test arg
 Bad arguments
 
 **********************************************************************
-/tmp/tmpYvMKNi/p/fastsort
+/tmp/tmpkzT0yI/p/fastsort
 
 
-------------------------|FastSort (Raul Ruiz)|------------------------
-Sort your file depending the word in the line you prefer
-How to make it work:
-                   > fastshort {[-X]} [filePath]
-
-                     X{optional}: number where the lines are gona be sorted. Default is 1
-                     filePath: File you want to sort
-Failure: fastsort gave incorrect standard error.
-Expected: "Error: Bad command line parameters\n"
-Got:      "Error: Bad command line parameters"
-
-
-test arg FAILED (0 of 10)
+test arg PASSED (10 of 10)
  (Bad arguments)
- fastsort gave incorrect standard error.
 
 starting arg2
 
@@ -242,24 +121,11 @@ Test arg2
 Bad arguments
 
 **********************************************************************
-/tmp/tmpYvMKNi/p/fastsort a b c d
+/tmp/tmpkzT0yI/p/fastsort a b c d
 
 
-------------------------|FastSort (Raul Ruiz)|------------------------
-Sort your file depending the word in the line you prefer
-How to make it work:
-                   > fastshort {[-X]} [filePath]
-
-                     X{optional}: number where the lines are gona be sorted. Default is 1
-                     filePath: File you want to sort
-Failure: fastsort gave incorrect standard error.
-Expected: "Error: Bad command line parameters\n"
-Got:      "Error: Bad command line parameters"
-
-
-test arg2 FAILED (0 of 10)
+test arg2 PASSED (10 of 10)
  (Bad arguments)
- fastsort gave incorrect standard error.
 
 starting arg3
 
@@ -269,15 +135,11 @@ Test arg3
 Invalid key value
 
 **********************************************************************
-/tmp/tmpYvMKNi/p/fastsort -i input/empty
-Failure: fastsort gave incorrect standard error.
-Expected: "Error: Bad command line parameters\n"
-Got:      "Error: Cannot open file input/empty"
+/tmp/tmpkzT0yI/p/fastsort -i input/empty
 
 
-test arg3 FAILED (0 of 10)
+test arg3 PASSED (10 of 10)
  (Invalid key value)
- fastsort gave incorrect standard error.
 
 starting badin
 
@@ -287,15 +149,11 @@ Test badin
 Bad input file
 
 **********************************************************************
-/tmp/tmpYvMKNi/p/fastsort /invalid/path/I_gyp0
-Failure: fastsort gave incorrect standard error.
-Expected: "Error: Cannot open file /invalid/path/I_gyp0\n"
-Got:      "Error: Cannot open file /invalid/path/I_gyp0"
+/tmp/tmpkzT0yI/p/fastsort /invalid/path/xl_Tho
 
 
-test badin FAILED (0 of 10)
+test badin PASSED (10 of 10)
  (Bad input file)
- fastsort gave incorrect standard error.
 
 starting toolong
 
@@ -305,61 +163,47 @@ Test toolong
 some line has more than 128 characters
 
 **********************************************************************
-/tmp/tmpYvMKNi/p/fastsort /vagrant/Material/LAB/GRADING/tests/1a/input/toolong
-Failure: fastsort gave incorrect standard error.
-Expected: "Line too long\n"
-Got:      "Error: Line too long (>128 Characters)\n"
+/tmp/tmpkzT0yI/p/fastsort /vagrant/P0/input/toolong
 
 
-test toolong FAILED (0 of 10)
+test toolong PASSED (10 of 10)
  (some line has more than 128 characters)
- fastsort gave incorrect standard error.
 
 **********************************************************************
 Summary:
 test build PASSED
  (build project using make)
 
-test empty FAILED (0 of 10)
+test empty PASSED (10 of 10)
  (empty input file)
- /tmp/tmpYvMKNi/p/fastsort returned incorrect status code. Expected 0 got 1
 
-test one FAILED (0 of 10)
+test one PASSED (10 of 10)
  (a single record)
- Output mismatched
 
-test five1 FAILED (0 of 10)
+test five1 PASSED (10 of 10)
  (five records)
- Output mismatched
 
-test five2 FAILED (0 of 10)
+test five2 PASSED (10 of 10)
  (five records)
- Output mismatched
 
-test misskeys FAILED (0 of 10)
+test misskeys PASSED (10 of 10)
  (missing keys in some lines)
- Output mismatched
 
-test arg FAILED (0 of 10)
+test arg PASSED (10 of 10)
  (Bad arguments)
- fastsort gave incorrect standard error.
 
-test arg2 FAILED (0 of 10)
+test arg2 PASSED (10 of 10)
  (Bad arguments)
- fastsort gave incorrect standard error.
 
-test arg3 FAILED (0 of 10)
+test arg3 PASSED (10 of 10)
  (Invalid key value)
- fastsort gave incorrect standard error.
 
-test badin FAILED (0 of 10)
+test badin PASSED (10 of 10)
  (Bad input file)
- fastsort gave incorrect standard error.
 
-test toolong FAILED (0 of 10)
+test toolong PASSED (10 of 10)
  (some line has more than 128 characters)
- fastsort gave incorrect standard error.
 
-Passed 1 of 11 tests.
-Overall 1 of 11
-Points 0 of 100
+Passed 11 of 11 tests.
+Overall 11 of 11
+Points 100 of 100
