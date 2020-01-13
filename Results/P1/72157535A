@@ -133,6 +133,7 @@ gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-
 	-M -MG kernel/bootmain.c -MF kernel/bootmain.d -MT kernel/bootmain.d -MT kernel/bootmain.o
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG kernel/vm.c -MF kernel/vm.d -MT kernel/vm.d -MT kernel/vm.o
+perl kernel/vectors.pl > kernel/vectors.S
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
 	-M -MG kernel/vectors.S -MF kernel/vectors.d -MT kernel/vectors.d -MT kernel/vectors.o
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
@@ -240,15 +241,15 @@ ld  -m    elf_i386 -nostdlib --omagic \
 dd if=/dev/zero of=xv6.img count=10000
 10000+0 records in
 10000+0 records out
-5120000 bytes (5.1 MB) copied, 0.00881174 s, 581 MB/s
+5120000 bytes (5.1 MB) copied, 0.0346108 s, 148 MB/s
 dd if=kernel/bootblock of=xv6.img conv=notrunc
 1+0 records in
 1+0 records out
-512 bytes (512 B) copied, 0.000828296 s, 618 kB/s
+512 bytes (512 B) copied, 0.000970113 s, 528 kB/s
 dd if=kernel/kernel of=xv6.img seek=1 conv=notrunc
 238+1 records in
 238+1 records out
-122268 bytes (122 kB) copied, 0.000896781 s, 136 MB/s
+122268 bytes (122 kB) copied, 0.00121212 s, 101 MB/s
 gcc  -c  -iquote include -Wall -Werror -ggdb  -o tools/mkfs.o tools/mkfs.c
 gcc   tools/mkfs.o -o tools/mkfs
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/cat.o user/cat.c
@@ -358,7 +359,7 @@ Test procs1
 call getprocs() from a user program
 
 **********************************************************************
-Running xv6 user progam ../../../../tests/1b/ctests/procs1.c
+Running xv6 user progam ./../../../Tests/P1/ctests/procs1.c
 Trying to build project using make
 make
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
@@ -414,7 +415,7 @@ Test procs2
 call fork() before getprocs()
 
 **********************************************************************
-Running xv6 user progam ../../../../tests/1b/ctests/procs2.c
+Running xv6 user progam ./../../../Tests/P1/ctests/procs2.c
 Trying to build project using make
 make
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
@@ -458,6 +459,7 @@ init: starting sh
 $ tester
 tester
 TEST PASSED
+
 
 test procs2 PASSED (20 of 20)
  (call fork() before getprocs())
@@ -470,7 +472,7 @@ Test procs3
 call getprocs() with a full process table
 
 **********************************************************************
-Running xv6 user progam ../../../../tests/1b/ctests/procs3.c
+Running xv6 user progam ./../../../Tests/P1/ctests/procs3.c
 Trying to build project using make
 make
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
@@ -514,6 +516,7 @@ init: starting sh
 $ tester
 tester
 TEST PASSED
+
 
 test procs3 PASSED (20 of 20)
  (call getprocs() with a full process table)
@@ -526,7 +529,7 @@ Test procs4
 call getprocs() with a process table filled with zombies
 
 **********************************************************************
-Running xv6 user progam ../../../../tests/1b/ctests/procs4.c
+Running xv6 user progam ./../../../Tests/P1/ctests/procs4.c
 Trying to build project using make
 make
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
@@ -571,6 +574,7 @@ $ tester
 tester
 TEST PASSED
 
+
 test procs4 PASSED (20 of 20)
  (call getprocs() with a process table filled with zombies)
 
@@ -582,7 +586,7 @@ Test procs5
 call getprocs() after some entries turn back to UNUSED
 
 **********************************************************************
-Running xv6 user progam ../../../../tests/1b/ctests/procs5.c
+Running xv6 user progam ./../../../Tests/P1/ctests/procs5.c
 Trying to build project using make
 make
 gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
@@ -626,7 +630,6 @@ init: starting sh
 $ tester
 tester
 TEST PASSED
-$ 
 
 test procs5 PASSED (20 of 20)
  (call getprocs() after some entries turn back to UNUSED)
