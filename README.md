@@ -5,7 +5,7 @@ Lab work goes there. [Intro to the lab](00_Intro.pptx)
 
 ## [Tests for the Projects](Tests)
 
-These test will be run against your xv6. Check before the deadline that they work. You have to do it manually (renaming each .c as **tester.c** and recompiling).
+Automatic test for the project. You have submit a merge request (via gitlab.com) before the deadline, [See Readme](Tests/README.md)
 
 ## [Project Results](Runlogs)
 
