@@ -1,11 +1,10 @@
-
 ## [Projects](Projects)
 
 Lab work goes there. [Intro to the lab](00_Intro.pptx)
 
 ## [Tests for the Projects](Tests)
 
-Automatic test for the project. You have submit a merge request (via gitlab.com) before the deadline, [See Readme](Tests/README.md)
+Automatic test for the project. You have submit a merge request (via gitlab.com) before the deadline, [See Readme](Tests/README)
 
 ## [Project Results](Runlogs)
 
