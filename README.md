@@ -1,6 +1,6 @@
 ## [Projects](Projects)
 
-Lab work goes there. [Intro to the lab](00_Intro.pptx)
+Lab work goes there. [Intro to the lab](Info/00_Intro.pptx) and how to [Configure toolstack](Info/01_howtoUseTools.pptx) 
 
 ## [Tests for the Projects](Tests)
 
