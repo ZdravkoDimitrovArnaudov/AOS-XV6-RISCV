@@ -36,8 +36,9 @@ Use at least version 1.21 of vpuente/AOSUC1516 vagrant box. This box includes al
 
 [![Intro (spanish)](http://img.youtube.com/vi/7B-P9m29wFk/0.jpg)](https://www.youtube.com/watch?v=7B-P9m29wFk)
 
+**Video Howto Configure VSC and Vagrant to Debug (Spanish)**
 
-**Particularly useful for this project: Chapter 6 (Direct Execution).**
+[![Intro (spanish)](http://img.youtube.com/vi/pA_PzBj5vD8/0.jpg)](https://www.youtube.com/watch?v=pA_PzBj5vD8)
 
 
 
