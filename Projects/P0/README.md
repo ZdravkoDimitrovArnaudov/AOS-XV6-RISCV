@@ -129,11 +129,5 @@ Since we all make mistakes with git, another intersting resource is [ohshitgit!]
 
 [![Intro (spanish)](http://img.youtube.com/vi/W15-Yx_zdsc/0.jpg)](https://www.youtube.com/watch?v=W15-Yx_zdsc)
 
-**Video Howto Configure VSC and Vagrant to Debug (Spanish)**
-
-[![Intro (spanish)](http://img.youtube.com/vi/pA_PzBj5vD8/0.jpg)](https://www.youtube.com/watch?v=pA_PzBj5vD8)
-
 # Evaluation
-You dont need to do anything to handin the material.  The profesor will run a script at deadline date 00:00AM, grabbing all the material in your repository. Any further change beyond this date will be ignored. The results of the evaluation will be provided in **Results/P0**. This lab has no test availble: just some text files with some tricky cases. See **Tests/P0**. 
-
-
+See (Results)[Results/README] 
