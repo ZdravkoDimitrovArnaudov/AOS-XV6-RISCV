@@ -1,2 +1,0 @@
-gcc  -I include -nostdinc -Wall -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/syscall.o kernel/syscall.c
-kernel/makefile.mk:132: recipe for target 'kernel/syscall.o' failed
