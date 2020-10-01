@@ -13,72 +13,108 @@ Autor:    Vladimir Kirilov Mateev
 Fecha:	  sept 2020
 */
 
+// Librerias
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
+// Constantes
 #define DELIM " "
 
-int posicion = 1;
+// Variables globales
+int position = 1;
+
+// Prototipos
 int compareHandler(const void* a, const void* b);
 
+// Funciones
 int main(int argc, char *argv[]){
-
-	char* lineas[]  = 	{
-						"this line is first",
-						"but this line is second",
-						"finally there is this line",
-						};
-	size_t strings_len = sizeof(lineas) / sizeof(char *);
-
 	int i;
-	for(i = 0; i < strings_len; i++){
-		printf("%s \n", lineas[i]);
+	char *file_path;
+
+	/* Lectura de los argumentos del programa. */
+	if(argc == 2){
+		file_path = argv[1];
+	} else if(argc == 3){
+		file_path = argv[2];
+		position = atoi(strtok(argv[1],"-"));
+	} else {
+		fprintf(stderr, "usage: /fastsort [-3] file \n");
+		exit(1);
 	}
 
-	printf("\n");
-
-	qsort(lineas, strings_len, sizeof(char *), compareHandler);
-
-	printf("\n");
-
-	for(i = 0; i < strings_len; i++){
-		printf("%s \n", lineas[i]);
+	/* Se accede al fichero en modo lectura. */
+	FILE *fd = fopen(file_path, "r");
+	if(fd == NULL){
+		fprintf(stderr, "Error en la lectura del fichero");
+		exit(1);
 	}
+
+	/* Se lee el número de lineas que contiene el archivo. */
+	int number_lines = 0;
+	char *line = NULL;
+	size_t len = 0;
+	while(getline(&line, &len, fd) != -1) {
+		number_lines++;
+ 	}
+
+	/* Se lee cada linea y se guarda en un array. */
+	char *lines[number_lines];	
+	rewind(fd);	
+	while(getline(&line, &len, fd) != -1) {
+		lines[i] = malloc(strlen(line) * sizeof(char *));
+		strcpy(lines[i], line);
+		i++;
+ 	}
+
+	/* Se cierra el descriptor del fichero. */
+	fclose(fd);
+
+	/* Se ordena la array conforme al manejador de comparación. */
+	qsort(lines, number_lines, sizeof(char *), compareHandler);
+
+	/* Se imprime por pantalla el resultado. */
+	for(i = 0; i < number_lines; i++)
+		printf("%s", lines[i]);
+
+	/* Se libera el heap reservado. */
+	for(i = 0; i < number_lines; i++)
+		free(lines[i]);
+	free(line);
 
 	return 0;
 }
 
 int compareHandler(const void* a, const void* b){
-	
 	int i;
 
-	char* tmp_l1 = malloc(strlen((char *)a) * sizeof((char *)a));
-	char* tmp_l2 = malloc(strlen((char *)b) * sizeof((char *)b));
+	/* Se reserva en el heap array de caracteres. */
+	char* tmp_l1 = malloc(strlen(*(char * const *) a) * sizeof(*(char * const *) a));
+	char* tmp_l2 = malloc(strlen(*(char * const *) b) * sizeof(*(char * const *) b));
 
-	  
-	/* Copia de las lineas para obtener la palabra
-	 * con X posicion sin modificar el contenido
-	 * original
-	 */  
-	
+	/* Se copian las frases en las arrays temporales, */
+	/* para no perder el contenido por el strtok() */
 	strcpy(tmp_l1, * (char * const *) a);
 	strcpy(tmp_l2, * (char * const *) b);
 
+	/* Se obtienen las palabras a comparar. */
 	char* Letra1 = strtok(tmp_l1, DELIM);
-	for(i = 0; i < posicion-1; i++){
+	for(i = 0; i < position-1; i++){
 		Letra1 = strtok(NULL, DELIM);
 	}
 
 	char* Letra2 = strtok(tmp_l2, DELIM);
-	for(i = 0; i < posicion-1; i++){
+	for(i = 0; i < position-1; i++){
 		Letra2 = strtok(NULL, DELIM);
 	}
 
-	return strcmp(Letra1, Letra2);
+	/* Se comparan solo las palabras y no la frase entera. */
+	int ret = strcmp(Letra1, Letra2);
+
+	/* Se libera la reserva en el heap. */
+	free(tmp_l1);
+	free(tmp_l2);
+
+	return ret;
 }
 
-
-
-/* http://www.cplusplus.com/reference/cstdlib/qsort/ */
