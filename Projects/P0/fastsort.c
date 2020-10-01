@@ -89,31 +89,31 @@ int compareHandler(const void* a, const void* b){
 	int i;
 
 	/* Se reserva en el heap array de caracteres. */
-	char* tmp_l1 = malloc(strlen(*(char * const *) a) * sizeof(*(char * const *) a));
-	char* tmp_l2 = malloc(strlen(*(char * const *) b) * sizeof(*(char * const *) b));
+	char* tmp_a = malloc(strlen(*(char * const *) a) * sizeof(*(char * const *) a));
+	char* tmp_b = malloc(strlen(*(char * const *) b) * sizeof(*(char * const *) b));
 
 	/* Se copian las frases en las arrays temporales, */
 	/* para no perder el contenido por el strtok() */
-	strcpy(tmp_l1, * (char * const *) a);
-	strcpy(tmp_l2, * (char * const *) b);
+	strcpy(tmp_a, * (char * const *) a);
+	strcpy(tmp_b, * (char * const *) b);
 
 	/* Se obtienen las palabras a comparar. */
-	char* Letra1 = strtok(tmp_l1, DELIM);
+	char* word1 = strtok(tmp_a, DELIM);
 	for(i = 0; i < position-1; i++){
-		Letra1 = strtok(NULL, DELIM);
+		word1 = strtok(NULL, DELIM);
 	}
 
-	char* Letra2 = strtok(tmp_l2, DELIM);
+	char* word2 = strtok(tmp_b, DELIM);
 	for(i = 0; i < position-1; i++){
-		Letra2 = strtok(NULL, DELIM);
+		word2 = strtok(NULL, DELIM);
 	}
 
 	/* Se comparan solo las palabras y no la frase entera. */
-	int ret = strcmp(Letra1, Letra2);
+	int ret = strcmp(word1, word2);
 
 	/* Se libera la reserva en el heap. */
-	free(tmp_l1);
-	free(tmp_l2);
+	free(tmp_a);
+	free(tmp_b);
 
 	return ret;
 }
