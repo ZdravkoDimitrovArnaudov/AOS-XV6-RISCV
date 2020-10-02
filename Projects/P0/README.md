@@ -23,7 +23,8 @@ LAB designed to get used to the tools used in forthcoming labs and refresh OS co
 7. Create a vagrant instance in the top level directory
 8. Create a [Fast Short](## Fast Sort Program) program (see next section). it inside vagrant
 9. Commit the changes into your branch and push them to gitlab
-10. Write a guide with all the details in this directory and push them to gitlab again
+10. Run the tests and send me mege request with the results (see # Evaluation)
+
 
 ## Fast Sort Program
 
