@@ -130,4 +130,4 @@ Since we all make mistakes with git, another intersting resource is [ohshitgit!]
 [![Intro (spanish)](http://img.youtube.com/vi/W15-Yx_zdsc/0.jpg)](https://www.youtube.com/watch?v=W15-Yx_zdsc)
 
 # Evaluation
-See (Results)[Results/README] 
+The procedure is to run the automatic tests (See [Testing](Tests/README)) and send to master branch in the main repository a merge request that includes the output log as a file with your DNI as name, in the directory Results/P0/
