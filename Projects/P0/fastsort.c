@@ -19,7 +19,8 @@ Fecha:	  sept 2020
 #include <string.h>
 
 // Constantes
-#define DELIM " "
+#define DELIM_SPACE " "
+#define DELIM_DASH "-"
 
 // Variables globales
 int position = 1;
@@ -35,18 +36,18 @@ int main(int argc, char *argv[]){
 	/* Lectura de los argumentos del programa. */
 	if(argc == 2){
 		file_path = argv[1];
-	} else if(argc == 3){
+	} else if(argc == 3 && strstr(argv[1], DELIM_DASH) != NULL){
 		file_path = argv[2];
 		position = atoi(strtok(argv[1],"-"));
 	} else {
-		fprintf(stderr, "usage: /fastsort [-3] file \n");
+		fprintf(stderr, "Error: Bad command line parameters \n");
 		exit(1);
 	}
 
 	/* Se accede al fichero en modo lectura. */
 	FILE *fd = fopen(file_path, "r");
 	if(fd == NULL){
-		fprintf(stderr, "Error en la lectura del fichero");
+		fprintf(stderr, "Error: Cannot open file %s\n", file_path);
 		exit(1);
 	}
 
@@ -55,6 +56,11 @@ int main(int argc, char *argv[]){
 	char *line = NULL;
 	size_t len = 0;
 	while(getline(&line, &len, fd) != -1) {
+		if(strlen(line) > 128){
+			fprintf(stderr, "Line too long\n");
+			exit(1);
+		}
+
 		number_lines++;
  	}
 
@@ -63,6 +69,10 @@ int main(int argc, char *argv[]){
 	rewind(fd);	
 	while(getline(&line, &len, fd) != -1) {
 		lines[i] = malloc(strlen(line) * sizeof(char *));
+		if(lines[i] == NULL || line == NULL){
+			fprintf(stderr, "malloc failed\n");
+			exit(1);
+		}
 		strcpy(lines[i], line);
 		i++;
  	}
@@ -90,7 +100,16 @@ int compareHandler(const void* a, const void* b){
 
 	/* Se reserva en el heap array de caracteres. */
 	char* tmp_a = malloc(strlen(*(char * const *) a) * sizeof(*(char * const *) a));
+	if(tmp_a == NULL){
+		fprintf(stderr, "malloc failed\n");
+		exit(1);
+	}
+
 	char* tmp_b = malloc(strlen(*(char * const *) b) * sizeof(*(char * const *) b));
+	if(tmp_b == NULL){
+		fprintf(stderr, "malloc failed\n");
+		exit(1);
+	}
 
 	/* Se copian las frases en las arrays temporales, */
 	/* para no perder el contenido por el strtok() */
@@ -98,14 +117,14 @@ int compareHandler(const void* a, const void* b){
 	strcpy(tmp_b, * (char * const *) b);
 
 	/* Se obtienen las palabras a comparar. */
-	char* word1 = strtok(tmp_a, DELIM);
+	char* word1 = strtok(tmp_a, DELIM_SPACE);
 	for(i = 0; i < position-1; i++){
-		word1 = strtok(NULL, DELIM);
+			word1 = strtok(NULL, DELIM_SPACE);	
 	}
 
-	char* word2 = strtok(tmp_b, DELIM);
+	char* word2 = strtok(tmp_b, DELIM_SPACE);
 	for(i = 0; i < position-1; i++){
-		word2 = strtok(NULL, DELIM);
+			word2 = strtok(NULL, DELIM_SPACE);
 	}
 
 	/* Se comparan solo las palabras y no la frase entera. */
