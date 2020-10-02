@@ -1,57 +1,65 @@
 /*
-███▄ ▄███▓ ▄▄▄     ▄▄▄█████▓▓█████ ▓█████ ██▒   █▓
-▓██▒▀█▀ ██▒▒████▄   ▓  ██▒ ▓▒▓█   ▀ ▓█   ▀▓██░   █▒
-▓██    ▓██░▒██  ▀█▄ ▒ ▓██░ ▒░▒███   ▒███   ▓██  █▒░
-▒██    ▒██ ░██▄▄▄▄██░ ▓██▓ ░ ▒▓█  ▄ ▒▓█  ▄  ▒██ █░░
-▒██▒   ░██▒ ▓█   ▓██▒ ▒██▒ ░ ░▒████▒░▒████▒  ▒▀█░
-░ ▒░   ░  ░ ▒▒   ▓▒█░ ▒ ░░   ░░ ▒░ ░░░ ▒░ ░  ░ ▐░
-░  ░      ░  ▒   ▒▒ ░   ░     ░ ░  ░ ░ ░  ░  ░ ░░
-░      ░     ░   ▒    ░         ░      ░       ░░
-  ░         ░  ░           ░  ░   ░  ░     ░
-                                          ░
-Autor:    Vladimir Kirilov Mateev
-Fecha:	  sept 2020
-*/
+ *	███▄ ▄███▓ ▄▄▄     ▄▄▄█████▓▓█████ ▓█████ ██▒   █▓
+ *	▓██▒▀█▀ ██▒▒████▄   ▓  ██▒ ▓▒▓█   ▀ ▓█   ▀▓██░   █▒
+ *	▓██    ▓██░▒██  ▀█▄ ▒ ▓██░ ▒░▒███   ▒███   ▓██  █▒░
+ *	▒██    ▒██ ░██▄▄▄▄██░ ▓██▓ ░ ▒▓█  ▄ ▒▓█  ▄  ▒██ █░░
+ *	▒██▒   ░██▒ ▓█   ▓██▒ ▒██▒ ░ ░▒████▒░▒████▒  ▒▀█░
+ *	░ ▒░   ░  ░ ▒▒   ▓▒█░ ▒ ░░   ░░ ▒░ ░░░ ▒░ ░  ░ ▐░
+ *	░  ░      ░  ▒   ▒▒ ░   ░     ░ ░  ░ ░ ░  ░  ░ ░░
+ *	░      ░     ░   ▒    ░         ░      ░       ░░
+ *	░         ░  ░           ░  ░   ░  ░     ░
+ *											░
+ *	Author:		Vladimir Kirilov Mateev
+ *	Date:		09/2020
+ *	Language:	C
+ */
 
-// Librerias
+// Libraries
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// Constantes
+// Constants
 #define DELIM_SPACE " "
 #define DELIM_DASH "-"
 
-// Variables globales
+// Global variables
 int position = 1;
 
-// Prototipos
+// Prototypes
 int compareHandler(const void* a, const void* b);
 
-// Funciones
+/**
+ * Gets the phrases from a file and
+ * sorts them alphabetically
+ */
 int main(int argc, char *argv[]){
 	int i;
 	char *file_path;
 
-	/* Lectura de los argumentos del programa. */
+	/* Reading the program arguments. */
 	if(argc == 2){
 		file_path = argv[1];
 	} else if(argc == 3 && strstr(argv[1], DELIM_DASH) != NULL){
 		file_path = argv[2];
 		position = atoi(strtok(argv[1],"-"));
+		if(position == 0) {
+			fprintf(stderr, "Error: Bad command line parameters\n");
+			exit(1);
+		}
 	} else {
-		fprintf(stderr, "Error: Bad command line parameters \n");
+		fprintf(stderr, "Error: Bad command line parameters\n");
 		exit(1);
 	}
 
-	/* Se accede al fichero en modo lectura. */
+	/* The file is accessed in read mode. */
 	FILE *fd = fopen(file_path, "r");
 	if(fd == NULL){
 		fprintf(stderr, "Error: Cannot open file %s\n", file_path);
 		exit(1);
 	}
 
-	/* Se lee el número de lineas que contiene el archivo. */
+	/* The number of lines that the file contains is read. */
 	int number_lines = 0;
 	char *line = NULL;
 	size_t len = 0;
@@ -64,7 +72,7 @@ int main(int argc, char *argv[]){
 		number_lines++;
  	}
 
-	/* Se lee cada linea y se guarda en un array. */
+	/* Each line is read and stored in an array. */
 	char *lines[number_lines];	
 	rewind(fd);	
 	while(getline(&line, &len, fd) != -1) {
@@ -77,28 +85,36 @@ int main(int argc, char *argv[]){
 		i++;
  	}
 
-	/* Se cierra el descriptor del fichero. */
+	/* The file descriptor closes. */
 	fclose(fd);
 
-	/* Se ordena la array conforme al manejador de comparación. */
+	/* The array is ordered according to the comparison handler. */
 	qsort(lines, number_lines, sizeof(char *), compareHandler);
 
-	/* Se imprime por pantalla el resultado. */
+	/* The result is printed on the screen. */
 	for(i = 0; i < number_lines; i++)
 		printf("%s", lines[i]);
 
-	/* Se libera el heap reservado. */
+	/* The reserved heap is released. */
 	for(i = 0; i < number_lines; i++)
 		free(lines[i]);
 	free(line);
 
-	return 0;
+	exit(0);
 }
 
+/**
+ * Get the words indicated by the given position 
+ * in the program of two sentences and compares them
+ * 
+ * @param a Phrase 1
+ * @param b Phrase 2
+ * @return Word_a > Word_b, Word_a < Word_b, Word_a = Word_b
+ */
 int compareHandler(const void* a, const void* b){
 	int i;
 
-	/* Se reserva en el heap array de caracteres. */
+	/* It is reserved in the heap array of characters. */
 	char* tmp_a = malloc(strlen(*(char * const *) a) * sizeof(*(char * const *) a));
 	if(tmp_a == NULL){
 		fprintf(stderr, "malloc failed\n");
@@ -111,26 +127,33 @@ int compareHandler(const void* a, const void* b){
 		exit(1);
 	}
 
-	/* Se copian las frases en las arrays temporales, */
-	/* para no perder el contenido por el strtok() */
+	/* Phrases are copied into temporary arrays, */
+	/* so as not to lose the content for the strtok() */
 	strcpy(tmp_a, * (char * const *) a);
 	strcpy(tmp_b, * (char * const *) b);
 
-	/* Se obtienen las palabras a comparar. */
+	/* The words to compare are obtained. */
+	char* token1;
 	char* word1 = strtok(tmp_a, DELIM_SPACE);
 	for(i = 0; i < position-1; i++){
-			word1 = strtok(NULL, DELIM_SPACE);	
+			if((token1=strtok(NULL,DELIM_SPACE)) != NULL){
+				word1 = token1;
+			}
+				
 	}
 
+	char* token2;
 	char* word2 = strtok(tmp_b, DELIM_SPACE);
 	for(i = 0; i < position-1; i++){
-			word2 = strtok(NULL, DELIM_SPACE);
+			if((token2=strtok(NULL,DELIM_SPACE)) != NULL){
+				word2 = token2;
+			}
 	}
 
-	/* Se comparan solo las palabras y no la frase entera. */
+	/* Only the words are compared and not the entire sentence. */
 	int ret = strcmp(word1, word2);
 
-	/* Se libera la reserva en el heap. */
+	/* The reserved heap is released. */
 	free(tmp_a);
 	free(tmp_b);
 
