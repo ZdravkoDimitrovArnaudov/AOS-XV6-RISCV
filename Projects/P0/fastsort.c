@@ -34,7 +34,7 @@ int compareHandler(const void* a, const void* b);
  * sorts them alphabetically
  */
 int main(int argc, char *argv[]){
-	int i;
+	int i = 0;
 	char *file_path;
 
 	/* Reading the program arguments. */

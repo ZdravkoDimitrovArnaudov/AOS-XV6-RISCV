@@ -14,10 +14,6 @@ make
 make: *** No targets specified and no makefile found.  Stop.
 Trying to build using gcc
 gcc -O -Wall -o fastsort fastsort.c -I/vagrant/Lab/Tests/P0
-fastsort.c: In function ‘main’:
-fastsort.c:85:4: warning: ‘i’ may be used uninitialized in this function [-Wmaybe-uninitialized]
-   i++;
-    ^
 
 
 test build PASSED
@@ -32,7 +28,7 @@ empty input file
 
 **********************************************************************
 Running fastsort
-/tmp/tmpkSk5pF/p/fastsort /vagrant/Lab/Tests/P0/input/empty
+/tmp/tmpZb1U1l/p/fastsort /vagrant/Lab/Tests/P0/input/empty
 Checking output
 
 
@@ -48,7 +44,7 @@ a single record
 
 **********************************************************************
 Running fastsort
-/tmp/tmpkSk5pF/p/fastsort /vagrant/Lab/Tests/P0/input/one
+/tmp/tmpZb1U1l/p/fastsort /vagrant/Lab/Tests/P0/input/one
 Checking output
 
 
@@ -64,7 +60,7 @@ five records
 
 **********************************************************************
 Running fastsort
-/tmp/tmpkSk5pF/p/fastsort /vagrant/Lab/Tests/P0/input/five1
+/tmp/tmpZb1U1l/p/fastsort /vagrant/Lab/Tests/P0/input/five1
 Checking output
 
 
@@ -80,7 +76,7 @@ five records
 
 **********************************************************************
 Running fastsort
-/tmp/tmpkSk5pF/p/fastsort -2 /vagrant/Lab/Tests/P0/input/five2
+/tmp/tmpZb1U1l/p/fastsort -2 /vagrant/Lab/Tests/P0/input/five2
 Checking output
 
 
@@ -96,7 +92,7 @@ missing keys in some lines
 
 **********************************************************************
 Running fastsort
-/tmp/tmpkSk5pF/p/fastsort -5 /vagrant/Lab/Tests/P0/input/missing_keys
+/tmp/tmpZb1U1l/p/fastsort -5 /vagrant/Lab/Tests/P0/input/missing_keys
 Checking output
 
 
@@ -111,7 +107,7 @@ Test arg
 Bad arguments
 
 **********************************************************************
-/tmp/tmpkSk5pF/p/fastsort
+/tmp/tmpZb1U1l/p/fastsort
 
 
 test arg PASSED (10 of 10)
@@ -125,7 +121,7 @@ Test arg2
 Bad arguments
 
 **********************************************************************
-/tmp/tmpkSk5pF/p/fastsort a b c d
+/tmp/tmpZb1U1l/p/fastsort a b c d
 
 
 test arg2 PASSED (10 of 10)
@@ -139,7 +135,7 @@ Test arg3
 Invalid key value
 
 **********************************************************************
-/tmp/tmpkSk5pF/p/fastsort -i input/empty
+/tmp/tmpZb1U1l/p/fastsort -i input/empty
 
 
 test arg3 PASSED (10 of 10)
@@ -153,7 +149,7 @@ Test badin
 Bad input file
 
 **********************************************************************
-/tmp/tmpkSk5pF/p/fastsort /invalid/path/HzL0Gg
+/tmp/tmpZb1U1l/p/fastsort /invalid/path/IQbVkh
 
 
 test badin PASSED (10 of 10)
@@ -167,7 +163,7 @@ Test toolong
 some line has more than 128 characters
 
 **********************************************************************
-/tmp/tmpkSk5pF/p/fastsort /vagrant/Lab/Tests/P0/input/toolong
+/tmp/tmpZb1U1l/p/fastsort /vagrant/Lab/Tests/P0/input/toolong
 
 
 test toolong PASSED (10 of 10)
