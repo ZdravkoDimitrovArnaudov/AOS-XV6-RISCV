@@ -95,9 +95,11 @@ Follow this rules in order to be graded. If some of them ignored, the Lab will b
 
 ## Reference
 
-Use at least version 1.21 of [vpuente/AOSUC1516](https://atlas.hashicorp.com/vpuente/boxes/AOSUC1617) vagrant box. This box includes all the tools required to perform the project (gcc, qemu, shared dirs with the guest, etc...). Create a instance in this directory and copy xv6 code to start working in your branch.
+Use at least version 1.23 of [vpuente/AOSUC1516](https://app.vagrantup.com/vpuente/boxes/AOSUC) vagrant box. This box includes all the tools required to perform the project (gcc, qemu, shared dirs with the guest, etc...). Create a instance in this directory and copy xv6 code to start working in your branch.
 
-[![Intro (spanish)](http://img.youtube.com/vi/gHoTn525BP8/0.jpg)](https://www.youtube.com/watch?v=gHoTn525BP8)
+
+
+<!-- To many things are incorrect [![Intro (spanish)](http://img.youtube.com/vi/gHoTn525BP8/0.jpg)](https://www.youtube.com/watch?v=gHoTn525BP8) -->
 
 
 
