@@ -2,7 +2,7 @@
 
 [TOC]
 
-## Objetives
+## Objectives
 
 * Prepare the information structure in gitlab.com
 * Familiarize yourself with the working environment
@@ -23,7 +23,7 @@ LAB designed to get used to the tools used in forthcoming labs and refresh OS co
 7. Create a vagrant instance in the top level directory
 8. Create a [Fast Short](## Fast Sort Program) program (see next section). it inside vagrant
 9. Commit the changes into your branch and push them to gitlab
-10. Run the tests and send me mege request with the results [See Evaluation](# Evaluation)
+10. Run the tests and send me merge request with the results [See Evaluation](# Evaluation)
 
 
 ## Fast Sort Program
@@ -111,7 +111,7 @@ If you don't know how to use these functions, use the man pages. For example, ty
 **Testing is critical.** One great programmer I once knew said you have to write 5-10 lines of test code for every line of code you produce; testing your code to make sure it works is crucial. Write tests to see if your code handles all the cases you think it should. Be as comprehensive as you can be. (Don't rely in C compiler but -Wall can be useful!)
 
 
-**Use git.** commit your changes frequently, as you may introduce bugs and not be able to easily undo them. A simple way to do this is to use commits, by explicitly making copies of the file at various points during development. The old way is to use copies. For example, let's say you get a simple version of `fastsort.c` working (say, that just reads in the file); type `cp fastsort.c fastsort.v1.c` to make a copy into the file `fastsort.v1.c` .**DONT DO IT THAT WAY**. Instead **USE GIT**. Git is designed to avoid this hashle: you can keep a constant timeline of your code. So, make frequent commits into the repository. Push to the server when you leave the lab. Put all code for this lab inside the dir **Projects/P0/**  
+**Use git.** commit your changes frequently, as you may introduce bugs and not be able to easily undo them. A simple way to do this is to use commits, by explicitly making copies of the file at various points during development. The old way is to use copies. For example, let's say you get a simple version of `fastsort.c` working (say, that just reads in the file); type `cp fastsort.c fastsort.v1.c` to make a copy into the file `fastsort.v1.c` .**DONT't DO IT THAT WAY**. Instead **USE GIT**. Git is designed to avoid this hassle: you can keep a constant timeline of your code. So, make frequent commits into the repository. Push to the server when you leave the lab. Put all code for this lab inside the dir **Projects/P0/**  
 
 **Keep your source code private.** Your gitlab repository only can be seen by the professor. Note that to copy is not allowed (and can be easily detected with automated tools such as [this](https://theory.stanford.edu/~aiken/moss/)).
 
@@ -122,13 +122,13 @@ If you don't know how to use these functions, use the man pages. For example, ty
 **Before beginning:** Read [OSTEP tutorial](http://pages.cs.wisc.edu/~remzi/OSTEP/lab-tutorial.pdf). It has some useful tips for programming in the C environment.
 
 A nice guide for **git** can be found [here](https://www.atlassian.com/git/tutorials/what-is-version-control). The subset used here is quite sparse. In particular we need to do git clone/git pull/git push/git commit/git add and git rebase.
-Since we all make mistakes with git, another intersting resource is [ohshitgit!](https://ohshitgit.com)
+Since we all make mistakes with git, another interesting resource is [ohshitgit!](https://ohshitgit.com)
 
-**Vagrant** information can be found [here](https://www.vagrantup.com/docs/getting-started/). Although it is quite useful, we will use here just as _simplication tool_. Shared folders allow to use the text editor you want in the host. Yes you can use Eclipse (although I recommend to take a look to others such as [Atom](http://atom.org/), [SublimeText](https://www.sublimetext.com/3), [Visual Code](https://code.visualstudio.com) or MS free alternative [VS Codium](https://vscodium.com)  or **VIM**😬). Try and pick your poison. Some of them has a nice git integration.
+**Vagrant** information can be found [here](https://www.vagrantup.com/docs/getting-started/). Although it is quite useful, we will use here just as _simplification tool_. Shared folders allow to use the text editor you want in the host. Yes you can use Eclipse (although I recommend to take a look to others such as [Atom](http://atom.org/), [SublimeText](https://www.sublimetext.com/3), [Visual Code](https://code.visualstudio.com) or MS free alternative [VS Codium](https://vscodium.com)  or **VIM**😬). Try and pick your poison. Some of them has a nice git integration.
 
 **Video Tutorial (Spanish)**
 
 [![Intro (spanish)](http://img.youtube.com/vi/W15-Yx_zdsc/0.jpg)](https://www.youtube.com/watch?v=W15-Yx_zdsc)
 
-# Evaluation
-The procedure is to run the automatic tests (See [Testing](Tests/README)) and send to master branch in the main repository a merge request that includes the output log as a file with your DNI as name, in the directory Results/P0/
+# Submit the Lab
+The procedure is to run the automatic tests (See [Testing](Tests/README)) and send to master branch in the main repository a merge request that includes the output log as a file with your DNI as name, in the directory Results/P0/. Although not evaluated, this file should be merged before the deadline. Dates will be checked later before the exam.
