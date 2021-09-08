@@ -1,0 +1,40 @@
+##MEMORIA##
+
+ÍNDICE
+	1. Objetivos de la práctica
+	2. Normas
+	3. Implementación del código y desarrollo
+	4. Conclusión
+
+
+1.
+
+Precisamos de un programa de ordenamiento rápido. Su comportamiento dependerá según el número de argumentos que se le pase. Hay dos opciones:
+	./fastsort filename: se le pasa únicamente el fichero de texto. Deberá ordenar las filas del documento según la primera palabra de cada fila.
+	./fastsort -n filename: se ordenan las filas del fichero según la n-ésima palabra de cada fila.
+ 
+
+2. 
+
+-El codigo retorna 0 si hay éxito.
+
+-Únicamente se usará el espacio como separador entre palabras.
+
+-La longitud máxima de cada línea puede ser 128.
+
+-Revisar los argumentos de la funcion fastsort cuidadosamente: si se pasan más de dos argumentos o cualquiera de los dos tiene un formato no válido, hay que escribir en standart error (Error: Bad command line parameters). También, se deberá salir con código de retorno 1 (GESTIÓN BÁSICA DE ERRORES)
+
+-Si una fila no puede filtrarse según n-ésima palabra indicada, se ordena según la última palabra posible.
+
+-Se usará un string vacío para las líneas vacías.
+
+-El tamaño del fichero puede ser grande, pero la información será suficiente para que entre en memoria. Si malloc() falla, llevar a standar error con salida de retorno 1.
+
+-Si el fichero no puede abrirse por la razón que sea, es necesario llevarlo al standard error (Error: cannot open file foo), si el nombre del fichero fuera llamado foo.
+
+-Para mostrar mensajes de error, el formato debe ser el siguiente: fprintf(stderr, "texto\n");
+
+3.
+
+
+
