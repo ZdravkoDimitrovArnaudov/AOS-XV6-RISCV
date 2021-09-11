@@ -36,5 +36,7 @@ Precisamos de un programa de ordenamiento rápido. Su comportamiento dependerá 
 
 3.
 
+Inicialmente se ha abordado la correcta recogida de argumentos y su gestión de erores. El siguiente paso ha sido intentar abrir el fichero de texto y averiguar cual es su tamaño.
+Una vez abierto el fichero de texto, lo siguiente es conseguir leerlo entero y guardarlo en una estructura de datos. Para ello, utilizaremos una matriz cuyo espacio será reservado dinámicamente.
 
 

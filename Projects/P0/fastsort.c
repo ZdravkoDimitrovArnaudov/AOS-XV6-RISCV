@@ -4,62 +4,56 @@
 #include <string.h> //strcmp(), strtok()
 
 #define DEBUG
-#define MAX_LINES 100
+#define MAX_ROWS 100
+#define SIZE_R0W 128
+
+
 
 int main (int argc, char *argv[]){
 
-/*PSEUDOCÓDIGO INCREMENTAL
-    1.Recoger los parámetros X
-    2.Leer las líneas del fichero
-    3.Mostrarlas por pantalla
+    //gestión de errores
+    if (argc < 2 || argc > 3) {
+        fprintf (stderr, "Error: Bad comman line parameters");
+        return 1;
+    }
 
-PSEUDOCÓDIGO FASTSORT
-    1.Recoger los parámetros
-    2.Averiguar las dimensiones del fichero
-    3.Leer el texto
-    4.Separar adecuadamente
-    5.Ordenar adecuadamente
-*/
+    char *filename;
+    int key = 0; //key para saber qué palabra de cada fila escoger
+    int row = 0; //para contar las filas al leer del fichero
+    char **text; //almacena el texto completo
 
 
+    //recogemos argumentos de entrada
+    if (argc == 2){ 
+        filename = argv[1];
 
-if (argc < 2 || argc > 3) {
-    fprintf (stderr, "Error: Bad comman line parameters");
-    return 1;
-}
+    } else {
+        key = atoi(argv[1]);
+        filename = argv[2];
 
-char *filename;
-int key = 0;
-struct stat stats;
-//char **filas;
+    }
 
-//RECOGEMOS ARGUMENTOS DE ENTRADA
+    //Abrimos el fichero 
+    FILE *fptr = fopen (filename, "r");
+    if (fptr == NULL){ 
+        fprintf (stderr, "Error: Cannot open file %s\n", filename);
+        return 1;
 
-if (argc == 2){ //solo se proporciona el fichero
-    filename = argv[1];
+    }
 
-} else {
-    key = atoi(argv[1]);
-    filename = argv[2];
+    //estructura de datos para leer el texto
+    text = malloc(MAX_ROWS * sizeof(char*));
+    for (int i = 0; i < MAX_ROWS; i++){
+        text[i] = malloc(SIZE_R0W * sizeof(char));
+    }
 
-}
+    //leemos el texto completo
+    while (fgets(text[row], SIZE_R0W, fptr)){
+        #ifdef DEBUG
+        printf ("%d: %s", row,  text[row]);
+        #endif
+        row++;
+    
+    }   
 
-FILE *fp = fopen (filename, "r");
-if (fp == NULL){ //el fichero no se ha leido correctamente.
-    fprintf (stderr, "Error: Cannot open file %s\n", filename);
-    return 1;
-
-}
-
-
-//IDENTIFICAR DIMENSIONES DEL TEXTO
-//filas = malloc(MAX_LINES * sizeof(char*));
-stat (filename, &stats);
-int size = stats.st_size;
-printf ("El tamaño del texto es: %d\n", size);
-printf ("La llave para ordenar es: %d\n", key);
-
-
-
- return 0;
 }
