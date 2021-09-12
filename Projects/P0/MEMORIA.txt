@@ -3,7 +3,7 @@
 ÍNDICE
 	1. Objetivos de la práctica
 	2. Normas
-	3. Implementación del código y desarrollo
+	3. Desarrollo
 	4. Conclusión
 
 
@@ -36,7 +36,10 @@ Precisamos de un programa de ordenamiento rápido. Su comportamiento dependerá 
 
 3.
 
-Inicialmente se ha abordado la correcta recogida de argumentos y su gestión de erores. El siguiente paso ha sido intentar abrir el fichero de texto y averiguar cual es su tamaño.
-Una vez abierto el fichero de texto, lo siguiente es conseguir leerlo entero y guardarlo en una estructura de datos. Para ello, utilizaremos una matriz cuyo espacio será reservado dinámicamente.
+Inicialmente, hemos abordado la correcta recogida de los argumentos y su gestión de errores. Más tarde hemos intentado abrir el archivo de texto. LLegado a este punto, el siguiente paso consiste en leer el texto completo 
+satisfactoriamente. Al haberlo conseguido, nuestro objetivo es intentar seccionar cada una de las líneas y recoger las palabras a ordenar en cuestión. Para poder ordenarlas, guardaremos cada palabra en un buffer y también su contenido en una estructura, que además de la palabra en sí, contempla su posicón en línea también.
+De este modo, cuando tengamos nuestro array de palabras ordenado, iteramos una por una y buscamos dentro del array de estructuras su respectiva posicón, para imprimir la línea correctamente.
+
+
 
 
