@@ -1,6 +1,6 @@
 /**
  * Programa fastsort.c
- * @autor Zdravko Dimitrov Arnuadov.
+ * @author Zdravko Dimitrov Arnuadov.
  * Para DEBUG, usar #define DEBUG.
  * @version 2.0
  * */
@@ -53,7 +53,7 @@ int main (int argc, char *argv[]){
     char **text; //almacena el texto completo
     char **text_aux; //estructura auxiliar para conseguir seccionar las lineas y obtener las palabras
     char *token; //para seleccionar las palabras
-    char *token_aux; //para ayudar a obtener la palabra correcta de la linea, missing key
+    char *token_aux = NULL; //para ayudar a obtener la palabra correcta de la linea, missing key
     sorted_word_t *column; //para almacenar las palabras a ordenar con su posición en fila
     char **sorted_column; //para almacenar las palabras ordenadas
 
@@ -73,13 +73,19 @@ int main (int argc, char *argv[]){
     } else { 
 
         //obtención de key y gestión de errores
-        arg_key = malloc ( 3 * sizeof(char));
         arg_key = argv[1];
-        char char1 = arg_key[0]; // -
+        char *dash_ptr = arg_key; //apuntamos al guion
+        arg_key = arg_key + sizeof(char); 
+        char *num = arg_key; //apuntamos al número
+
+        //para comparar los guiones
+        char dash = *dash_ptr; 
+        char real_dash = '-';
+    
         
-        if ( strcmp(&char1, "-") == 0 && isdigit(arg_key[1])) { //nos aseguramos de que key cumple el patrón
+        if ( strcmp(&dash, &real_dash) && isdigit(*num)) { //nos aseguramos de que key cumple el patrón
             char *ptr;
-            key = strtol (&arg_key[1], &ptr, 10); //convertimos a long int el key
+            key = strtol (num, &ptr, 10); //convertimos a long int el key
 
             if (isalpha(*ptr) != 0){ 
                 fprintf (stderr, "Error: Bad command line parameters\n"); 
@@ -124,6 +130,7 @@ int main (int argc, char *argv[]){
 
     if (text == NULL || text_aux == NULL || column == NULL || sorted_column == NULL) { //si malloc falla
         fprintf(stderr, "Error: malloc failed\n");
+        return 1;
     }
 
     /*
@@ -238,3 +245,4 @@ int compare_string (void const *a, void const *b){
 
     return strcmp(*aa, *bb);
 }
+
