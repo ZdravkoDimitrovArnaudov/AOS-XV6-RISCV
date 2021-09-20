@@ -23,7 +23,7 @@ all: xv6.img fs.img
 CC  = $(TOOLPREFIX)gcc
 NCC = gcc 
 # enable extra warnings
-CFLAGS += -Wall
+CFLAGS += -Wall -Wno-error=deprecated-declarations
 # treat warnings as errors
 CFLAGS += -Werror
 # produce debugging information for use by gdb
