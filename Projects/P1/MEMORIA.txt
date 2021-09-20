@@ -1,0 +1,26 @@
+-----------
+--MEMORIA--
+-----------
+
+ÍNDICE
+	1.Objetivos de la práctica
+	2.Consejos
+	3.Desarrollo
+	4.Conclusion
+
+1. 
+
+2.
+
+3.
+
+Primero, buscaremos qué se ha tenido que implementar para la llamada al sistema getpid(). Si hacemos grep "getpid" *, vemos una lista de ficheros en la que se ha tenido que añadir algo. Por consecuencia, es muy probable que debamos hacer lo mismo para nuestra llamada al sistema propia.
+
+En definitiva, vamos a tener que modificar 5 ficheros:
+	-syscall.c
+	-syscall.h
+	-sysproc.c
+	-user.h
+	-usys.S
+
+Comenzaremos primero con el fichero syscall.h. 
