@@ -7,6 +7,12 @@
 #include "syscall.h"
 #include "sysfunc.h"
 
+/*prototipo para indicar que la función
+se encuentra implementada en un fichero externo,
+que se usará para lincarlo contra este.
+*/ 
+extern int sys_getprocs(void);
+
 // User code makes a system call with INT T_SYSCALL.
 // System call number in %eax.
 // Arguments on the stack, from the user call to the C
@@ -103,6 +109,7 @@ static int (*syscalls[])(void) = {
 [SYS_wait]    sys_wait,
 [SYS_write]   sys_write,
 [SYS_uptime]  sys_uptime,
+[SYS_getprocs] sys_getprocs
 };
 
 // Called on a syscall trap. Checks that the syscall number (passed via eax)

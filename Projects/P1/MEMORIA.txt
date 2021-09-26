@@ -23,4 +23,193 @@ En definitiva, vamos a tener que modificar 5 ficheros:
 	-user.h
 	-usys.S
 
-Comenzaremos primero con el fichero syscall.h. 
+Comenzaremos primero con el fichero syscall.h. Para encontrarlo, usamos find . -iname "syscall.h". Ahora sabemos que se encuentra en el directorio include/, con lo cual lo abrimos. Al hacerlo, descubrimos que todas las llamadas al sistema tienen un número asociado, que comienza desde 1. Tenemos que coger la siguiente llamada al sistema disponible, que será el número 22. Es decir, el fichero tendrá la siguiente forma:
+
+#ifndef _SYSCALL_H_
+#define _SYSCALL_H_
+
+// System call numbers
+#define SYS_fork    1
+#define SYS_exit    2
+#define SYS_wait    3
+#define SYS_pipe    4
+#define SYS_write   5
+#define SYS_read    6
+#define SYS_close   7
+#define SYS_kill    8
+#define SYS_exec    9
+#define SYS_open   10
+#define SYS_mknod  11
+#define SYS_unlink 12
+#define SYS_fstat  13
+#define SYS_link   14
+#define SYS_mkdir  15
+#define SYS_chdir  16
+#define SYS_dup    17
+#define SYS_getpid 18
+#define SYS_sbrk   19
+#define SYS_sleep  20
+#define SYS_uptime 21
+#define SYS_getprocs 22
+
+#endif // _SYSCALL_H_ 
+
+Una vez acabado con este fichero, vamos con sysproc.c, donde estará la actual llamada al sistema. Buscamos getpid() y añadimos nuestra función justo debajo. 
+Ahora, debemos pensar qué funcionalidad añadir a nuestra llamada al sistema. El fichero proc.c, nos ofrece información más detallada sobre cómo acceder a la tabla de procesos. 
+Por este motivo seguiremos el mismo formato, pero contando y devolviendo el número de procesos que nos interesan.
+
+
+int 
+sys_getprocs(void)
+{
+  struct proc *p;
+  int num_p = 0;
+
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+    if(p->state == UNUSED)
+      num_p++;
+  release(&ptable.lock);
+  return num_p;
+}
+
+
+El siguiente paso será añadir la llamada al sistema a la tabla de llamadas al sistema. 
+Se encuentra en el fichero syscall.c. Se trata de un array de punteros a funciones.
+Normalmente, nuestro código mandará un entero al kernel designando qué llamda al sistema necesita.
+Después, se acude a esta tabla de procesos para saber qué codigo ejecutar. Por lo tanto, añadiremos nuestra entrada
+al final.
+
+static int (*syscalls[])(void) = {
+[SYS_chdir]   sys_chdir,
+[SYS_close]   sys_close,
+[SYS_dup]     sys_dup,
+[SYS_exec]    sys_exec,
+[SYS_exit]    sys_exit,
+[SYS_fork]    sys_fork,
+[SYS_fstat]   sys_fstat,
+[SYS_getpid]  sys_getpid,
+[SYS_kill]    sys_kill,
+[SYS_link]    sys_link,
+[SYS_mkdir]   sys_mkdir,
+[SYS_mknod]   sys_mknod,
+[SYS_open]    sys_open,
+[SYS_pipe]    sys_pipe,
+[SYS_read]    sys_read,
+[SYS_sbrk]    sys_sbrk,
+[SYS_sleep]   sys_sleep,
+[SYS_unlink]  sys_unlink,
+[SYS_wait]    sys_wait,
+[SYS_write]   sys_write,
+[SYS_uptime]  sys_uptime,
+[SYS_getprocs] sys_getprocs
+};
+
+
+Además, hemos de indicar el prototipo de nuestra función,
+ya que la implementación se encuentra en otro fichero externo,
+que se lincará con el fichero actual.
+
+/*prototipo para indicar que la función
+se encuentra implementada en un fichero externo,
+que se usará para lincarlo contra este.
+*/ 
+extern int sys_getprocs(void);
+
+
+
+Casi hemos terminado. Nos falta hacer que dicha llamada al sistema esté disponible para las funciiones 
+de usuario. El siguiente fichero que debemos mirar es usys.S. Aquí encontramos una macro, 
+en donde se estructuran todas las llamadas al sistema en userspace.
+Debemos añadir nuestra entrada al final de la lista de llamadas, tal que.
+
+
+SYSCALL(fork)
+SYSCALL(exit)
+SYSCALL(wait)
+SYSCALL(pipe)
+SYSCALL(read)
+SYSCALL(write)
+SYSCALL(close)
+SYSCALL(kill)
+SYSCALL(exec)
+SYSCALL(open)
+SYSCALL(mknod)
+SYSCALL(unlink)
+SYSCALL(fstat)
+SYSCALL(link)
+SYSCALL(mkdir)
+SYSCALL(chdir)
+SYSCALL(dup)
+SYSCALL(getpid)
+SYSCALL(sbrk)
+SYSCALL(sleep)
+SYSCALL(uptime)
+SYSCALL(getprocs)
+
+
+Si prestamos atención, podemos ver que el este fichero está en ensamblador y
+revela una serie de aspectos importantes.
+
+Para empezar, se pasa por argumento el nombre de la llamada al sistema y esta se convierte en 
+una etiqueta. Seguidamente, el valor de nuestra llamada al sistema $SYS_getprocs (22), se conducirá 
+al registro eax. 
+Más tarde, se invoca una interrupción hardware con el valor $T_SYSCALL. 
+Si vamos al fichero traps.h, vemos que dicha etiqueta se corresponde con el valor 64. 
+En trapasm.S, está la entrada que eventualmente llegará a llamar a la función sys_getprocs que hemos
+descrito en la tabla de llamadas al sistema.
+
+
+>>RESUMEN DE PROCESO:
+	1. Cuando invocamos a la llamada al sistema, se recoge el número de dicha llamada y se
+	invoca una interrupción de llamada al sistema. 
+	2. Mediante la trap para llamadas al sistema, se busca en la tabla de llamadas cuál es la que necesitamos.
+	3. Se ejecuta la función que implementa la llamada al sistema.
+	4. Se restaura la operación.
+
+
+
+
+Lo último que nos queda por hacer es añadir nuestra llamada al sistema a 
+user.h, para que el usuario pueda verlo. La llamada al sistema hasta aquí estaría lista.
+
+Para poder probar la llamada al sistema, necesitamos crear un programa para poder invocarla.
+Desde el directorio xv6, crearemos un fichero numproc.c con la siguiente pinta:
+
+#include "types.h"
+#include "user.h"
+
+int main(void) {
+    int num = getprocs();
+    printf(1, "El número de procesos en este momento son: %d\n", num);
+    exit();
+
+}
+
+Una vez creado este fichero, debemos añadirlo al Makefile para que pueda ser constuido e 
+incluido en la lista de ficheros migrados a XV6.
+
+En Makefile.mk en xv6/user:
+
+# user programs
+USER_PROGS := \
+	cat\
+	echo\
+	forktest\
+	grep\
+	init\
+	kill\
+	ln\
+	ls\
+	mkdir\
+	rm\
+	sh\
+	stressfs\
+	tester\
+	usertests\
+	wc\
+	numprocs\
+	zombie
+
+
+
