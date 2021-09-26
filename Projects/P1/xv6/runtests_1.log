@@ -69,17 +69,17 @@ iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
 Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
 
 
-Booting from Hard Disk..xv6...
+Booting from Hard Disk...
+xv6...
 cpu0: starting
 init: starting sh
 $ tester
 tester
-assert failed getprocs() == 3 user/tester.c 16
-$ 
+TEST PASSED
 
-test procs1 FAILED (0 of 20)
+
+test procs1 PASSED (20 of 20)
  (call getprocs() from a user program)
- tester failed
 
 starting procs2
 
@@ -141,12 +141,11 @@ cpu0: starting
 init: starting sh
 $ tester
 tester
-assert failed getprocs() == 4 user/tester.c 16
-$ 
+TEST PASSED
 
-test procs2 FAILED (0 of 20)
+
+test procs2 PASSED (20 of 20)
  (call fork() before getprocs())
- tester failed
 
 starting procs3
 
@@ -164,6 +163,28 @@ x86_64-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -W
 x86_64-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 x86_64-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+cat
+numprocs
+init
+echo
+usertests
+zombie
+wc
+grep
+README
+stressfs
+kill
+sh
+forktest
+mkdir
+tester
+ln
+ls
+rm
+balloc: first 478 blocks have been allocated
+balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
 Ctrl+a h for help
@@ -186,12 +207,11 @@ cpu0: starting
 init: starting sh
 $ tester
 tester
-assert failed getprocs() == 4 user/tester.c 16
-$ 
+TEST PASSED
 
-test procs3 FAILED (0 of 20)
+
+test procs3 PASSED (20 of 20)
  (call getprocs() with a full process table)
- tester failed
 
 starting procs4
 
@@ -319,42 +339,32 @@ cpu0: starting
 init: starting sh
 $ tester
 tester
-assert failed getprocs() == (3 + num_child) user/tester.c 24
-zombie!
-zombie!
-zombie!
-zombie!
-zombie!
-$ 
+TEST PASSED
 
-test procs5 FAILED (0 of 20)
+
+test procs5 PASSED (20 of 20)
  (call getprocs() after some entries turn back to UNUSED)
- tester failed
 
 **********************************************************************
 Summary:
 test build PASSED
  (build xv6 using make)
 
-test procs1 FAILED (0 of 20)
+test procs1 PASSED (20 of 20)
  (call getprocs() from a user program)
- tester failed
 
-test procs2 FAILED (0 of 20)
+test procs2 PASSED (20 of 20)
  (call fork() before getprocs())
- tester failed
 
-test procs3 FAILED (0 of 20)
+test procs3 PASSED (20 of 20)
  (call getprocs() with a full process table)
- tester failed
 
 test procs4 PASSED (20 of 20)
  (call getprocs() with a process table filled with zombies)
 
-test procs5 FAILED (0 of 20)
+test procs5 PASSED (20 of 20)
  (call getprocs() after some entries turn back to UNUSED)
- tester failed
 
-Passed 2 of 6 tests.
-Overall 2 of 6
-Points 20 of 100
+Passed 6 of 6 tests.
+Overall 6 of 6
+Points 100 of 100

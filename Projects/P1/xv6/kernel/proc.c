@@ -444,3 +444,17 @@ procdump(void)
 }
 
 
+int getprocs(void)
+{
+  struct proc *p;
+  int num_p = 0;
+
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+    if(p->state != UNUSED){
+      num_p++;
+    }
+  release(&ptable.lock);
+  return num_p;
+}
+
