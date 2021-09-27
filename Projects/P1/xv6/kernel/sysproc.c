@@ -7,13 +7,7 @@
 #include "sysfunc.h"
 #include "spinlock.h"
 
-//extern int getprocs(void);
 
-/*
-struct {
-  struct spinlock lock;
-  struct proc proc[NPROC];
-} p_table; */
 
 int
 sys_fork(void)
@@ -50,21 +44,13 @@ sys_getpid(void)
   return proc->pid;
 }
 
-/*
+
 int 
 sys_getprocs(void)
 {
-  struct proc *p;
-  int num_p = 0;
-
-  acquire(&p_table.lock);
-  for(p = p_table.proc; p < &p_table.proc[NPROC]; p++)
-    if(p->state == UNUSED){
-      num_p++;
-    }
-  release(&p_table.lock);
-  return num_p;
-}*/
+  
+  return getprocs();
+}
 
 
 int

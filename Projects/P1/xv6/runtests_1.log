@@ -69,8 +69,7 @@ iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
 Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
 
 
-Booting from Hard Disk...
-xv6...
+Booting from Hard Disk..xv6...
 cpu0: starting
 init: starting sh
 $ tester
@@ -163,28 +162,6 @@ x86_64-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -W
 x86_64-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
 x86_64-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
 cp user/bin/tester fs/tester
-./tools/mkfs fs.img fs
-used 29 (bit 1 ninode 26) free 29 total 1024
-cat
-numprocs
-init
-echo
-usertests
-zombie
-wc
-grep
-README
-stressfs
-kill
-sh
-forktest
-mkdir
-tester
-ln
-ls
-rm
-balloc: first 478 blocks have been allocated
-balloc: write bitmap block at sector 28
 rm user/bin/tester
 make qemu-nox CPUS=1
 Ctrl+a h for help
