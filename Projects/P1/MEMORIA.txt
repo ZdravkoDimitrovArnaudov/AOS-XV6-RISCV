@@ -8,9 +8,11 @@
 	3.Desarrollo
 	4.Conclusion
 
-1. 
+1. El objetivo de la práctica es habituarnos con el kernel de xv6. Lo que debemos hacer es crear una llamada al sistema llamada: int getprocs(void), que 
+devuelve el número de procesos existentes en el sistema en el momento de la llamada.
 
 2.
+Para saber en qué modificaciones debemos hacer los ficheros, podemos ayudarnos con la implementación de otras llamadas al sistema.
 
 3.
 
@@ -56,22 +58,38 @@ Comenzaremos primero con el fichero syscall.h. Para encontrarlo, usamos find . -
 
 Una vez acabado con este fichero, vamos con sysproc.c, donde estará la actual llamada al sistema. Buscamos getpid() y añadimos nuestra función justo debajo. 
 Ahora, debemos pensar qué funcionalidad añadir a nuestra llamada al sistema. El fichero proc.c, nos ofrece información más detallada sobre cómo acceder a la tabla de procesos. 
-Por este motivo seguiremos el mismo formato, pero contando y devolviendo el número de procesos que nos interesan.
+
+En el fichero proc.c, se define e inicializa la tabla de procesos del sistema. Nos conviene tener nuesto código en el mismo fichero,
+con lo cual haremos un wrapper en sysproc.c llamado sys_getprocs() que devuelve el resultado de invocar a getprocs en proc.c .
 
 
+//en sysproc.c
 int 
 sys_getprocs(void)
+{
+  
+  return getprocs();
+}
+
+
+//en proc.c 
+int getprocs(void)
 {
   struct proc *p;
   int num_p = 0;
 
   acquire(&ptable.lock);
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-    if(p->state == UNUSED)
+    if(p->state != UNUSED){
       num_p++;
+    }
   release(&ptable.lock);
   return num_p;
 }
+
+Hemos de indicar también que la función getprocs() está definida en el fichero proc.c desde defs.h también.
+
+
 
 
 El siguiente paso será añadir la llamada al sistema a la tabla de llamadas al sistema. 
@@ -118,6 +136,9 @@ extern int sys_getprocs(void);
 
 
 
+
+
+
 Casi hemos terminado. Nos falta hacer que dicha llamada al sistema esté disponible para las funciiones 
 de usuario. El siguiente fichero que debemos mirar es usys.S. Aquí encontramos una macro, 
 en donde se estructuran todas las llamadas al sistema en userspace.
@@ -156,8 +177,9 @@ una etiqueta. Seguidamente, el valor de nuestra llamada al sistema $SYS_getprocs
 al registro eax. 
 Más tarde, se invoca una interrupción hardware con el valor $T_SYSCALL. 
 Si vamos al fichero traps.h, vemos que dicha etiqueta se corresponde con el valor 64. 
-En trapasm.S, está la entrada que eventualmente llegará a llamar a la función sys_getprocs que hemos
-descrito en la tabla de llamadas al sistema.
+Esto quiere decir que invocamos la trap gestora de llamadas al sistema, que debe encargarse 
+de buscar y ejecutar el código correspondiente.
+
 
 
 >>RESUMEN DE PROCESO:
@@ -213,3 +235,11 @@ USER_PROGS := \
 
 
 
+Al probar la función, nos indica que el número de procesos existentes en el sistema en el momento son 3.
+
+
+
+4.
+
+Me ha parecido una práctica muy interesante. Sirve de base para saber cómo crear una llamada al sistema simple y comenzar a entenderse 
+con el entrono de trabajo.
