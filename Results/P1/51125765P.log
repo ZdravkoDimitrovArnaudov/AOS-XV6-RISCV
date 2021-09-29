@@ -1,0 +1,388 @@
+starting build
+
+**********************************************************************
+
+Test build
+build xv6 using make
+
+**********************************************************************
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG kernel/proc.c -MF kernel/proc.d -MT kernel/proc.d -MT kernel/proc.o
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o kernel/proc.o kernel/proc.c
+ld  -m    elf_i386 -nostdlib --omagic \
+	--section-start=.text=0x100000 --entry=main --output=kernel/kernel \
+	kernel/multiboot.o kernel/data.o kernel/bio.o kernel/console.o kernel/exec.o kernel/file.o kernel/fs.o kernel/ide.o kernel/ioapic.o kernel/kalloc.o kernel/kbd.o kernel/lapic.o kernel/main.o kernel/mp.o kernel/picirq.o kernel/pipe.o kernel/proc.o kernel/spinlock.o kernel/string.o kernel/swtch.o kernel/syscall.o kernel/sysfile.o kernel/sysproc.o kernel/timer.o kernel/trapasm.o kernel/trap.o kernel/uart.o kernel/vectors.o kernel/vm.o \
+	-b binary initcode bootother
+dd if=/dev/zero of=xv6.img count=10000
+10000+0 records in
+10000+0 records out
+5120000 bytes (5.1 MB, 4.9 MiB) copied, 0.100616 s, 50.9 MB/s
+dd if=kernel/bootblock of=xv6.img conv=notrunc
+1+0 records in
+1+0 records out
+512 bytes copied, 0.000476347 s, 1.1 MB/s
+dd if=kernel/kernel of=xv6.img seek=1 conv=notrunc
+258+1 records in
+258+1 records out
+132580 bytes (133 kB, 129 KiB) copied, 0.000700105 s, 189 MB/s
+
+
+test build PASSED
+ (build xv6 using make)
+
+starting procs1
+
+**********************************************************************
+
+Test procs1
+call getprocs() from a user program
+
+**********************************************************************
+Running xv6 user progam ../../../Tests/P1/ctests/procs1.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+init
+zombie
+hola
+grep
+ln
+rm
+forktest
+wc
+usertests
+mkdir
+tester
+stressfs
+echo
+README
+ls
+kill
+sh
+cat
+balloc: first 459 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version 1.14.0-2)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F4C0+07ECF4C0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+
+test procs1 PASSED (20 of 20)
+ (call getprocs() from a user program)
+
+starting procs2
+
+**********************************************************************
+
+Test procs2
+call fork() before getprocs()
+
+**********************************************************************
+Running xv6 user progam ../../../Tests/P1/ctests/procs2.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+init
+zombie
+hola
+grep
+ln
+rm
+forktest
+wc
+usertests
+mkdir
+tester
+stressfs
+echo
+README
+ls
+kill
+sh
+cat
+balloc: first 459 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version 1.14.0-2)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F4C0+07ECF4C0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+
+test procs2 PASSED (20 of 20)
+ (call fork() before getprocs())
+
+starting procs3
+
+**********************************************************************
+
+Test procs3
+call getprocs() with a full process table
+
+**********************************************************************
+Running xv6 user progam ../../../Tests/P1/ctests/procs3.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+init
+zombie
+hola
+grep
+ln
+rm
+forktest
+wc
+usertests
+mkdir
+tester
+stressfs
+echo
+README
+ls
+kill
+sh
+cat
+balloc: first 459 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version 1.14.0-2)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F4C0+07ECF4C0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk...
+xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+
+test procs3 PASSED (20 of 20)
+ (call getprocs() with a full process table)
+
+starting procs4
+
+**********************************************************************
+
+Test procs4
+call getprocs() with a process table filled with zombies
+
+**********************************************************************
+Running xv6 user progam ../../../Tests/P1/ctests/procs4.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+init
+zombie
+hola
+grep
+ln
+rm
+forktest
+wc
+usertests
+mkdir
+tester
+stressfs
+echo
+README
+ls
+kill
+sh
+cat
+balloc: first 459 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version 1.14.0-2)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F4C0+07ECF4C0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test procs4 PASSED (20 of 20)
+ (call getprocs() with a process table filled with zombies)
+
+starting procs5
+
+**********************************************************************
+
+Test procs5
+call getprocs() after some entries turn back to UNUSED
+
+**********************************************************************
+Running xv6 user progam ../../../Tests/P1/ctests/procs5.c
+Trying to build project using make
+make
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+	-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+init
+zombie
+hola
+grep
+ln
+rm
+forktest
+wc
+usertests
+mkdir
+tester
+stressfs
+echo
+README
+ls
+kill
+sh
+cat
+balloc: first 459 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version 1.14.0-2)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F4C0+07ECF4C0 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk...
+xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+
+test procs5 PASSED (20 of 20)
+ (call getprocs() after some entries turn back to UNUSED)
+
+**********************************************************************
+Summary:
+test build PASSED
+ (build xv6 using make)
+
+test procs1 PASSED (20 of 20)
+ (call getprocs() from a user program)
+
+test procs2 PASSED (20 of 20)
+ (call fork() before getprocs())
+
+test procs3 PASSED (20 of 20)
+ (call getprocs() with a full process table)
+
+test procs4 PASSED (20 of 20)
+ (call getprocs() with a process table filled with zombies)
+
+test procs5 PASSED (20 of 20)
+ (call getprocs() after some entries turn back to UNUSED)
+
+Passed 6 of 6 tests.
+Overall 6 of 6
+Points 100 of 100
