@@ -1,3 +1,5 @@
+## THIS IS A EXPERIMENTAL BRANCH FOR RISCV. AUTOMATED TESTING ISN'T WORKING
+
 ## [Projects](Projects)
 
 Lab work goes there. [Intro to the lab](Info/00_Intro.pptx) and how to [Configure toolstack](Info/01_howtoUseTools.pptx) 
