@@ -19,7 +19,9 @@ Vagrant.configure(2) do |config|
       riscv64-linux-gnu-gdb \
       qemu-headless-arch-extra \
       base-devel \
-      git
+      git \
+      python2 \
+      make 
   EOS
 end
 
