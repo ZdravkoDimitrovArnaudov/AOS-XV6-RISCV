@@ -1,21 +1,25 @@
 #
-# Non pre-installed version for Advanced Operating Systems UC
+# Non pre-installed version for Advanced Operating Systems UC. riscv
 #
+Vagrant.configure(2) do |config|
 
-Vagrant.configure("2") do |config|
+  config.vm.box = 'generic/arch'
 
-    config.vm.box = "debian/bullseye64"
+  # synced folder
+  config.vm.synced_folder '.', '/xv6'
 
-    # synced folder
-    config.vm.synced_folder '.', '/aosuc'
+  # disable default synced folder
+  config.vm.synced_folder '.', '/vagrant', disabled: true
 
-    # disable default synced folder
-    config.vm.synced_folder '.', '/vagrant', disabled: true
-
-    # install packages (>1GB)
-    config.vm.provision 'shell', inline: <<-EOS
-    apt-get update && apt-get install -y \
-    gcc git qemu-system-i386 gdb make
-    EOS
-
+  # install packages
+  config.vm.provision 'shell', inline: <<-EOS
+    pacman -Syq --noconfirm --needed \
+      riscv64-linux-gnu-binutils \
+      riscv64-linux-gnu-gcc \
+      riscv64-linux-gnu-gdb \
+      qemu-headless-arch-extra \
+      base-devel \
+      git
+  EOS
 end
+
