@@ -18,7 +18,7 @@ class BuildTest(Test):
    def make(self, files=[], required=True):
       failures = list()
       self.log("Trying to build project using make")
-      status = self.run_util(["make"])
+      status = self.run_util(["make", "kernel", "fs.img"])
       if status != 0:
          failures.append("make failed (error " + str(status) + ")")
       missing_files = []

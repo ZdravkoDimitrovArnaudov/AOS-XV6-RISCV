@@ -21,11 +21,11 @@ class Xv6Test(BuildTest, Test):
          self.log("overwritting tester_helper with " + tester_path2)
          shutil.copy(tester_path2, self.project_path + "/user/echo.c")
 
-      is_success = self.make(["xv6.img", "fs.img"])
+      is_success = self.make(["kernel", "fs.img"])
       if not is_success:
          return # stop test on if make fails
 
-      target = "qemu-nox " + self.make_qemu_args
+      target = "qemu " + self.make_qemu_args
       if self.use_gdb:
          target = "qemu-gdb " + self.make_qemu_args
       self.log("make " + target)
@@ -65,6 +65,6 @@ class Xv6Build(BuildTest):
    name = "build"
    description = "build xv6 using make"
    timeout = 60
-   targets = ["xv6.img", "fs.img"]
+   targets = ["kernel", "fs.img"]
 
 
