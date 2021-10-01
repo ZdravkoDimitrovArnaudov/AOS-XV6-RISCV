@@ -1,9 +1,9 @@
-#include "types.h"
-#include "user.h"
+#include "kernel/types.h"
+#include "user/user.h"
 
 #define assert(x) if (x) { /* pass */ } else { \
-   printf(1, "assert failed %s %s %d\n", #x , __FILE__, __LINE__); \
-   exit(); \
+   printf("assert failed %s %s %d\n", #x , __FILE__, __LINE__); \
+   exit(-1); \
    }
 
 
@@ -14,10 +14,10 @@ main(int argc, char *argv[])
   if (fork() == 0) {
     // printf(1, "%d processes are currently running.\n", getprocs());
     assert(getprocs() == 4);
-    printf(1, "TEST PASSED\n");
+    printf("TEST PASSED\n");
   } else {
-    wait();
+    wait(0);
   }
 
-  exit();
+  exit(0);
 }
