@@ -6,6 +6,37 @@
 #include "proc.h"
 #include "sysfunc.h"
 
+
+
+//llamada al sistema getpinfo
+int 
+sys_getpinfo (void)
+{
+  struct pstat *ps;
+  if (argptr (0, (void*)&ps, sizeof(struct pstat *)) <0){
+      return -1;
+  }
+  getpinfo(ps); //escribe por referencia a la estructura indicada por parámetro en userspace.
+  return 0;
+}
+
+//llamada al sistema setpri
+int 
+sys_setpri(void)
+{
+  int num; 
+  if (argint(0,&num)<0){ //obteniendo el argumento de entrada
+    return -1;
+  } 
+
+  if (num < 1 || num > 2){ //prioridades no validas
+    return -1;
+  }
+
+  setpri(num);
+  return 0;
+}
+
 int
 sys_fork(void)
 {

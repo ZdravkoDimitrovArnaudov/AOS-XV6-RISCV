@@ -1,0 +1,489 @@
+ÍNDICE
+    1.Objetivos
+    2.Detalles  
+    3.Consejos
+    4.Planteamiento
+    5.Desarrollo
+    6.Conclusiones y Observaciones
+
+
+
+1. 
+
+Para esta práctica, vamos a tener que implementar un planificador basado en prioridades.
+La idea es asignar una prioridad a un proceso, que puede ser baja (1) o alta (2). Si se dan varios procesos 
+con alta prioridad, el planificador debe hacer round robin entre ellos. 
+Además, un proceso con baja prioridad no llega a correr si existen otros procesos con mayor prioridad esperando a ejecutarse.
+
+
+2. 
+
+Para que el planificador funcione, vamos a tener que hacer uso de dos nuevas llamadas
+al sistema:
+    -int setpri (int num): ajusta la prioridad al proceso que lo solicita. Por 
+    defecto, todos los procesos deben tener una prioridad baja. Mediante esta llamada, 
+    un proceso podrá elevar o bajar su prioridad.
+
+    -int getpinfo(struct pstat *): esta llamada al sistema devuelve información básica sobre 
+    cada proceso en ejecución a través del puntero, incluyendo cuanto tiempo ha estado corriendo
+    con cada prioridad (medido en clock ticks) y su PID.
+    Puede emplearse esta llamada como variante al comadno ps de linux, para 
+    ver que sucede en cada momento.
+
+Si cualquiera de estaas llamadas recibe un argumento no válido, hay que retornar -1 y en caso correcto 0.
+También, se debería cambiar el número de procesadores a 1 en lugar de 2 en Makefile.
+
+
+3. 
+
+
+Asumiremos que la prioridad no se hereda de otros procesos al hacer fork().
+
+La gran mayoría del código del planificador se encuentra muy compacto. Conviene mirar 
+tanto en el fichero proc.c como proc.h.
+
+Es necesario entender también cómo completar la estructura pstat en el kernel y pasar los resultados al 
+espacio de usuario.
+
+La estructura tendrá la siguiente pinta:
+
+#######
+
+#ifndef _PSTAT_H_
+#define _PSTAT_H_
+
+#include "param.h"
+
+struct pstat {
+    int inuse[NPROC];  // whether this slot of the process process table is in use (1 or 0)
+    int pid[NPROC];    // the PID of each process
+    int hticks[NPROC]; // the number of ticks each process has accumulated at priority 2
+    int lticks[NPROC]; // the number of ticks each process has accumulated at priority 1
+};
+
+
+#endif // _PSTAT_H_
+
+
+#########
+
+Para ello, será necesario allocar espacio para una variable struct pstat en espacio de
+usuario e indicar al sistema que los resultados debe almacenarlos ahi. En otras palabras, debemos pasar
+un puntero donde queramos los datos de salida.
+Para poder hacer esto bien, hay que investigar sobre argint/argptr en xv6.
+
+
+4.
+
+Para completar la práctica, plantearemos antes qué es lo que debemos hacer y en qué ficheros.
+
+Fundamentalmente, nos harán falta dos llamadas al sistema. Una de ellas es int setpri (int num), que ajusta 
+la prioridad de un proceso a alta o baja para un proceso que lo requiere. Como solo hay dos prioridades, 
+los argumentos solo pueden ser dos números. 
+La segunda llamada es int getpinfo (struct pstat *), que devuelve información sobre un cierto proceso en un momento 
+determinado. Devuelve información como el PID del proceso, el número de ticks de reloj en modo prioridad alta y prioridad baja hasta el momento.
+
+Primero, pensaremos en los ficheros que tendremos que modificar para las llamadas al sistema y luego para el resto de funcionalidades.
+Solo para las llamadas, tendremos que modificar en: proc.c, syscall.h, syscall.c, defs.h, user.h.
+
+
+>>GETPINFO
+Comenzaremso con la llamada al sistema getpifno, que resulta ser equivalente a un ps.
+
+Empezamos con syscall.h:
+
+// System call numbers
+#define SYS_fork    1
+#define SYS_exit    2
+#define SYS_wait    3
+#define SYS_pipe    4
+#define SYS_write   5
+#define SYS_read    6
+#define SYS_close   7
+#define SYS_kill    8
+#define SYS_exec    9
+#define SYS_open   10
+#define SYS_mknod  11
+#define SYS_unlink 12
+#define SYS_fstat  13
+#define SYS_link   14
+#define SYS_mkdir  15
+#define SYS_chdir  16
+#define SYS_dup    17
+#define SYS_getpid 18
+#define SYS_sbrk   19
+#define SYS_sleep  20
+#define SYS_uptime 21
+#define SYS_getpinfo 22
+
+El segundo fichero a modificar será syscall.c:
+
+static int (*syscalls[])(void) = {
+[SYS_chdir]   sys_chdir,
+[SYS_close]   sys_close,
+[SYS_dup]     sys_dup,
+[SYS_exec]    sys_exec,
+[SYS_exit]    sys_exit,
+[SYS_fork]    sys_fork,
+[SYS_fstat]   sys_fstat,
+[SYS_getpid]  sys_getpid,
+[SYS_kill]    sys_kill,
+[SYS_link]    sys_link,
+[SYS_mkdir]   sys_mkdir,
+[SYS_mknod]   sys_mknod,
+[SYS_open]    sys_open,
+[SYS_pipe]    sys_pipe,
+[SYS_read]    sys_read,
+[SYS_sbrk]    sys_sbrk,
+[SYS_sleep]   sys_sleep,
+[SYS_unlink]  sys_unlink,
+[SYS_wait]    sys_wait,
+[SYS_write]   sys_write,
+[SYS_uptime]  sys_uptime,
+[SYS_getpinfo] sys_getpinfo
+
+El tercer fichero a modificar será sysproc.c. Como sabemos, las llamadas al sistema no pueden recibir argumentos directamente. 
+Por este motivo, haremos uso de argptr para pasar los argumentos desde la función wrapper de sysproc.c, llamada sys_getpinfo(void), a getpinfo(struct pstat *), en proc.c.
+
+int 
+sys_getpinfo (void)
+{
+  struct pstat *ps;
+  argptr (0, (void*)&ps, sizeof(*ps));
+  return getpinfo(ps);
+
+}
+
+Desde este punto, tenemos en mente dos cosas: es necesario crear la estructura pstat y que es necesario
+implementar la función getpinfo(struct ..) en proc.c. Empezaremos primero definiendo la librería en 
+xv6/include con el nombre de pstat.h, que contendrá al estructura en cuestión.
+
+#ifndef _PSTAT_H_
+#define _PSTAT_H_
+
+#include "param.h"
+
+struct pstat {
+    int inuse[NPROC];  // whether this slot of the process process table is in use (1 or 0)
+    int pid[NPROC];    // the PID of each process
+    int hticks[NPROC]; // the number of ticks each process has accumulated at priority 2
+    int lticks[NPROC]; // the number of ticks each process has accumulated at priority 1
+};
+
+
+#endif // _PSTAT_H_
+
+
+Ahora, debemos hacer visible esta estructura. Lo escribimos en defs.h y user.h.
+También, mencionamos la librería en proc.h.
+
+Una vez terminada la estructura, implementamos la función en proc.c:
+
+int
+getpinfo (struct pstat *ps)
+{
+  struct proc *p;
+  int count = 0; //posicion en la que escribir de la estructura
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->state != UNUSED){
+      ps->inuse[count] = 1;
+      ps->pid[count] = p->pid;
+    }
+
+  count++; 
+  }
+
+      
+  release(&ptable.lock);
+  return 0;
+}
+
+
+Por último, nos hace falta mencionar la llamada al sistema en: user.h para que pueda usarlo userspace, en defs.h indicar la implementación de la función.
+Para comprobar que la función getpinfo funciona correctamente, añadiríamos un programa de usuario que muestre por pantalla los contenidos de la estructura 
+pasada por parámetro a la llamada al sistema getpinfo (struct pstat).
+
+La primera implementación de este programa, imprimirá por pantalla únicamente el PID de los procesos
+existentes en el sistema en el momento de la llamada. Más tarde, haremos que se impriman los tics en cada
+estado de prioridad.
+
+
+#include "types.h"
+#include "user.h"
+#include "pstat.h"
+
+int main (void){
+    //vamos a allocar espacio para la estructura pstat
+    struct pstat *ps = malloc (sizeof (struct pstat));
+    getpinfo(ps);
+    
+    //recorremos la tabla para imprimir cada uno de los procesos
+    printf(1, "Procesos existentes: \n");
+    for (int i = 0 ; i < NPROC; i++){
+        if (ps->inuse[i] == 1){
+            printf (1, "PID:%d\n", ps->pid[i]);
+        }
+    } 
+    exit();
+}
+
+Una vez creada, en el fichero Makefile hacemos los cambios correspondientes para compilarlo y lo probamos. Además,
+en makefile indicamos que usaremos solo 1 cpu. 
+
+# user programs
+USER_PROGS := \
+	cat\
+	echo\
+	forktest\
+	grep\
+	init\
+	kill\
+	ln\
+	ls\
+	mkdir\
+	rm\
+	sh\
+	stressfs\
+	tester\
+	usertests\
+	wc\
+	ps\
+	zombie
+
+
+# number of CPUs to emulate in QEMU
+ifndef CPUS
+CPUS := 1
+endif
+
+
+Probamos el programa para ver si funciona:
+
+$ ps
+Procesos existentes: 
+PID:1
+PID:2
+PID:4
+
+Para comprobar el resto del funcionamiento de getpinfo, seguiremos con la siguiente llamada al sistema donde introduciremos las prioridades
+y podremos impirmir el número de ticks de reloj en cada prioridad que se ha trabajado.
+
+
+
+
+>>SETPRI
+
+Antes de comenzar a implementar la llamada al sistema, pensaremos en qué ajustes debemos hacer para que esto funcione.
+Para empezar, comenzaremos definiendo la prioridad de un proceso e inicializándola. En proc.h, donde está la estructura 
+que define un proceso, añadimos un campo prioridad:
+
+// Per-process state
+struct proc {
+  uint sz;                     // Size of process memory (bytes)
+  pde_t* pgdir;                // Page table
+  char *kstack;                // Bottom of kernel stack for this process
+  enum procstate state;        // Process state
+  volatile int pid;            // Process ID
+  struct proc *parent;         // Parent process
+  struct trapframe *tf;        // Trap frame for current syscall
+  struct context *context;     // swtch() here to run process
+  void *chan;                  // If non-zero, sleeping on chan
+  int killed;                  // If non-zero, have been killed
+  struct file *ofile[NOFILE];  // Open files
+  struct inode *cwd;           // Current directory
+  char name[16];               // Process name (debugging)
+  int priority;
+};
+
+Para inicializar la prioridad de cada proceso, a la hora de allocar espacio en proc.c, ponemos que por defecto sea 1.
+
+static struct proc*
+allocproc(void)
+{
+  struct proc *p;
+  char *sp;
+
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+    if(p->state == UNUSED)
+      goto found;
+  release(&ptable.lock);
+  return 0;
+
+found:
+  p->state = EMBRYO;
+  p->priority = 1; //prioridad por defecto.
+  p->pid = nextpid++;
+
+
+A estas alturas, podemos comenzar desarrollando la llamada al sistema en cuestión. No tendrá ningún efecto sobre el proceso, más que 
+modificar el campo prioridad pero nada más. Cuanto este lista, haremos los cambios necesarios para que tenga efecto su cambio
+con el planificador.
+
+Entonces, modificamos los archivos: syscall.h, syscall.c, sysproc.c, proc.c, usys.S, user.h, defs.h:        
+    -En syscall.h, añadimos la entrada de la llamada:
+
+// System call numbers
+#define SYS_fork    1
+#define SYS_exit    2
+#define SYS_wait    3
+#define SYS_pipe    4
+#define SYS_write   5
+#define SYS_read    6
+#define SYS_close   7
+#define SYS_kill    8
+#define SYS_exec    9
+#define SYS_open   10
+#define SYS_mknod  11
+#define SYS_unlink 12
+#define SYS_fstat  13
+#define SYS_link   14
+#define SYS_mkdir  15
+#define SYS_chdir  16
+#define SYS_dup    17
+#define SYS_getpid 18
+#define SYS_sbrk   19
+#define SYS_sleep  20
+#define SYS_uptime 21
+#define SYS_getpinfo 22
+#define SYS_setpri 23
+
+    -En syscall.c, añadimos puntero a la función donde está definida la llamada:
+
+static int (*syscalls[])(void) = {
+[SYS_chdir]   sys_chdir,
+[SYS_close]   sys_close,
+[SYS_dup]     sys_dup,
+[SYS_exec]    sys_exec,
+[SYS_exit]    sys_exit,
+[SYS_fork]    sys_fork,
+[SYS_fstat]   sys_fstat,
+[SYS_getpid]  sys_getpid,
+[SYS_kill]    sys_kill,
+[SYS_link]    sys_link,
+[SYS_mkdir]   sys_mkdir,
+[SYS_mknod]   sys_mknod,
+[SYS_open]    sys_open,
+[SYS_pipe]    sys_pipe,
+[SYS_read]    sys_read,
+[SYS_sbrk]    sys_sbrk,
+[SYS_sleep]   sys_sleep,
+[SYS_unlink]  sys_unlink,
+[SYS_wait]    sys_wait,
+[SYS_write]   sys_write,
+[SYS_uptime]  sys_uptime,
+[SYS_getpinfo] sys_getpinfo,
+[SYS_setpri]  sys_setpri
+};
+
+extern int sys_getpinfo();
+extern int sys_setpri();
+
+    -En sysproc., creamos el wrapper de la función:
+
+//llamada al sistema setpri
+int 
+sys_setpri(void)
+{
+  int num; 
+  if (argint(0,&num)<0){ //obteniendo el argumento de entrada
+    return -1;
+  } 
+
+  if (num < 1 || num > 2){ //prioridades no validas
+    return -1;
+  }
+
+  setpri(num);
+  return 0;
+}
+
+
+    -En proc.c, implementamos la funcion en sí:
+
+void 
+setpri (int num){
+  proc->priority = num;
+}
+
+
+    -En user.h, añadimos la llamada para que sea visible a userspace:
+
+// system calls
+int fork(void);
+int exit(void) __attribute__((noreturn));
+int wait(void);
+int pipe(int*);
+int write(int, void*, int);
+int read(int, void*, int);
+int close(int);
+int kill(int);
+int exec(char*, char**);
+int open(char*, int);
+int mknod(char*, short, short);
+int unlink(char*);
+int fstat(int fd, struct stat*);
+int link(char*, char*);
+int mkdir(char*);
+int chdir(char*);
+int dup(int);
+int getpid(void);
+char* sbrk(int);
+int sleep(int);
+int uptime(void);
+int getpinfo(struct pstat *); 
+int setpri (int num);
+
+
+    -En defs.h añadimos la funcio para que sea visible a kernel:
+
+// proc.c
+struct proc*    copyproc(struct proc*);
+void            exit(void);
+int             fork(void);
+int             growproc(int);
+int             kill(int);
+void            pinit(void);
+void            procdump(void);
+void            scheduler(void) __attribute__((noreturn));
+void            sched(void);
+void            sleep(void*, struct spinlock*);
+void            userinit(void);
+int             wait(void);
+void            wakeup(void*);
+void            yield(void);
+void            getpinfo(struct pstat *);
+void            setpri (int num);
+
+    -Finalmente, la entrada en usys.S:
+
+
+SYSCALL(fork)
+SYSCALL(exit)
+SYSCALL(wait)
+SYSCALL(pipe)
+SYSCALL(read)
+SYSCALL(write)
+SYSCALL(close)
+SYSCALL(kill)
+SYSCALL(exec)
+SYSCALL(open)
+SYSCALL(mknod)
+SYSCALL(unlink)
+SYSCALL(fstat)
+SYSCALL(link)
+SYSCALL(mkdir)
+SYSCALL(chdir)
+SYSCALL(dup)
+SYSCALL(getpid)
+SYSCALL(sbrk)
+SYSCALL(sleep)
+SYSCALL(uptime)
+SYSCALL(getpinfo)
+SYSCALL(setpri)
+
+Una vez hecha la función hacemos alguna comprobación y terminamos. El siguiente paso que vamos a tomar es averiguar 
+cómo implementar las dos colas de prioridad con el planificador e imprimir con getpinfo, el tiempo en ticks de reloj que 
+ha estado corriendo cada proceso en cada prioridad.
+

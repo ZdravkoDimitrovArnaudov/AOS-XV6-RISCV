@@ -5,6 +5,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+//#include "pstat.h"
 
 struct {
   struct spinlock lock;
@@ -44,6 +45,7 @@ allocproc(void)
 
 found:
   p->state = EMBRYO;
+  p->priority = 1;
   p->pid = nextpid++;
   release(&ptable.lock);
 
@@ -444,3 +446,27 @@ procdump(void)
 }
 
 
+
+void
+getpinfo (struct pstat *ps)
+{
+  struct proc *p;
+  int count = 0; //posicion en la que escribir de la estructura
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    if(p->state != UNUSED){
+      ps->inuse[count] = 1;
+      ps->pid[count] = p->pid;
+    }
+
+  count++; 
+  }
+    
+  release(&ptable.lock);
+}
+
+
+void 
+setpri (int num){
+  proc->priority = num;
+}
