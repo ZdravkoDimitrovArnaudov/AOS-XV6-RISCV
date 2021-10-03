@@ -4,11 +4,16 @@
 
 int main (void){
 
-    //TEMPORAL: cambiamos la prioridad de este proceso para ver si funciona
+    /*
     if (setpri(HIGH_PRIORITY) == -1){
         printf (1,"Se ha producido un error\n");
         exit();
     }
+
+    if (setpri(LOW_PRIORITY) == -1){
+        printf (1,"Se ha producido un error\n");
+        exit();
+    }*/
 
     //vamos a allocar espacio para la estructura pstat
     struct pstat *ps = malloc (sizeof (struct pstat));
@@ -20,6 +25,7 @@ int main (void){
         if (ps->inuse[i] == 1){
             printf (1, "PID:%d\n", ps->pid[i]);
         }
-    } 
+    }
+    free(ps); 
     exit();
 }

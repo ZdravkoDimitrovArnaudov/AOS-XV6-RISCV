@@ -45,8 +45,8 @@ allocproc(void)
 
 found:
   p->state = EMBRYO;
-  p->priority = 1;
   p->pid = nextpid++;
+  p->priority = LOW_PRIORITY;
   release(&ptable.lock);
 
   // Allocate kernel stack if possible.
@@ -258,6 +258,8 @@ void
 scheduler(void)
 {
   struct proc *p;
+  struct proc *p_2;
+  struct proc *proc_Highest;
 
   for(;;){
     // Enable interrupts on this processor.
@@ -266,24 +268,29 @@ scheduler(void)
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-      if(p->state != RUNNABLE)
-        continue;
-
+      if(p->state == RUNNABLE){
+        proc_Highest = p;
+        for (p_2 = ptable.proc; p_2 < &ptable.proc[NPROC]; p_2++){
+          if (proc_Highest->priority < p_2->priority){
+            proc_Highest = p_2;
+          }
+        }
+    
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
-      proc = p;
-      switchuvm(p);
-      p->state = RUNNING;
+      proc = proc_Highest;
+      switchuvm(proc_Highest);
+      proc_Highest->state = RUNNING;
       swtch(&cpu->scheduler, proc->context);
       switchkvm();
 
-      // Process is done running for now.
-      // It should have changed its p->state before coming back.
-      proc = 0;
+        // Process is done running for now.
+        // It should have changed its p->state before coming back.
+        proc = 0;
+     }
     }
     release(&ptable.lock);
-
   }
 }
 

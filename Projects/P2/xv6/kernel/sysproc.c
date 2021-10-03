@@ -25,6 +25,7 @@ int
 sys_setpri(void)
 {
   int num; 
+  
   if (argint(0,&num)<0){ //obteniendo el argumento de entrada
     return -1;
   } 

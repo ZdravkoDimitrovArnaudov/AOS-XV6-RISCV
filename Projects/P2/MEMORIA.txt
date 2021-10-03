@@ -487,3 +487,88 @@ Una vez hecha la función hacemos alguna comprobación y terminamos. El siguient
 cómo implementar las dos colas de prioridad con el planificador e imprimir con getpinfo, el tiempo en ticks de reloj que 
 ha estado corriendo cada proceso en cada prioridad.
 
+Pensaremos primero en cómo implementar el planificador de prioridad con 2 colas. En principio, donde debemos hacer los cambios 
+es en proc.c donde está la función de scheduler.
+
+Un pseudocódigo válido podría ser el siguiente:
+
+    Si existen procesos con prioridad 2{
+        ejecutarlos
+
+    } si no {
+        ejecutar procesos con prioridad 1.
+    }
+
+##############
+
+    bool high_priority_proc = false; //init
+    for (p:process Ptable){
+        if (p->state == RUNNABLE && p->priority == HIGH_PRIORITY){
+            exec p;
+            if (high_priority_proc == false){ 
+                high_priority_proc = true; //indicar que hay procesos de prioridad alta pendientes de ser ejecutados y evitar que más procesos sigan haciendo lo mismo.
+            }
+        }
+    }
+
+    for (p:process Ptable){
+    if (p->state == RUNNABLE && p-priority == LOW_PRIORITY && high_priority_proc == false){
+        exec p;   
+    }
+    
+    //...
+    
+    }
+
+
+El primer acercamiento a la función, que va ligada al pseuodcódigo, no funciona. Intuimos que puede conllevar a un tiempo de ejecución mayor o algo por el estilo.
+También es verdad que repetimos el código asociadao a la ejecución de un proceso, con los cambios de contexto y demás. Por lo tanto, se buscará otra alternativa.
+
+
+Probamos con otra implementación. Lo que hacemos es para proceso, volver a recorrer la tabla 
+y si se encuentra otro proceso con prioridad mayor, entonces se da preferencia al otro y se ejecuta. Esto en verdad puede funcionar 
+para cualquier número de niveles de cola haya en el sistema.
+
+void
+scheduler(void)
+{
+  struct proc *p;
+  struct proc *p_2;
+  struct proc *proc_Highest;
+
+  for(;;){
+    // Enable interrupts on this processor.
+    sti();
+
+    // Loop over process table looking for process to run.
+    acquire(&ptable.lock);
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->state == RUNNABLE){
+        proc_Highest = p;
+        for (p_2 = ptable.proc; p_2 < &ptable.proc[NPROC]; p_2++){
+          if (proc_Highest->priority < p_2->priority){
+            proc_Highest = p_2;
+          }
+        }
+    
+      // Switch to chosen process.  It is the process's job
+      // to release ptable.lock and then reacquire it
+      // before jumping back to us.
+      proc = proc_Highest;
+      switchuvm(p);
+      p->state = RUNNING;
+      swtch(&cpu->scheduler, proc->context);
+      switchkvm();
+
+        // Process is done running for now.
+        // It should have changed its p->state before coming back.
+        proc = 0;
+     }
+    }
+    release(&ptable.lock);
+  }
+}
+
+
+Hasta este momento, el sistema operativo parece funcionar y las llamadas también. Falta averiguar cómo implementar los 
+clock ticks para getpinfo y pasar los tests.
