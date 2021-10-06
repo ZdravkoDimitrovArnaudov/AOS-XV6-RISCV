@@ -1,0 +1,72 @@
+{
+    
+    // Includes modes for xv6 with x86 and risc-v debug.
+    // copy & pasta it in launch.json of debug config of vscode
+
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Iniciar",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "Escriba el nombre del programa; por ejemplo, ${workspaceFolder}/a.out.",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Habilitar la impresión con sangría para gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "(gdb) Launch Remote Debugging of xv6 x86",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/xv6/kernel/kernel", 
+            "miDebuggerServerAddress": "localhost:26000",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "linux": {
+              "MIMode": "gdb"
+            },
+            "osx": {
+              "MIMode": "gdb"
+            },
+            "windows": {
+              "MIMode": "gdb"
+            }
+          }
+          ,
+        {
+            "name": "(gdb) Launch Remote Debugging of risc-xv6",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/xv6-riscv/kernel/kernel", 
+            "miDebuggerServerAddress": "localhost:26000",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "MIDebuggerPath":"/usr/bin/riscv64-linux-gnu-gdb",
+            "linux": {
+              "MIMode": "gdb"
+            },
+            "osx": {
+              "MIMode": "gdb"
+            },
+            "windows": {
+              "MIMode": "gdb"
+            }
+          }
+    ]
+}
