@@ -1,31 +1,30 @@
 #include "types.h"
+#include "stat.h"
 #include "user.h"
 #include "pstat.h"
 
-int main (void){
+#define check(exp, msg) if(exp) {} else {\
+   printf(1, "%s:%d check (" #exp ") failed: %s\n", __FILE__, __LINE__, msg);\
+   exit();}
 
-    /*
-    if (setpri(HIGH_PRIORITY) == -1){
-        printf (1,"Se ha producido un error\n");
-        exit();
-    }
+int
+main(int argc, char *argv[])
+{
+   struct pstat st;
 
-    if (setpri(LOW_PRIORITY) == -1){
-        printf (1,"Se ha producido un error\n");
-        exit();
-    }*/
+   check(getpinfo(&st) == 0, "getpinfo");
+   printf(1, "\n **** PInfo **** \n");
+   int i;
+   for(i = 0; i < NPROC; i++) {
+      if (st.inuse[i]) {
+         printf(1, "pid: %d hticks: %d lticks: %d\n", st.pid[i], st.hticks[i], st.lticks[i]);
+      }
+   }
 
-    //vamos a allocar espacio para la estructura pstat
-    struct pstat *ps = malloc (sizeof (struct pstat));
-    getpinfo(ps);
-    
-    //recorremos la tabla para imprimir cada uno de los procesos
-    printf(1, "Procesos existentes: \n");
-    for (int i = 0 ; i < NPROC; i++){
-        if (ps->inuse[i] == 1){
-            printf (1, "PID:%d\n", ps->pid[i]);
-        }
-    }
-    free(ps); 
-    exit();
+   check(getpinfo(NULL) == -1, "getpinfo with bad pointer");
+   printf(1, "Process1 Done\n");
+   printf(1, "Process2 Done\n");
+   printf(1, "Process1 Done\nProcess2 Done\n");
+   printf(1, "Should print 1 then 2");
+  exit();
 }

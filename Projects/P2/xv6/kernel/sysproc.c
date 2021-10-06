@@ -16,6 +16,9 @@ sys_getpinfo (void)
   if (argptr (0, (void*)&ps, sizeof(struct pstat *)) <0){
       return -1;
   }
+  if (ps == NULL){
+    return -1;
+  }
   getpinfo(ps); //escribe por referencia a la estructura indicada por parámetro en userspace.
   return 0;
 }
@@ -25,7 +28,7 @@ int
 sys_setpri(void)
 {
   int num; 
-  
+
   if (argint(0,&num)<0){ //obteniendo el argumento de entrada
     return -1;
   } 

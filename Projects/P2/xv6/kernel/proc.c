@@ -47,6 +47,8 @@ found:
   p->state = EMBRYO;
   p->pid = nextpid++;
   p->priority = LOW_PRIORITY;
+  p->hticks = 0;
+  p->lticks = 0;
   release(&ptable.lock);
 
   // Allocate kernel stack if possible.
@@ -265,23 +267,35 @@ scheduler(void)
     // Enable interrupts on this processor.
     sti();
 
+     //struct proc *proc_Highest = NULL;
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+
       if(p->state == RUNNABLE){
         proc_Highest = p;
+
         for (p_2 = ptable.proc; p_2 < &ptable.proc[NPROC]; p_2++){
-          if (proc_Highest->priority < p_2->priority){
-            proc_Highest = p_2;
+
+          if (p_2->state == RUNNABLE){
+            if (proc_Highest->priority < p_2->priority){
+              proc_Highest = p_2;
+            }
           }
         }
-    
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
       proc = proc_Highest;
-      switchuvm(proc_Highest);
-      proc_Highest->state = RUNNING;
+      switchuvm(proc);
+      proc->state = RUNNING;
+      if (proc->priority == HIGH_PRIORITY){
+        proc_Highest->hticks++;
+        
+      } else if (proc->priority == LOW_PRIORITY){
+        proc_Highest->lticks++;
+
+      }
       swtch(&cpu->scheduler, proc->context);
       switchkvm();
 
@@ -459,11 +473,15 @@ getpinfo (struct pstat *ps)
 {
   struct proc *p;
   int count = 0; //posicion en la que escribir de la estructura
+  //sti(); 
+  
   acquire(&ptable.lock);
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
     if(p->state != UNUSED){
       ps->inuse[count] = 1;
       ps->pid[count] = p->pid;
+      ps->hticks[count] = p->hticks;
+      ps->lticks[count] = p->lticks;
     }
 
   count++; 
@@ -475,5 +493,7 @@ getpinfo (struct pstat *ps)
 
 void 
 setpri (int num){
+  acquire(&ptable.lock);
   proc->priority = num;
+  release(&ptable.lock);
 }
