@@ -261,13 +261,13 @@ scheduler(void)
 {
   struct proc *p;
   struct proc *p_2;
-  struct proc *proc_Highest;
+  //struct proc *proc_Highest;
 
   for(;;){
     // Enable interrupts on this processor.
     sti();
 
-     //struct proc *proc_Highest = NULL;
+     struct proc *proc_Highest = NULL;
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
@@ -292,9 +292,12 @@ scheduler(void)
       if (proc->priority == HIGH_PRIORITY){
         proc_Highest->hticks++;
         
-      } else if (proc->priority == LOW_PRIORITY){
+      } else {
+
+       if(proc->priority == LOW_PRIORITY){
         proc_Highest->lticks++;
 
+      }
       }
       swtch(&cpu->scheduler, proc->context);
       switchkvm();
