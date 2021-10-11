@@ -1,10 +1,10 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "pstat.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/pstat.h"
 #define check(exp, msg) if(exp) {} else {\
-   printf(1, "%s:%d check (" #exp ") failed: %s\n", __FILE__, __LINE__, msg);\
-   exit();}
+   printf("%s:%d check (" #exp ") failed: %s\n", __FILE__, __LINE__, msg);\
+   exit(-1);}
 
 void spin()
 {
@@ -24,7 +24,7 @@ void print(struct pstat *st)
    int i;
    for(i = 0; i < NPROC; i++) {
       if (st->inuse[i]) {
-         printf(1, "pid: %d hticks: %d lticks: %d\n", st->pid[i], st->hticks[i], st->lticks[i]);
+         printf("pid: %d hticks: %d lticks: %d\n", st->pid[i], st->hticks[i], st->lticks[i]);
       }
    }
 
@@ -38,6 +38,7 @@ main(int argc, char *argv[])
    struct pstat st_before, st_after;
    int lowpriorityrun = 0, highpriorityrun = 0;
    int rc = fork();
+   int xstate;
    int i;
    int pid = getpid();
    if(rc == 0)
@@ -45,7 +46,7 @@ main(int argc, char *argv[])
 	spin();
 	sleep(200);
 	spin();
-	exit();
+	exit(0);
    }
    check(setpri(2) == 0, "setpri");
    if(fork() == 0)
@@ -53,17 +54,17 @@ main(int argc, char *argv[])
 	sleep(200);
 	spin();
         sleep(100);
-	printf(1, " then 2");
-	exit();
+	printf(" then 2");
+	exit(0);
    }
    sleep(200);
    check(getpinfo(&st_before) == 0, "getpinfo");
-   printf(1, "\n ****PInfo before**** \n");
+   printf("\n ****PInfo before**** \n");
    print(&st_before);
    spin();
    spin();
    check(getpinfo(&st_after) == 0, "getpinfo");
-   printf(1, "\n ****PInfo after**** \n");
+   printf("\n ****PInfo after**** \n");
    print(&st_after);
    for(i = 0; i < NPROC; ++i)
    {
@@ -74,8 +75,8 @@ main(int argc, char *argv[])
    }
    check(lowpriorityrun == 0, "Expected only the high priority process to run once it is awake");
    check(highpriorityrun == 1, "Expected one high priority process to run once it is awake");
-   printf(1, "Should print 1"); 
-   wait();
-   wait();
-   exit();
+   printf("Should print 1"); 
+   wait(&xstate);
+   wait(&xstate);
+   exit(0);
 }

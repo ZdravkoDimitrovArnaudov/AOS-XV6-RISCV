@@ -11,7 +11,7 @@ class BuildTest(Test):
    targets = None
 
    def run(self):
-      self.clean(self.targets + ["*.o"])
+      #self.clean(self.targets + ["*.o"])
       self.make(self.targets)
       self.done()
 
