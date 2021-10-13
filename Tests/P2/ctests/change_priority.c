@@ -1,10 +1,10 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "pstat.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/pstat.h"
 #define check(exp, msg) if(exp) {} else {\
-   printf(1, "%s:%d check (" #exp ") failed: %s\n", __FILE__, __LINE__, msg);\
-   exit();}
+   printf("%s:%d check (" #exp ") failed: %s\n", __FILE__, __LINE__, msg);\
+   exit(-1);}
 
 void spin()
 {
@@ -24,7 +24,7 @@ void print(struct pstat *st)
    int i;
    for(i = 0; i < NPROC; i++) {
       if (st->inuse[i]) {
-         printf(1, "pid: %d hticks: %d lticks: %d\n", st->pid[i], st->hticks[i], st->lticks[i]);
+         printf("pid: %d hticks: %d lticks: %d\n", st->pid[i], st->hticks[i], st->lticks[i]);
       }
    }
 
@@ -44,11 +44,11 @@ main(int argc, char *argv[])
    // check if process run in high priority mode once set to high
   
    check(getpinfo(&st_before) == 0, "getpinfo");
-   printf(1, "\n ****PInfo before**** \n");
+   printf("\n ****PInfo before**** \n");
    print(&st_before);
    spin();
    check(getpinfo(&st_after) == 0, "getpinfo");
-   printf(1, "\n ****PInfo after**** \n");
+   printf("\n ****PInfo after**** \n");
    print(&st_after);
    for(i = 0; i < NPROC; ++i)
    {
@@ -64,11 +64,11 @@ main(int argc, char *argv[])
  
   // check if process run in low priority mode once changed back
    check(getpinfo(&st_before) == 0, "getpinfo");
-   printf(1, "\n ****PInfo before**** \n");
+   printf("\n ****PInfo before**** \n");
    print(&st_before);
    spin();
    check(getpinfo(&st_after) == 0, "getpinfo");
-   printf(1, "\n ****PInfo after**** \n");
+   printf("\n ****PInfo after**** \n");
    print(&st_after);
    for(i = 0; i < NPROC; ++i)
    {
@@ -79,6 +79,6 @@ main(int argc, char *argv[])
 	}		
    }
    check(lowpriorityrun == 1, "Expected process to have run in low priority mode once priority changed back to low");
-   printf(1, "Should print 1 then 2"); 
-   exit();
+   printf("Should print 1 then 2"); 
+   exit(0);
 }
