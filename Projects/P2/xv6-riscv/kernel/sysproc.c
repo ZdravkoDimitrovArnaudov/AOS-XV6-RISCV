@@ -17,6 +17,42 @@ sys_exit(void)
   return 0;  // not reached
 }
 
+
+uint64
+sys_getpinfo(void)
+{
+  uint64 ps;
+
+  //obtenemos puntero
+  if (argaddr(0, &ps) < 0){
+    return -1;
+  }
+
+  if (ps == (uint64)null){ //NULL
+    return -1;
+  }
+
+  return  getpinfo (ps);
+}
+
+
+uint64
+sys_setpri(void)
+{
+  int num;
+  if(argint(0, &num) < 0){
+    return -1;
+  }
+
+  if (num < 1 || num > 2){
+    return -1;
+  }
+
+  setpri(num); //cambiamos la prioridad al proceso
+  return 0;
+}
+
+
 uint64
 sys_getpid(void)
 {

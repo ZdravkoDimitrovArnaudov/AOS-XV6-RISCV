@@ -105,3 +105,8 @@ uptime:
  li a7, SYS_uptime
  ecall
  ret
+.global getpinfo
+getpinfo:
+ li a7, SYS_getpinfo
+ ecall
+ ret

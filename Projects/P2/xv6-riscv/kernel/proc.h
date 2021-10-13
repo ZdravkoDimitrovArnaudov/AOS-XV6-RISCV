@@ -92,6 +92,10 @@ struct proc {
   int killed;                  // If non-zero, have been killed
   int xstate;                  // Exit status to be returned to parent's wait
   int pid;                     // Process ID
+  int priority;                // priority 
+  uint64 hticks;               // clock ticks at high priority
+  uint64 lticks;               // clock ticks at low priority 
+
 
   // wait_lock must be held when using this:
   struct proc *parent;         // Parent process
@@ -105,4 +109,5 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+ 
 };

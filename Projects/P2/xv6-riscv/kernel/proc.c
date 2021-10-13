@@ -5,6 +5,10 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "defs.h"
+#include "pstat.h"
+
+//variable para indicar si hay procesos con alta prioridad pendientes de ejecutarse
+uint high_priority_procs = 0;
 
 struct cpu cpus[NCPU];
 
@@ -119,6 +123,11 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
+
+  //añadimos campos
+  p->priority = LOW_PRIORITY;
+  p->hticks = 0;
+  p->lticks = 0;
 
   // Allocate a trapframe page.
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
@@ -653,4 +662,52 @@ procdump(void)
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
   }
+}
+
+
+int 
+getpinfo (uint64  addr){
+
+  //debemos definir al proceso proc y la estructura pstat.
+  struct proc *p;
+  struct pstat ps;
+  uint64 counter = 0;
+
+
+  for(p = proc; p < &proc[NPROC]; p++) {
+      acquire(&p->lock);
+      if(p->state != UNUSED) {
+        ps.inuse[counter] = 1;
+        ps.pid[counter] = p->pid;
+        ps.hticks[counter] = p->hticks;
+        ps.lticks[counter] = p->lticks; 
+      }
+      counter++;
+      release(&p->lock);
+    }
+
+    p = myproc(); //calling process
+
+    //la estuctura que hemos completado, se copiará desde la tabla de paginas del proceso a la estructura pstat que ha inicializado
+    if (copyout (p->pagetable, addr, (char *)&ps, sizeof (ps)) < 0){
+      return -1;
+    }
+
+  return 0;
+}
+
+
+void
+setpri (int num)
+{
+  struct proc *p = myproc();
+  acquire(&p->lock);
+  if (p->state == LOW_PRIORITY && num == HIGH_PRIORITY){ //solo si el proceso pasa de prioridad baja a alta
+    high_priority_procs++;
+  } else if (p->state == HIGH_PRIORITY && num == LOW_PRIORITY){
+    high_priority_procs--;
+  }
+    p->priority = num;
+  
+  release(&p->lock);
 }

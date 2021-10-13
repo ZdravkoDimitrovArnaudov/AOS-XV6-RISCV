@@ -1,8 +1,8 @@
 
-user/initcode.o:     file format elf64-littleriscv
+user/initcode.o:     formato del fichero elf64-littleriscv
 
 
-Disassembly of section .text:
+Desensamblado de la sección .text:
 
 0000000000000000 <start>:
 #include "syscall.h"
