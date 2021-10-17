@@ -1,0 +1,830 @@
+starting build
+
+**********************************************************************
+
+Test build
+build xv6 using make
+
+**********************************************************************
+Trying to build project using make
+make
+make: Nothing to be done for `all'.
+
+
+test build PASSED
+ (build xv6 using make)
+
+starting getpinfo
+
+**********************************************************************
+
+Test getpinfo
+call getpinfo() from a user program 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/getpinfo.c
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P2/ctests/getpinfo.c
+Trying to build project using make
+make
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+		-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+i386-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+cat
+init
+echo
+usertests
+zombie
+wc
+grep
+README
+stressfs
+kill
+sh
+forktest
+mkdir
+tester
+ln
+ls
+rm
+balloc: first 440 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk...
+xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+
+ **** PInfo **** 
+pid: 1 hticks: 0 lticks: 18
+pid: 2 hticks: 0 lticks: 19
+pid: 3 hticks: 0 lticks: 11
+Should print 1 then 2
+
+test getpinfo PASSED (10 of 10)
+ (call getpinfo() from a user program 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/getpinfo.c)
+
+starting setpri
+
+**********************************************************************
+
+Test setpri
+call setpri() from a user program 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/setpri.c
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P2/ctests/setpri.c
+Trying to build project using make
+make
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+		-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+i386-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+cat
+init
+echo
+usertests
+zombie
+wc
+grep
+README
+stressfs
+kill
+sh
+forktest
+mkdir
+tester
+ln
+ls
+rm
+balloc: first 440 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+Should print 1 then 2
+
+test setpri PASSED (10 of 10)
+ (call setpri() from a user program 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/setpri.c)
+
+starting processesinuse
+
+**********************************************************************
+
+Test processesinuse
+check number of processes in use by calling getpinfo() 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/processesinuse.c
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P2/ctests/processesinuse.c
+Trying to build project using make
+make
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+		-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+i386-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+cat
+init
+echo
+usertests
+zombie
+wc
+grep
+README
+stressfs
+kill
+sh
+forktest
+mkdir
+tester
+ln
+ls
+rm
+balloc: first 441 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+
+**** PInfo ****
+pid: 1 hticks: 0 lticks: 18
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 0 lticks: 82
+pid: 4 hticks: 0 lticks: 73
+pid: 5 hticks: 0 lticks: 73
+pid: 6 hticks: 0 lticks: 73
+pid: 7 hticks: 0 lticks: 73
+pid: 8 hticks: 0 lticks: 72
+pid: 9 hticks: 0 lticks: 72
+pid: 10 hticks: 0 lticks: 72
+Number of processes in use 10
+Should print 1 then 2
+
+test processesinuse PASSED (20 of 20)
+ (check number of processes in use by calling getpinfo() 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/processesinuse.c)
+
+starting default_priority
+
+**********************************************************************
+
+Test default_priority
+check default priority set for processes by measuring hticks 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/default_priority.c
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P2/ctests/default_priority.c
+Trying to build project using make
+make
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+		-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+i386-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+cat
+init
+echo
+usertests
+zombie
+wc
+grep
+README
+stressfs
+kill
+sh
+forktest
+mkdir
+tester
+ln
+ls
+rm
+balloc: first 442 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+
+ **** PInfo **** 
+pid: 1 hticks: 0 lticks: 20
+pid: 2 hticks: 0 lticks: 17
+pid: 3 hticks: 0 lticks: 95
+Should print 1 then 2
+
+test default_priority PASSED (20 of 20)
+ (check default priority set for processes by measuring hticks 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/default_priority.c)
+
+starting check_hticks
+
+**********************************************************************
+
+Test check_hticks
+check if hticks being incremented for high priority process 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/check_hticks.c
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P2/ctests/check_hticks.c
+Trying to build project using make
+make
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+		-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+i386-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+cat
+init
+echo
+usertests
+zombie
+wc
+grep
+README
+stressfs
+kill
+sh
+forktest
+mkdir
+tester
+ln
+ls
+rm
+balloc: first 443 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+
+ **** PInfo Before**** 
+pid: 1 hticks: 0 lticks: 20
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 0 lticks: 11
+
+ **** PInfo After**** 
+pid: 1 hticks: 0 lticks: 20
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 447 lticks: 11
+Should print 1 then 2
+
+test check_hticks PASSED (20 of 20)
+ (check if hticks being incremented for high priority process 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/check_hticks.c)
+
+starting change_priority
+
+**********************************************************************
+
+Test change_priority
+check if hticks and lticks being incremented as expected when the priority is changed back and forth 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/change_priority.c
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P2/ctests/change_priority.c
+Trying to build project using make
+make
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+		-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+i386-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+cat
+init
+echo
+usertests
+zombie
+wc
+grep
+README
+stressfs
+kill
+sh
+forktest
+mkdir
+tester
+ln
+ls
+rm
+balloc: first 444 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+
+ ****PInfo before**** 
+pid: 1 hticks: 0 lticks: 19
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 0 lticks: 13
+
+ ****PInfo after**** 
+pid: 1 hticks: 0 lticks: 19
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 427 lticks: 13
+
+ ****PInfo before**** 
+pid: 1 hticks: 0 lticks: 19
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 428 lticks: 13
+
+ ****PInfo after**** 
+pid: 1 hticks: 0 lticks: 19
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 428 lticks: 441
+Should print 1 then 2
+
+test change_priority PASSED (20 of 20)
+ (check if hticks and lticks being incremented as expected when the priority is changed back and forth 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/change_priority.c)
+
+starting run_high_priority
+
+**********************************************************************
+
+Test run_high_priority
+check no low priority processes are running when there is high priority 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/run_high_priority.c
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P2/ctests/run_high_priority.c
+Trying to build project using make
+make
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+		-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+i386-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+cat
+init
+echo
+usertests
+zombie
+wc
+grep
+README
+stressfs
+kill
+sh
+forktest
+mkdir
+tester
+ln
+ls
+rm
+balloc: first 444 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+
+ ****PInfo before**** 
+pid: 1 hticks: 0 lticks: 19
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 0 lticks: 12
+pid: 4 hticks: 0 lticks: 1
+
+ ****PInfo after**** 
+pid: 1 hticks: 0 lticks: 19
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 0 lticks: 12
+pid: 4 hticks: 855 lticks: 1
+Should print 1 then 2
+
+test run_high_priority PASSED (20 of 20)
+ (check no low priority processes are running when there is high priority 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/run_high_priority.c)
+
+starting sleep_high_priority
+
+**********************************************************************
+
+Test sleep_high_priority
+check if low priority processes run when high priority is put to sleep 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/sleep_high_priority.c
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P2/ctests/sleep_high_priority.c
+Trying to build project using make
+make
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+		-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+i386-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+cat
+init
+echo
+usertests
+zombie
+wc
+grep
+README
+stressfs
+kill
+sh
+forktest
+mkdir
+tester
+ln
+ls
+rm
+balloc: first 443 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+
+ ****PInfo before**** 
+pid: 1 hticks: 0 lticks: 19
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 0 lticks: 111
+pid: 4 hticks: 0 lticks: 100
+
+ ****PInfo after**** 
+pid: 1 hticks: 0 lticks: 19
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 501 lticks: 111
+pid: 4 hticks: 0 lticks: 600
+Should print 1 then 2
+
+test sleep_high_priority PASSED (20 of 20)
+ (check if low priority processes run when high priority is put to sleep 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/sleep_high_priority.c)
+
+starting awake_high_priority
+
+**********************************************************************
+
+Test awake_high_priority
+check if only high priority process run when high priority is awake from sleep 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/awake_high_priority.c
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P2/ctests/awake_high_priority.c
+Trying to build project using make
+make
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+		-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+i386-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+cat
+init
+echo
+usertests
+zombie
+wc
+grep
+README
+stressfs
+kill
+sh
+forktest
+mkdir
+tester
+ln
+ls
+rm
+balloc: first 443 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+
+ ****PInfo before**** 
+pid: 1 hticks: 0 lticks: 18
+pid: 2 hticks: 0 lticks: 19
+pid: 3 hticks: 200 lticks: 11
+pid: 4 hticks: 0 lticks: 200
+pid: 5 hticks: 0 lticks: 0
+
+ ****PInfo after**** 
+pid: 1 hticks: 0 lticks: 18
+pid: 2 hticks: 0 lticks: 19
+pid: 3 hticks: 1062 lticks: 11
+pid: 4 hticks: 0 lticks: 200
+pid: 5 hticks: 0 lticks: 0
+Should print 1 then 2
+
+test awake_high_priority PASSED (20 of 20)
+ (check if only high priority process run when high priority is awake from sleep 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/awake_high_priority.c)
+
+starting multiple_high_priority
+
+**********************************************************************
+
+Test multiple_high_priority
+check if multiple high priority processes run in round robin 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/multiple_high_priority.c
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P2/ctests/multiple_high_priority.c
+Trying to build project using make
+make
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 \
+		-M -MG user/tester.c -MF user/tester.d -MT user/tester.d -MT user/tester.o
+i386-elf-gcc  -I include -nostdinc -Wall -Wno-error=deprecated-declarations -Werror -ggdb -fno-pic -fno-builtin -fno-strict-aliasing -fno-stack-protector -m32 -c -o user/tester.o user/tester.c
+i386-elf-ld  -m    elf_i386 -nostdlib --omagic --entry=main --section-start=.text=0x0 --output=user/bin/tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+cp user/bin/tester fs/tester
+./tools/mkfs fs.img fs
+used 29 (bit 1 ninode 26) free 29 total 1024
+cat
+init
+echo
+usertests
+zombie
+wc
+grep
+README
+stressfs
+kill
+sh
+forktest
+mkdir
+tester
+ln
+ls
+rm
+balloc: first 443 blocks have been allocated
+balloc: write bitmap block at sector 28
+rm user/bin/tester
+make qemu-nox CPUS=1
+Ctrl+a h for help
+qemu-system-i386 -nographic -hdb fs.img xv6.img -smp 1
+WARNING: Image format was not specified for 'fs.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+WARNING: Image format was not specified for 'xv6.img' and probing guessed raw.
+         Automatically detecting the format is dangerous for raw images, write operations on block 0 will be restricted.
+         Specify the 'raw' format explicitly to remove the restrictions.
+c[?7l[2J[0mSeaBIOS (version rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org)
+
+
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+07F8F290+07EEF290 CA00
+Press Ctrl-B to configure iPXE (PCI 00:03.0)...                                                                               
+
+
+Booting from Hard Disk..xv6...
+cpu0: starting
+init: starting sh
+$ tester
+tester
+
+ ****PInfo before**** 
+pid: 1 hticks: 0 lticks: 18
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 200 lticks: 10
+pid: 4 hticks: 199 lticks: 1
+pid: 5 hticks: 0 lticks: 200
+
+ ****PInfo after**** 
+pid: 1 hticks: 0 lticks: 18
+pid: 2 hticks: 0 lticks: 18
+pid: 3 hticks: 630 lticks: 10
+pid: 4 hticks: 414 lticks: 1
+pid: 5 hticks: 0 lticks: 200
+Should print 1 then 2
+
+test multiple_high_priority PASSED (20 of 20)
+ (check if multiple high priority processes run in round robin 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/multiple_high_priority.c)
+
+**********************************************************************
+Summary:
+test build PASSED
+ (build xv6 using make)
+
+test getpinfo PASSED (10 of 10)
+ (call getpinfo() from a user program 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/getpinfo.c)
+
+test setpri PASSED (10 of 10)
+ (call setpri() from a user program 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/setpri.c)
+
+test processesinuse PASSED (20 of 20)
+ (check number of processes in use by calling getpinfo() 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/processesinuse.c)
+
+test default_priority PASSED (20 of 20)
+ (check default priority set for processes by measuring hticks 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/default_priority.c)
+
+test check_hticks PASSED (20 of 20)
+ (check if hticks being incremented for high priority process 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/check_hticks.c)
+
+test change_priority PASSED (20 of 20)
+ (check if hticks and lticks being incremented as expected when the priority is changed back and forth 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/change_priority.c)
+
+test run_high_priority PASSED (20 of 20)
+ (check no low priority processes are running when there is high priority 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/run_high_priority.c)
+
+test sleep_high_priority PASSED (20 of 20)
+ (check if low priority processes run when high priority is put to sleep 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/sleep_high_priority.c)
+
+test awake_high_priority PASSED (20 of 20)
+ (check if only high priority process run when high priority is awake from sleep 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/awake_high_priority.c)
+
+test multiple_high_priority PASSED (20 of 20)
+ (check if multiple high priority processes run in round robin 
+ The corresponding test file is at https://gitlab.com/AOSUC/Lab/Tests/P2/multiple_high_priority.c)
+
+Passed 11 of 11 tests.
+Overall 11 of 11
+Points 180 of 180

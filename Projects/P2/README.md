@@ -56,7 +56,7 @@ struct pstat {
 ```
 **getpinfo(struct pstat *)** syscall interface is a bit complex. We should allocate a *pstat* struct variable in the user space and instruct to the system call that the results 
 of it should be stored there. In other words, we pass a pointer to where we want the output results. In order to perform complex parameters in system calls (like this one)
-we need to access from the system call routine to the user stack pointer. Xv6 provides some helpers to do that. Take look at the [xv6 book.](https://pdos.csail.mit.edu/6.828/2014/xv6/book-rev8.pdf) and search for **argint/argptr** description.
+we need to access from the system call routine to the user stack pointer. Xv6 provides some helpers to do that. Take look at the [xv6 book.](https://pdos.csail.mit.edu/6.828/2018/xv6/book-rev11.pdf) and search for **argint/argptr** description.
 
 **Random xv6 tip I:** To run the xv6 environment, use **make qemu-nox.** Doing so avoids the use of X windows and is generally fast and easy. However, quitting is not so easy; to quit, you have to know the shortcuts provided by the machine emulator, qemu. Type **control-a** followed by **x** to exit the emulation. There are a few other commands like this available; to see them, type **control-a** followed by an **h.**
 
@@ -85,17 +85,9 @@ This kernel was developed by [MIT OS Enegeneering](https://pdos.csail.mit.edu/6.
 
 You may also find the following readings about xv6 useful, written by the same team that ported xv6 to x86: [xv6 book.](https://pdos.csail.mit.edu/6.828/2014/xv6/book-rev8.pdf) However, remeber that the kernel version we use is a little different than the book.
 
-# <span style="color:red;">Rules of delivery </span>
-
-Follow this rules in order to be graded. If some of them ignored, the Lab will be not graaded.
-
-* All the changes should be restricted to projects working dir (i.n. Project X/). Changes out of that path (i.s. wrongfully done meges/rebases/whatever_git_related_thing) will invalidate the Lab
-* The directory of xv6 should be called ´xv6´ (the changes should be in ´Projects/P2/xv6/´)
-* The Lab will be fetched at deadline. Any subsequent change will be ignored for the grading.
-
 ## Reference
 
-Use at least version 1.23 of [vpuente/AOSUC1516](https://app.vagrantup.com/vpuente/boxes/AOSUC) vagrant box. This box includes all the tools required to perform the project (gcc, qemu, shared dirs with the guest, etc...). Create a instance in this directory and copy xv6 code to start working in your branch.
+Use at least version 2.0 of [vpuente/AOSUC](https://app.vagrantup.com/vpuente/boxes/AOSUC) vagrant box. This box includes all the tools required to perform the project (gcc, qemu, shared dirs with the guest, etc...). Create a instance in this directory and copy xv6 code to start working in your branch.
 
 
 
