@@ -48,7 +48,7 @@ sys_setpri(void)
     return -1;
   }
 
-  setpri(num); //cambiamos la prioridad al proceso
+  setpri(num); //cambiamos la prioridad al
   return 0;
 }
 

@@ -6,9 +6,11 @@
 #include "proc.h"
 #include "defs.h"
 #include "pstat.h"
+#include <stdbool.h>
 
 //variable para indicar si hay procesos con alta prioridad pendientes de ejecutarse
-uint high_priority_procs = 0;
+int high_priority_procs = 0;
+bool proc_break = false;
 
 struct cpu cpus[NCPU];
 
@@ -151,7 +153,7 @@ found:
   p->context.sp = p->kstack + PGSIZE;
 
   return p;
-}
+}        
 
 // free a proc structure and the data hanging from it,
 // including user pages.
@@ -380,6 +382,15 @@ exit(int status)
   p->xstate = status;
   p->state = ZOMBIE;
 
+  if (p->priority == HIGH_PRIORITY){
+    high_priority_procs--;
+    if (high_priority_procs == 0){
+      proc_break = true;
+    }
+
+    
+  }
+
   release(&wait_lock);
 
   // Jump into the scheduler, never to return.
@@ -456,10 +467,18 @@ scheduler(void)
 
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
-      if(p->state == RUNNABLE) {
+      if((p->state == RUNNABLE && p->priority == LOW_PRIORITY && high_priority_procs == 0) ||(p->state == RUNNABLE && p->priority == HIGH_PRIORITY)) {
+
+      if (p->priority == HIGH_PRIORITY){
+        p->hticks++;
+      } else {
+        p->lticks++;
+      }
+        
+
         // Switch to chosen process.  It is the process's job
         // to release its lock and then reacquire it
-        // before jumping back to us.
+        // before jumping back to us
         p->state = RUNNING;
         c->proc = p;
         swtch(&c->context, &p->context);
@@ -467,6 +486,11 @@ scheduler(void)
         // Process is done running for now.
         // It should have changed its p->state before coming back.
         c->proc = 0;
+      }
+      if (proc_break == true){
+        proc_break = false;
+        release(&p->lock);
+        break;
       }
       release(&p->lock);
     }
@@ -553,6 +577,10 @@ sleep(void *chan, struct spinlock *lk)
   p->chan = chan;
   p->state = SLEEPING;
 
+  if (p->priority == HIGH_PRIORITY){ //disminuimos número de procesos con alta prioridaad pendientes de ejecutarse
+    high_priority_procs--;
+  }
+
   sched();
 
   // Tidy up.
@@ -575,6 +603,11 @@ wakeup(void *chan)
       acquire(&p->lock);
       if(p->state == SLEEPING && p->chan == chan) {
         p->state = RUNNABLE;
+
+        if (p->priority == HIGH_PRIORITY){ //cuando se despierta de nuevo el proceso de alta prioridad, se incrementa la variable.
+          high_priority_procs++;
+        }
+
       }
       release(&p->lock);
     }
