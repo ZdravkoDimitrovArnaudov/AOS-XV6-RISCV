@@ -467,7 +467,7 @@ scheduler(void)
 
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
-      if((p->state == RUNNABLE && p->priority == LOW_PRIORITY && high_priority_procs == 0) ||(p->state == RUNNABLE && p->priority == HIGH_PRIORITY)) {
+      if((p->state == RUNNABLE ) && ((p->priority == LOW_PRIORITY && high_priority_procs == 0) || (p->priority == HIGH_PRIORITY))) {
 
       if (p->priority == HIGH_PRIORITY){
         p->hticks++;
