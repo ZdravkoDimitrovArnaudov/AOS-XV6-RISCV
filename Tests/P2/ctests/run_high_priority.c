@@ -1,10 +1,10 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "pstat.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/pstat.h"
 #define check(exp, msg) if(exp) {} else {\
-   printf(1, "%s:%d check (" #exp ") failed: %s\n", __FILE__, __LINE__, msg);\
-   exit();}
+   printf("%s:%d check (" #exp ") failed: %s\n", __FILE__, __LINE__, msg);\
+   exit(-1);}
 
 void spin()
 {
@@ -24,7 +24,7 @@ void print(struct pstat *st)
    int i;
    for(i = 0; i < NPROC; i++) {
       if (st->inuse[i]) {
-         printf(1, "pid: %d hticks: %d lticks: %d\n", st->pid[i], st->hticks[i], st->lticks[i]);
+         printf("pid: %d hticks: %d lticks: %d\n", st->pid[i], st->hticks[i], st->lticks[i]);
       }
    }
 
@@ -52,18 +52,18 @@ main(int argc, char *argv[])
    	struct pstat st_before, st_after;
 	check(setpri(2) == 0, "setpri");
 	check(getpinfo(&st_before) == 0, "getpinfo");
-	printf(1, "\n ****PInfo before**** \n");
+	printf("\n ****PInfo before**** \n");
 	print(&st_before);
 	spin();
 	spin();
 	check(getpinfo(&st_after) == 0, "getpinfo");
-	printf(1, "\n ****PInfo after**** \n");
+	printf("\n ****PInfo after**** \n");
 	print(&st_after);
 	compare(&st_before, &st_after);
-	printf(1, "Should print 1"); 
-	exit();
+	printf("Should print 1"); 
+	exit(0);
    }
    spin();
-   printf(1, " then 2");
-   exit();
+   printf(" then 2");
+   exit(0);
 }
