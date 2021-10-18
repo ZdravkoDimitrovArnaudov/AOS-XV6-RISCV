@@ -7,7 +7,7 @@
    exit(-1);}
 #define PROC 7
 
-void spin()
+int spin()
 {
 	int i = 0, j = 0;
 	while(1)
@@ -16,6 +16,7 @@ void spin()
 		i = j % 11;
 	}
 	j=i;
+   return i;
 }
 int
 main(int argc, char *argv[])
@@ -23,13 +24,14 @@ main(int argc, char *argv[])
    struct pstat st;
    int count = 0;
    int i = 0;
+   int *aux = malloc(1*sizeof(int));
    int pid[NPROC];
    while(i < PROC)
    {
         pid[i] = fork();
 	if(pid[i] == 0)
         {
-		spin();
+		aux[0] += spin();
 		exit(0);
         }
 	i++;
