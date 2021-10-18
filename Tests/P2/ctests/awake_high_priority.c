@@ -6,7 +6,7 @@
    printf("%s:%d check (" #exp ") failed: %s\n", __FILE__, __LINE__, msg);\
    exit(-1);}
 
-void spin()
+int spin()
 {
 	int i = 0, j = 0, k = 0;
 	for(i = 0; i < 50; ++i)
@@ -17,6 +17,7 @@ void spin()
 		}
 	}
 	i=k;
+   return k;
 }
 
 void print(struct pstat *st)
@@ -41,18 +42,19 @@ main(int argc, char *argv[])
    int xstate;
    int i;
    int pid = getpid();
+   int *aux = malloc(5*sizeof(int));
    if(rc == 0)
    {
-	spin();
+	aux[0] += spin();
 	sleep(200);
-	spin();
+	aux[1] += spin();
 	exit(0);
    }
    check(setpri(2) == 0, "setpri");
    if(fork() == 0)
    {
 	sleep(200);
-	spin();
+	aux[2] += spin();
         sleep(100);
 	printf(" then 2");
 	exit(0);
@@ -61,8 +63,8 @@ main(int argc, char *argv[])
    check(getpinfo(&st_before) == 0, "getpinfo");
    printf("\n ****PInfo before**** \n");
    print(&st_before);
-   spin();
-   spin();
+   aux[3] += spin();
+   aux[4] += spin();
    check(getpinfo(&st_after) == 0, "getpinfo");
    printf("\n ****PInfo after**** \n");
    print(&st_after);
