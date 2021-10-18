@@ -7,15 +7,16 @@
    printf("%s:%d check (" #exp ") failed: %s\n", __FILE__, __LINE__, msg);\
    exit(-1);}
 
-void spin()
+int spin()
 {
 	int i = 0, j = 0, k = 0;
-	for(i = 0; i < 10; ++i)
+	for(i = 0; i < 50; ++i)
 	{
-		for(j = 0; j < 10000000; j++)
+		for(j = 0; j < 100000000; j++)
 			k = j % 11;
 	}
 	i=k;
+   return k;
 }
 int
 main(int argc, char *argv[])
@@ -24,7 +25,8 @@ main(int argc, char *argv[])
    int highpriority = 0;
    int pid = getpid();
    int defaultpriorityrun = 0;
-   spin();
+   int *aux = malloc(2*sizeof(int));
+   aux[0] += spin();
    check(getpinfo(&st) == 0, "getpinfo");
 
    int i;

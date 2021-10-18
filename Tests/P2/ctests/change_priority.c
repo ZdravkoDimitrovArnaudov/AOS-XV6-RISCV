@@ -6,7 +6,7 @@
    printf("%s:%d check (" #exp ") failed: %s\n", __FILE__, __LINE__, msg);\
    exit(-1);}
 
-void spin()
+int spin()
 {
 	int i = 0, j = 0, k = 0;
 	for(i = 0; i < 50; ++i)
@@ -17,6 +17,7 @@ void spin()
 		}
 	}
 	i=k;
+   return k;
 }
 
 void print(struct pstat *st)
@@ -40,13 +41,14 @@ main(int argc, char *argv[])
    int lowpriorityrun = 0;
    int  highpriorityrun = 0;
    int i;
+   int *aux = malloc(2*sizeof(int));
    check(setpri(2) == 0, "setpri");
    // check if process run in high priority mode once set to high
   
    check(getpinfo(&st_before) == 0, "getpinfo");
    printf("\n ****PInfo before**** \n");
    print(&st_before);
-   spin();
+   aux[0] += spin();
    check(getpinfo(&st_after) == 0, "getpinfo");
    printf("\n ****PInfo after**** \n");
    print(&st_after);
@@ -66,7 +68,7 @@ main(int argc, char *argv[])
    check(getpinfo(&st_before) == 0, "getpinfo");
    printf("\n ****PInfo before**** \n");
    print(&st_before);
-   spin();
+   aux[1] += spin();
    check(getpinfo(&st_after) == 0, "getpinfo");
    printf("\n ****PInfo after**** \n");
    print(&st_after);

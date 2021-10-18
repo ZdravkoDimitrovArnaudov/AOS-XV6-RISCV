@@ -6,7 +6,7 @@
    printf("%s:%d check (" #exp ") failed: %s\n", __FILE__, __LINE__, msg);\
    exit(-1);}
 
-void spin()
+int spin()
 {
 	int i = 0, j = 0, k = 0;
 	for(i = 0; i < 50; ++i)
@@ -17,6 +17,7 @@ void spin()
 		}
 	}
 	i=k;
+   return k;
 }
 
 void print(struct pstat *st)
@@ -41,10 +42,11 @@ main(int argc, char *argv[])
    int rc = fork();
    int xstate;
    int i;
+   int *aux = malloc(2*sizeof(int));
    if(rc == 0)
    {
-	spin();
-	spin();
+	aux[0] += spin();
+	aux[1] += spin();
 	sleep(500);
 	exit(0);
    }
