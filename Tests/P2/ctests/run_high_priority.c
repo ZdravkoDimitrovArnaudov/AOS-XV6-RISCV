@@ -11,7 +11,7 @@ int spin()
 	int i = 0, j = 0, k = 0;
 	for(i = 0; i < 10; ++i)
 	{
-		for(j = 0; j < 100000000; ++j)
+		for(j = 0; j < 10000000; ++j)
 		{
 			k = j % 10;
 		}
@@ -51,17 +51,20 @@ main(int argc, char *argv[])
 	int *aux = malloc(3*sizeof(int));
    if(fork() == 0)
    {
-   	struct pstat st_before, st_after;
+   	struct pstat *st_before; 
+	struct pstat *st_after;
+	st_before = malloc (sizeof (struct pstat));
+	st_after = malloc (sizeof (struct pstat));
 	check(setpri(2) == 0, "setpri");
-	check(getpinfo(&st_before) == 0, "getpinfo");
+	check(getpinfo(st_before) == 0, "getpinfo");
 	printf("\n ****PInfo before**** \n");
-	print(&st_before);
+	print(st_before);
 	aux[0] += spin();
 	aux[1] += spin();
-	check(getpinfo(&st_after) == 0, "getpinfo");
+	check(getpinfo(st_after) == 0, "getpinfo");
 	printf("\n ****PInfo after**** \n");
-	print(&st_after);
-	compare(&st_before, &st_after);
+	print(st_after);
+	compare(st_before, st_after);
 	printf("Should print 1"); 
 	exit(0);
    }

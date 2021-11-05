@@ -48,8 +48,7 @@ sys_setpri(void)
     return -1;
   }
 
-  setpri(num); //cambiamos la prioridad al
-  return 0;
+  return setpri(num); //cambiamos la prioridad al
 }
 
 

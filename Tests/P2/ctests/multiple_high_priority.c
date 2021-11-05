@@ -36,7 +36,10 @@ int
 main(int argc, char *argv[])
 {
  
-   struct pstat st_before, st_after;
+   struct pstat *st_before;
+   struct pstat *st_after;
+   st_before = malloc (sizeof (struct pstat));
+   st_after = malloc (sizeof (struct pstat));
    int lowpriorityrun = 0, highpriorityrun = 0;
    int rc = fork();
    int xstate;
@@ -63,19 +66,19 @@ main(int argc, char *argv[])
 
    
    sleep(200);
-   check(getpinfo(&st_before) == 0, "getpinfo");
+   check(getpinfo(st_before) == 0, "getpinfo");
    printf("\n ****PInfo before**** \n");
-   print(&st_before);
+   print(st_before);
    
    aux[2] += spin();
-   check(getpinfo(&st_after) == 0, "getpinfo");
+   check(getpinfo(st_after) == 0, "getpinfo");
    printf("\n ****PInfo after**** \n");
-   print(&st_after);
+   print(st_after);
    for(i = 0; i < NPROC; ++i)
    {
-	if(st_before.lticks[i] < st_after.lticks[i])
+	if(st_before->lticks[i] < st_after->lticks[i])
 			lowpriorityrun++;
-	if(st_before.hticks[i] < st_after.hticks[i])
+	if(st_before->hticks[i] < st_after->hticks[i])
 			highpriorityrun++;
    }
    check(lowpriorityrun == 0, "Expected no low priority processes to run when high priority running");

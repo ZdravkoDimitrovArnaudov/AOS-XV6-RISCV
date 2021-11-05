@@ -10,6 +10,7 @@
 
 //variable para indicar si hay procesos con alta prioridad pendientes de ejecutarse
 int high_priority_procs = 0;
+struct spinlock priority_lock;
 bool proc_break = false;
 
 struct cpu cpus[NCPU];
@@ -383,7 +384,10 @@ exit(int status)
   p->state = ZOMBIE;
 
   if (p->priority == HIGH_PRIORITY){
+    acquire(&priority_lock);
     high_priority_procs--;
+    release(&priority_lock);
+
     if (high_priority_procs == 0){
       proc_break = true;
     }
@@ -418,7 +422,9 @@ wait(uint64 addr)
         acquire(&np->lock);
 
         havekids = 1;
-        if(np->state == ZOMBIE){
+        if(np->state == ZOMBIE){ //pone el padre en zombie y espera a que el hijo termine. TODO 
+
+          
           // Found one.
           pid = np->pid;
           if(addr != 0 && copyout(p->pagetable, addr, (char *)&np->xstate,
@@ -467,13 +473,20 @@ scheduler(void)
 
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
-      if((p->state == RUNNABLE ) && ((p->priority == LOW_PRIORITY && high_priority_procs == 0) || (p->priority == HIGH_PRIORITY))) {
+      if((p->state == RUNNABLE ) && ((p->priority == LOW_PRIORITY && high_priority_procs == 0) || (p->priority == HIGH_PRIORITY))) { //nos aseguramos de que no entran a ejecutar procesos de alta prioridad cuando aún no se ha actualizado correctamente la variable:&& high_priority_procs > 0
+
+
+      /* if (p->priority == HIGH_PRIORITY && high_priority_procs == 0){ FOR DEBUG
+        panic("ERROR.");
+
+      } */
 
       if (p->priority == HIGH_PRIORITY){
         p->hticks++;
       } else {
         p->lticks++;
       }
+        
         
 
         // Switch to chosen process.  It is the process's job
@@ -578,7 +591,9 @@ sleep(void *chan, struct spinlock *lk)
   p->state = SLEEPING;
 
   if (p->priority == HIGH_PRIORITY){ //disminuimos número de procesos con alta prioridaad pendientes de ejecutarse
+   acquire(&priority_lock);
     high_priority_procs--;
+    release(&priority_lock);
   }
 
   sched();
@@ -605,7 +620,9 @@ wakeup(void *chan)
         p->state = RUNNABLE;
 
         if (p->priority == HIGH_PRIORITY){ //cuando se despierta de nuevo el proceso de alta prioridad, se incrementa la variable.
+          acquire(&priority_lock);
           high_priority_procs++;
+          release(&priority_lock);
         }
 
       }
@@ -709,11 +726,13 @@ getpinfo (uint64  addr){
 
   for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
+      ps.pid[counter] = p->pid;
+        ps.hticks[counter] = p->hticks;
+        ps.lticks[counter] = p->lticks;
       if(p->state != UNUSED) {
         ps.inuse[counter] = 1;
-        ps.pid[counter] = p->pid;
-        ps.hticks[counter] = p->hticks;
-        ps.lticks[counter] = p->lticks; 
+      } else {
+        ps.inuse[counter] = 0;
       }
       counter++;
       release(&p->lock);
@@ -730,17 +749,25 @@ getpinfo (uint64  addr){
 }
 
 
-void
+int 
 setpri (int num)
 {
   struct proc *p = myproc();
   acquire(&p->lock);
-  if (p->state == LOW_PRIORITY && num == HIGH_PRIORITY){ //solo si el proceso pasa de prioridad baja a alta
+  if (p->priority== LOW_PRIORITY && num == HIGH_PRIORITY){ //solo si el proceso pasa de prioridad baja a alta
+
+    acquire(&priority_lock);
     high_priority_procs++;
-  } else if (p->state == HIGH_PRIORITY && num == LOW_PRIORITY){
+    release(&priority_lock);
+
+  } else if (p->priority == HIGH_PRIORITY && num == LOW_PRIORITY){
+    
+    acquire(&priority_lock);
     high_priority_procs--;
+    release(&priority_lock);
   }
     p->priority = num;
   
   release(&p->lock);
+  return 0;
 }
