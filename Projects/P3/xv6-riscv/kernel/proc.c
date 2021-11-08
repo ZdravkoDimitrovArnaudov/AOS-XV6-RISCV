@@ -6,10 +6,22 @@
 #include "proc.h"
 #include "defs.h"
 
+
+typedef struct pg{
+  int page_num;
+  char *pa;
+}t_pg;
+
+t_pg shared_pages[4] = {{.page_num = 1, .pa = 0},
+                        {.page_num = 2, .pa = 0},
+                        {.page_num = 3, .pa = 0},
+                        {.page_num = 4, .pa = 0}};
+
+struct spinlock shared_pages_lock; //cuando se desee modificar la estructura compartida
+
+
 struct cpu cpus[NCPU];
-
 struct proc proc[NPROC];
-
 struct proc *initproc;
 
 int nextpid = 1;
@@ -119,6 +131,12 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
+  p->VA_LIMIT = TRAMPOLINE - PGSIZE; //inicializacion
+  p->VA_PAGES[0] = 0;
+  p->VA_PAGES[1] = 0;
+  p->VA_PAGES[2] = 0;
+  p->VA_PAGES[3] = 0;
+
 
   // Allocate a trapframe page.
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
@@ -653,4 +671,41 @@ procdump(void)
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
   }
+}
+
+uint64
+shmem_access (int page_number)
+{
+ 
+  uint64 va;
+  char *pa;
+  struct proc *p = myproc(); //proceso en ejecución 
+
+  acquire(&p->lock);
+  acquire(&shared_pages_lock);
+  if (shared_pages[page_number].pa == 0){ //si no se ha reservado memoria fisica
+    pa = kalloc();
+    if (pa == 0){
+      return (uint64)null;
+
+    }
+    shared_pages[page_number].pa = pa; //almacenamos Dirección física
+
+  }
+
+  if (p->VA_PAGES[page_number] == 0){ //si no se ha mapeado en espacio de direcciones virtuales
+    if(mappages(p->pagetable, p->VA_LIMIT, PGSIZE, (uint64)shared_pages[page_number].pa, PTE_R | PTE_U| PTE_W) < 0){
+      return (uint64)null;
+
+    }
+      p->VA_PAGES[page_number] = p->VA_LIMIT;
+      p->VA_LIMIT = p->VA_LIMIT - PGSIZE; //actualizamos para siguiente pagina compartida
+
+  }
+
+  //devolver va de pagina
+  va = p->VA_PAGES[page_number];
+  release(&shared_pages_lock);
+  release(&p->lock);
+  return va; 
 }

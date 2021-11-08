@@ -1,0 +1,276 @@
+------------------
+----PRACTICA 3----
+------------------
+Paginas compartidas.
+
+Índice
+    1.Planteamiento
+    2.Desarrollo
+    3.Observaciones
+
+
+1.
+
+El objetivo de esta práctica es implementar paginas de memoria compartidas 
+para que los procesos puedan comunicarse a través de memoria.
+
+La idea es sencilla: hay una llamada al sistema llamada *void shmem_acess(int page_number),
+que devuelve una dirección virtual de una página compartida. El proceso solo puede
+pedir acceso a páginas de 1 a 4 (es decir, solo podemos hacer esto con 4 paginas).
+
+Cuando un proceso llama a shmem_acess(0), el SO debe mapear una página física en el espacio 
+de direcciones del proceso. La llamada retorna la dirección virtual de la página, para que pueda
+ser leida o escrita. Si otro proceso vuelve a llamar a shmem_acess(0), también debe tener 
+dicha página mapeada en su espacio de direcciones virtual (podría ser distinta) y también ser capaz de leer o escribir en ella.
+Por este mecanismo, los procesos pueden comunicarse, escribiendo y leyendo de memoria.
+
+Otra llamada también será necesaria implementar: int shmem_count(int page_number). Lo que hace
+es que para una determinada pagina, devuelve el número de procesos que la comparten.
+
+
+Cosas a tener en cuenta:
+    -Casos de fallo: malos arguementos de entrada, espacio de direcciones lleno, etc.
+    -Gestionar el fork: Cuando un proceso padre crea a un hijo, hay que asegurarse que este nuevo proceso
+    tenga acceso a las páginas compartidas y que el número de accesos se actualizan.
+
+
+
+
+2.
+
+
+Lo que haremos primero, será implementar la llamada al sistema *void shmem_access(int page_number).
+Como ya sabemos, los ficheros que tenemos que modifcar son: syscall.h, syscall.c, defs.h, user.h,
+sysproc.c, proc.c y usys.pl.
+
+>syscall.h 
+
+// System call numbers
+#define SYS_fork    1
+#define SYS_exit    2
+#define SYS_wait    3
+#define SYS_pipe    4
+#define SYS_read    5
+#define SYS_kill    6
+#define SYS_exec    7
+#define SYS_fstat   8
+#define SYS_chdir   9
+#define SYS_dup    10
+#define SYS_getpid 11
+#define SYS_sbrk   12
+#define SYS_sleep  13
+#define SYS_uptime 14
+#define SYS_open   15
+#define SYS_write  16
+#define SYS_mknod  17
+#define SYS_unlink 18
+#define SYS_link   19
+#define SYS_mkdir  20
+#define SYS_close  21
+#define SYS_shmem_access 22
+
+
+>syscall.c 
+
+extern uint64 sys_chdir(void);
+extern uint64 sys_close(void);
+extern uint64 sys_dup(void);
+extern uint64 sys_exec(void);
+extern uint64 sys_exit(void);
+extern uint64 sys_fork(void);
+extern uint64 sys_fstat(void);
+extern uint64 sys_getpid(void);
+extern uint64 sys_kill(void);
+extern uint64 sys_link(void);
+extern uint64 sys_mkdir(void);
+extern uint64 sys_mknod(void);
+extern uint64 sys_open(void);
+extern uint64 sys_pipe(void);
+extern uint64 sys_read(void);
+extern uint64 sys_sbrk(void);
+extern uint64 sys_sleep(void);
+extern uint64 sys_unlink(void);
+extern uint64 sys_wait(void);
+extern uint64 sys_write(void);
+extern uint64 sys_uptime(void);
+extern uint64 sys_shmem_access(void);
+
+static uint64 (*syscalls[])(void) = {
+[SYS_fork]    sys_fork,
+[SYS_exit]    sys_exit,
+[SYS_wait]    sys_wait,
+[SYS_pipe]    sys_pipe,
+[SYS_read]    sys_read,
+[SYS_kill]    sys_kill,
+[SYS_exec]    sys_exec,
+[SYS_fstat]   sys_fstat,
+[SYS_chdir]   sys_chdir,
+[SYS_dup]     sys_dup,
+[SYS_getpid]  sys_getpid,
+[SYS_sbrk]    sys_sbrk,
+[SYS_sleep]   sys_sleep,
+[SYS_uptime]  sys_uptime,
+[SYS_open]    sys_open,
+[SYS_write]   sys_write,
+[SYS_mknod]   sys_mknod,
+[SYS_unlink]  sys_unlink,
+[SYS_link]    sys_link,
+[SYS_mkdir]   sys_mkdir,
+[SYS_close]   sys_close,
+[SYS_shmem_access] sys_shmem_access
+
+
+>usys.pl 
+
+	
+entry("fork");
+entry("exit");
+entry("wait");
+entry("pipe");
+entry("read");
+entry("write");
+entry("close");
+entry("kill");
+entry("exec");
+entry("open");
+entry("mknod");
+entry("unlink");
+entry("fstat");
+entry("link");
+entry("mkdir");
+entry("chdir");
+entry("dup");
+entry("getpid");
+entry("sbrk");
+entry("sleep");
+entry("uptime");
+entry("shmem_access");
+
+
+
+>sysproc.c
+
+En un principio, esta es la versión de sysproc.c que tenemos:
+
+uint64 
+sys_shmem_access (void)
+{
+  int page_number;
+  if(argint(0, &page_number) < 0){
+    return (uint64)null;
+  }
+
+  if (page_number > 4 || page_number < 1){
+    return (uint64)null;
+  }
+  
+  return shmem_access (page_number);
+}
+
+
+
+>defs.h 
+
+uint64          shmem_access (int page_number);
+
+
+
+> proc.c 
+
+PSEUDOCODIGO:
+  if (page created){
+    find page
+    return va
+  } else {
+    create physical page
+    return va
+  }
+
+Para poder crear una página física en memoria, se emplea la función 
+kalloc. Esta función devuelve la dirección física en donde se almacena 
+dicha página. Tenemos que hacernos responsables de guardar esta dirección para saber si ha sido creada
+previamente. En caso de que si haya sido creada, simplemente la mapeamos en el espacio de direcciones virtuales del proceso.
+
+Para poder gestionar las direcciones físicas de cada una de las páginas, creamos una serie de estructuras de datos:
+
+typedef struct pg{
+  int page_num;
+  char *pa;
+}t_pg;
+
+t_pg shared_pages[4] = {{.page_num = 1, .pa = 0},
+                        {.page_num = 2, .pa = 0},
+                        {.page_num = 3, .pa = 0},
+                        {.page_num = 4, .pa = 0}};
+
+
+Una vez la pagina exista, hay que averiguar dónde se mapea. Ya que las páginas se solicitan bajo demanda, 
+pueden ordenarse en cualquier orden. Para ello, podemos usar una variable que nos permita saber cuánto hemos avanzado
+hasta entonces. Una vez la pagina esté mapeada, debemos guardar dicha dirección de alguna forma y retornarla. Si después se pide acceso 
+para esta página de nuevo, debemos saber dónde está. Con lo cual, implementaremos además un array de direcciones virtuales en proc.h.
+
+(proc.h)
+  uint64 VA_LIMIT;             // Como límite para poder mapear las paginas
+  uint64 VA_PAGES[4];          // Para guardar las VAs de cada pagina
+
+(proc.c, allocproc())
+  p->VA_LIMIT = TRAMPOLINE - PGSIZE; //inicializacion
+  p->VA_PAGES[0] = 0;
+  p->VA_PAGES[1] = 0;
+  p->VA_PAGES[2] = 0;
+  p->VA_PAGES[3] = 0;
+
+
+  Una primera versión de la implementación de la función, puede ser la siguiente:
+
+  uint64
+shmem_access (int page_number)
+{
+ 
+  uint64 va;
+  char *pa;
+  struct proc *p = myproc(); //proceso en ejecución 
+
+  acquire(&p->lock);
+  acquire(&shared_pages_lock);
+  if (shared_pages[page_number].pa == 0){ //si no se ha reservado memoria fisica
+    pa = kalloc();
+    if (pa == 0){
+      return (uint64)null;
+
+    }
+    shared_pages[page_number].pa = pa; //almacenamos Dirección física
+
+  }
+
+  if (p->VA_PAGES[page_number] == 0){ //si no se ha mapeado en espacio de direcciones virtuales
+    if(mappages(p->pagetable, p->VA_LIMIT, PGSIZE, (uint64)shared_pages[page_number].pa, PTE_R | PTE_U| PTE_W) < 0){
+      return (uint64)null;
+
+    }
+      p->VA_PAGES[page_number] = p->VA_LIMIT;
+      p->VA_LIMIT = p->VA_LIMIT - PGSIZE; //actualizamos para siguiente pagina compartida
+
+  }
+
+  //devolver va de pagina
+  va = p->VA_PAGES[page_number];
+  release(&shared_pages_lock);
+  release(&p->lock);
+  return va; 
+}
+
+
+
+El siguiente paso, será intentar implementar la segunda llamada al sistema y hacer 
+otros cambios adicionales en el código, por ejemplo, la función exit (cuando el proceso termina,
+debe liberar la PTE de la tabla de paginas). También, asegurarnos de que cuando un proceso padre crea
+a un proceso hijo con el fork, que se añadan correctamente las paginas y se actualice la variable, etc.
+
+
+
+
+
+
+
+

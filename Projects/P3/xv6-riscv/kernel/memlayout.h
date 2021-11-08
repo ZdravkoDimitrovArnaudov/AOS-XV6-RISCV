@@ -65,3 +65,7 @@
 //   TRAPFRAME (p->trapframe, used by the trampoline)
 //   TRAMPOLINE (the same page as in the kernel)
 #define TRAPFRAME (TRAMPOLINE - PGSIZE)
+//#define SHARED_PAGE_1 (TRAPFRAME - PGSIZE)
+//#define SHARED_PAGE_2 (SHARED_PAGE_1- PGSIZE)
+//#define SHARED_PAGE_3 (SHARED_PAGE_2 - PGSIZE)
+//#define SHARED_PAGE_4 (SHARED_PAGE_3 - PGSIZE)
