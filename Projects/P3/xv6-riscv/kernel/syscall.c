@@ -105,6 +105,7 @@ extern uint64 sys_wait(void);
 extern uint64 sys_write(void);
 extern uint64 sys_uptime(void);
 extern uint64 sys_shmem_access(void);
+extern uint64 sys_shmem_count(void);
 
 static uint64 (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -128,7 +129,8 @@ static uint64 (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
-[SYS_shmem_access] sys_shmem_access
+[SYS_shmem_access] sys_shmem_access,
+[SYS_shmem_count] sys_shmem_count
 };
 
 void

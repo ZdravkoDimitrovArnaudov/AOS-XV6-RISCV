@@ -269,6 +269,166 @@ a un proceso hijo con el fork, que se añadan correctamente las paginas y se act
 
 
 
+>> shmem_count
+
+
+De nuevo, lo que haremos será modificar los ficheros básicos para crear la segunda llamada al sistema:
+syscall.h, syscall.c, defs.h, user.h, sysproc.c, proc.c, usys.pl.
+
+
+
+>syscall.h 
+
+// System call numbers
+#define SYS_fork    1
+#define SYS_exit    2
+#define SYS_wait    3
+#define SYS_pipe    4
+#define SYS_read    5
+#define SYS_kill    6
+#define SYS_exec    7
+#define SYS_fstat   8
+#define SYS_chdir   9
+#define SYS_dup    10
+#define SYS_getpid 11
+#define SYS_sbrk   12
+#define SYS_sleep  13
+#define SYS_uptime 14
+#define SYS_open   15
+#define SYS_write  16
+#define SYS_mknod  17
+#define SYS_unlink 18
+#define SYS_link   19
+#define SYS_mkdir  20
+#define SYS_close  21
+#define SYS_shmem_access 22
+#define SYS_shmem_count 23
+
+
+
+>syscall.c 
+
+extern uint64 sys_chdir(void);
+extern uint64 sys_close(void);
+extern uint64 sys_dup(void);
+extern uint64 sys_exec(void);
+extern uint64 sys_exit(void);
+extern uint64 sys_fork(void);
+extern uint64 sys_fstat(void);
+extern uint64 sys_getpid(void);
+extern uint64 sys_kill(void);
+extern uint64 sys_link(void);
+extern uint64 sys_mkdir(void);
+extern uint64 sys_mknod(void);
+extern uint64 sys_open(void);
+extern uint64 sys_pipe(void);
+extern uint64 sys_read(void);
+extern uint64 sys_sbrk(void);
+extern uint64 sys_sleep(void);
+extern uint64 sys_unlink(void);
+extern uint64 sys_wait(void);
+extern uint64 sys_write(void);
+extern uint64 sys_uptime(void);
+extern uint64 sys_shmem_access(void);
+extern uint64 sys_shmem_count(void);
+
+static uint64 (*syscalls[])(void) = {
+[SYS_fork]    sys_fork,
+[SYS_exit]    sys_exit,
+[SYS_wait]    sys_wait,
+[SYS_pipe]    sys_pipe,
+[SYS_read]    sys_read,
+[SYS_kill]    sys_kill,
+[SYS_exec]    sys_exec,
+[SYS_fstat]   sys_fstat,
+[SYS_chdir]   sys_chdir,
+[SYS_dup]     sys_dup,
+[SYS_getpid]  sys_getpid,
+[SYS_sbrk]    sys_sbrk,
+[SYS_sleep]   sys_sleep,
+[SYS_uptime]  sys_uptime,
+[SYS_open]    sys_open,
+[SYS_write]   sys_write,
+[SYS_mknod]   sys_mknod,
+[SYS_unlink]  sys_unlink,
+[SYS_link]    sys_link,
+[SYS_mkdir]   sys_mkdir,
+[SYS_close]   sys_close,
+[SYS_shmem_access] sys_shmem_access,
+[SYS_shmem_count] sys_shmem_count
+
+
+>sysproc.c 
+
+uint64
+sys_shmem_count (void)
+{
+  int page_number;
+  if(argint(0, &page_number) < 0){
+    return (uint64)null;
+  }
+
+  if (page_number > 4 || page_number < 1){
+    return (uint64)null;
+  } 
+
+  return shmem_count(page_number);
+}
+
+
+>usys.pl 
+
+entry("shmem_count");
+
+
+>defs.h 
+
+// proc.c
+int             cpuid(void);
+void            exit(int);
+int             fork(void);
+int             growproc(int);
+void            proc_mapstacks(pagetable_t);
+pagetable_t     proc_pagetable(struct proc *);
+void            proc_freepagetable(pagetable_t, uint64);
+int             kill(int);
+struct cpu*     mycpu(void);
+struct cpu*     getmycpu(void);
+struct proc*    myproc();
+void            procinit(void);
+void            scheduler(void) __attribute__((noreturn));
+void            sched(void);
+void            sleep(void*, struct spinlock*);
+void            userinit(void);
+int             wait(uint64);
+void            wakeup(void*);
+void            yield(void);
+int             either_copyout(int user_dst, uint64 dst, void *src, uint64 len);
+int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
+void            procdump(void);
+uint64          shmem_access (int page_number);
+int             shmem_count (int page_number);
+
+
+>proc.c 
+
+
+Para empezar, tenemos dos caminos para llegar a implementar el registro del número
+de procesos que comparten paginas: Tener una variable global que se incrementa según el número de
+procesos que tengan acceso a las páginas, o ver por cada proceso a qué paginas tiene acceso. 
+
+En este caso preferimos la primera opción, ya que nos ahorramos hacer demasiadas comprobaciones. La modificación 
+de esta variable se hará usando lock.
+
+Primero, implementaremos la función y más adelante haremos las modificaciones necesarias en fork() y exit().
+
+
+
+
+
+
+
+
 
 
 

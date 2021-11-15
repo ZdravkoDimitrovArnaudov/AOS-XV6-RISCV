@@ -17,7 +17,7 @@ t_pg shared_pages[4] = {{.page_num = 1, .pa = 0},
                         {.page_num = 3, .pa = 0},
                         {.page_num = 4, .pa = 0}};
 
-struct spinlock shared_pages_lock; //cuando se desee modificar la estructura compartida
+
 
 
 struct cpu cpus[NCPU];
@@ -682,7 +682,6 @@ shmem_access (int page_number)
   struct proc *p = myproc(); //proceso en ejecución 
 
   acquire(&p->lock);
-  acquire(&shared_pages_lock);
   if (shared_pages[page_number].pa == 0){ //si no se ha reservado memoria fisica
     pa = kalloc();
     if (pa == 0){
@@ -705,7 +704,17 @@ shmem_access (int page_number)
 
   //devolver va de pagina
   va = p->VA_PAGES[page_number];
-  release(&shared_pages_lock);
   release(&p->lock);
   return va; 
 }
+
+
+int
+shmem_count (int page_number){
+  
+
+
+
+
+}
+

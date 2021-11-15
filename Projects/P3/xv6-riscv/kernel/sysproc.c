@@ -26,6 +26,22 @@ sys_shmem_access (void)
   return shmem_access (page_number);
 }
 
+uint64
+sys_shmem_count (void)
+{
+  int page_number;
+  if(argint(0, &page_number) < 0){
+    return (uint64)null;
+  }
+
+  if (page_number > 4 || page_number < 1){
+    return (uint64)null;
+  } 
+
+  return shmem_count(page_number);
+}
+
+
 
 uint64
 sys_exit(void)
