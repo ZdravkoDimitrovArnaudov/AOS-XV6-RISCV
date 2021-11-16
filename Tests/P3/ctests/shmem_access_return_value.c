@@ -1,22 +1,25 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "param.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "stddef.h"
+#include "kernel/param.h"
+#include "kernel/riscv.h"
+#include "kernel/memlayout.h"
 
 #define PGSIZE 4096
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 int
@@ -29,7 +32,7 @@ main(int argc, char *argv[])
 		test_failed();
 	}
 
-	if (((int) ptr) != USERTOP - PGSIZE*1) {
+	if (((long int) ptr) != TRAPFRAME - PGSIZE*1) {
 		test_failed();
 	}
 
@@ -38,7 +41,7 @@ main(int argc, char *argv[])
 		test_failed();
 	}
 
-	if (((int) ptr) != USERTOP - PGSIZE*2) {
+	if (((long int) ptr) != TRAPFRAME - PGSIZE*2) {
 		test_failed();
 	}
 
@@ -47,7 +50,7 @@ main(int argc, char *argv[])
 		test_failed();
 	}
 
-	if (((int) ptr) != USERTOP - PGSIZE*3) {
+	if (((long int) ptr) != TRAPFRAME - PGSIZE*3) {
 		test_failed();
 	}
 
@@ -56,10 +59,10 @@ main(int argc, char *argv[])
 		test_failed();
 	}
 
-	if (((int) ptr) != USERTOP - PGSIZE*4) {
+	if (((long int) ptr) != TRAPFRAME - PGSIZE*4) {
 		test_failed();
 	}
 	
 	test_passed();
-	exit();
+	exit(0);
 }

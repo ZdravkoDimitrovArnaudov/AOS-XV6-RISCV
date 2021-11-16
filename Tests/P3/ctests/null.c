@@ -1,6 +1,6 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
 
 int
 main(int argc, char *argv[])
@@ -9,21 +9,21 @@ main(int argc, char *argv[])
   
 	int pid = fork();
 	if (pid < 0) {
-		printf(1, "TEST FAILED\n");
-		exit();
+		printf("TEST FAILED\n");
+		exit(0);
 	}  
 	else if (pid == 0) {
     uint * nullp = (uint*)0;
-    printf(1, "null dereference: ");
-    printf(1, "%x %x\n", nullp, *nullp);
+    printf("null dereference: ");
+    printf("%x %x\n", nullp, *nullp);
     // this process should be killed
-    printf(1, "TEST FAILED\n");
+    printf("TEST FAILED\n");
     kill(ppid);
-    exit();
+    exit(0);
   }
 	else {
-    wait();
-    printf(1, "TEST PASSED\n");
-    exit();
+    wait(0);
+    printf("TEST PASSED\n");
+    exit(0);
   }
 }

@@ -1,19 +1,20 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "stddef.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 char *args[] = { "echo", 0 };
@@ -34,6 +35,7 @@ main(int argc, char *argv[])
   
   for (i = 0; i < 4; i++) {
     n = shmem_count(i);
+	printf("\nParent count = %d",n);
     if (n != 1) {
       test_failed();
     }
@@ -46,20 +48,21 @@ main(int argc, char *argv[])
 	else if (pid == 0) {
 		for (i = 0; i < 4; i++) {
 			n = shmem_count(i);
+			printf("\nChildren count = %d",n);
 			if (n != 2) {
 				test_failed();
 			}
 		}
     
     exec("echo", args); //echo represents shmem_count_exec_helper.c
-    printf(1, "exec failed!\n");
+    printf("exec failed!\n");
     test_failed();
-		exit();	
+		exit(0);	
 	}
 	else {
-		wait();
+		wait(0);
 	}
 
 	test_passed();
-	exit();
+	exit(0);
 }
