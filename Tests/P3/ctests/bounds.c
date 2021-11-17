@@ -1,16 +1,16 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "fcntl.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
 
 #undef NULL
 #define NULL ((void*)0)
 
 #define assert(x) if (x) {} else { \
-   printf(1, "%s: %d ", __FILE__, __LINE__); \
-   printf(1, "assert failed (%s)\n", # x); \
-   printf(1, "TEST FAILED\n"); \
-   exit(); \
+   printf("%s: %d ", __FILE__, __LINE__); \
+   printf("assert failed (%s)\n", # x); \
+   printf("TEST FAILED\n"); \
+   exit(0); \
 }
 
 int
@@ -33,6 +33,6 @@ main(int argc, char *argv[])
   arg = (char*) 0xfff;
   assert(write(fd, arg, 2) == -1);
 
-  printf(1, "TEST PASSED\n");
-  exit();
+  printf("TEST PASSED\n");
+  exit(0);
 }
