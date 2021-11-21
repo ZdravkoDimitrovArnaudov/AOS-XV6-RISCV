@@ -19,7 +19,7 @@ t_pg shared_pages[4] = {{.page_num = 1, .pa = 0, .num_procs = 0},
                         {.page_num = 4, .pa = 0, .num_procs = 0}};
 
 
-
+struct spinlock shared_pages_lock;
 
 struct cpu cpus[NCPU];
 struct proc proc[NPROC];
@@ -307,13 +307,13 @@ fork(void)
     return -1;
   }
 
-  
-
-
-
-
-
-
+  /*Mapear al proceso hijo en su espacio de direcciones,
+  las paginas a las que tiene acceso el padre*/
+  for (int i = 0; i < 4; i++){
+    if (p->VA_PAGES[i] != 0){
+        shmem_access_child(i, np);
+    }
+  }
 
   np->sz = p->sz;
 
@@ -393,7 +393,8 @@ exit(int status)
       -poner la dirección virtual de dicho proceso a 0
     */
   acquire(&p->lock);
-  pte_t *PTE;
+  acquire(&shared_pages_lock);
+  pte_t *pte;
   for (int i = 0; i < 4; i++){
     if (p->VA_PAGES[i] != 0){ //usa esta pagina compartida
 
@@ -401,14 +402,15 @@ exit(int status)
       shared_pages[i].num_procs--;
 
       //invalidamos la entrada en la tabla de paginas
-      PTE = walk (p->pagetable, p->VA_PAGES[i], 0);
-      *PTE &= ~PTE_V;
+      pte = walk (p->pagetable, p->VA_PAGES[i], 0);
+      *pte &= ~PTE_V;
 
       //Anulamos dicha dirección virtual
       p->VA_PAGES[i] = 0;
 
     }
   }
+  release(&shared_pages_lock);
 
   //por ultimo, volvemos a inicializar VA_LIMIT para que al volver a usarse pueda partir de la paga 
   p->VA_LIMIT = TRAPFRAME - PGSIZE;
@@ -723,8 +725,7 @@ shmem_access (int page_number)
 
   acquire(&p->lock);
   if (shared_pages[page_number].pa == 0){ //si no se ha reservado memoria fisica
-    pa = kalloc();
-    if (pa == 0){
+    if ((pa = kalloc()) == 0){
       return (uint64)null;
 
     }
@@ -734,19 +735,20 @@ shmem_access (int page_number)
 
   if (p->VA_PAGES[page_number] == 0){ //si no se ha mapeado en espacio de direcciones virtuales
     if(mappages(p->pagetable, p->VA_LIMIT, PGSIZE, (uint64)shared_pages[page_number].pa, PTE_R | PTE_U| PTE_W) < 0){
+      uvmfree(p->pagetable, 0);
       return (uint64)null;
 
     }
       p->VA_PAGES[page_number] = p->VA_LIMIT;
       p->VA_LIMIT = p->VA_LIMIT - PGSIZE; //actualizamos para siguiente pagina compartida
 
+      //num de procesos que comparten la pagina
+      shared_pages[page_number].num_procs++;
+
   }
 
   //devolver va de pagina
   va = p->VA_PAGES[page_number];
-
-  //num de procesos que comparten la pagina
-  shared_pages[page_number].num_procs++;
 
   release(&p->lock);
   return va; 
@@ -755,6 +757,32 @@ shmem_access (int page_number)
 
 int
 shmem_count (int page_number){
-    return shared_pages[page_number].num_procs;
+  
+  int count = shared_pages[page_number].num_procs;
+    return count;
 }
 
+
+//Función personalizada para mapear las paginas compartidas cuando proceso padre crea hijo con fork
+int
+shmem_access_child (int page_number, struct proc *pchild)
+{
+  struct proc *p = pchild;
+
+  acquire(&shared_pages_lock);
+  if (p->VA_PAGES[page_number] == 0){ //si no se ha mapeado en espacio de direcciones virtuales
+    if(mappages(p->pagetable, p->VA_LIMIT, PGSIZE, (uint64)shared_pages[page_number].pa, PTE_R | PTE_U| PTE_W) < 0){
+      uvmfree(p->pagetable, 0);
+      return (uint64)null;
+
+    }
+      p->VA_PAGES[page_number] = p->VA_LIMIT;
+      p->VA_LIMIT = p->VA_LIMIT - PGSIZE; //actualizamos para siguiente pagina compartida
+
+      //num de procesos que comparten la pagina
+      shared_pages[page_number].num_procs++;
+
+  }
+  release(&shared_pages_lock);
+  return 0;
+}

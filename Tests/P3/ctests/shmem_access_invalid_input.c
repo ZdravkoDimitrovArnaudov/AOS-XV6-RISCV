@@ -26,21 +26,25 @@ main(int argc, char *argv[])
 	if (ptr != NULL) {
 		test_failed();
 	}
+	printf("Test argumento 1: pasado\n");
 
 	ptr = shmem_access(-100);
 	if (ptr != NULL) {
 		test_failed();
 	}
+	printf("Test argumento 2: pasado\n");
 
 	ptr = shmem_access(4);
 	if (ptr != NULL) {
 		test_failed();
 	}
+	printf("Test argumento 3: pasado\n");
 
 	ptr = shmem_access(100);
 	if (ptr != NULL) {
 		test_failed();
 	}
+	printf("Test argumento 4: pasado\n");
 
 	test_passed();
 	exit(0);

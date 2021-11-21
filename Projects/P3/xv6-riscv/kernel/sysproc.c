@@ -19,7 +19,7 @@ sys_shmem_access (void)
     return (uint64)null;
   }
 
-  if (page_number > 4 || page_number < 1){
+  if (page_number > 3 || page_number < 0){
     return (uint64)null;
   }
   
@@ -31,14 +31,14 @@ sys_shmem_count (void)
 {
   int page_number;
   if(argint(0, &page_number) < 0){
-    return (uint64)null;
+    return  -1;
   }
 
-  if (page_number > 4 || page_number < 1){
-    return (uint64)null;
+  if (page_number > 3 || page_number < 0){
+    return -1;
   } 
 
-  return shmem_count(page_number);
+  return  shmem_count(page_number);
 }
 
 

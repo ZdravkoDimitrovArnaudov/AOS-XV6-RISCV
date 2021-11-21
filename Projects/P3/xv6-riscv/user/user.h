@@ -24,6 +24,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 void* shmem_access(int page_number);
+int shmem_count (int page_nubmer);
 
 
 // ulib.c

@@ -26,21 +26,26 @@ main(int argc, char *argv[])
 	if (n != -1) {
 		test_failed();
 	}
+	printf ("Test argumento 1: pasado\n");
 
 	n = shmem_count(-100);
 	if (n != -1) {
 		test_failed();
 	}
+	printf ("Test argumento 2: pasado\n");
 
 	n = shmem_count(4);
 	if (n != -1) {
+		printf ("El valor de retorno es: %d\n");
 		test_failed();
 	}
+	printf ("Test argumento 3: pasado\n");
 
 	n = shmem_count(100);
 	if (n != -1) {
 		test_failed();
 	}
+	printf ("Test argumento 4: pasado\n");
 
 	test_passed();
 	exit(0);
