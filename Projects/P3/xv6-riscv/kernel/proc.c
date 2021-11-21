@@ -10,12 +10,13 @@
 typedef struct pg{
   int page_num;
   char *pa;
+  int num_procs;
 }t_pg;
 
-t_pg shared_pages[4] = {{.page_num = 1, .pa = 0},
-                        {.page_num = 2, .pa = 0},
-                        {.page_num = 3, .pa = 0},
-                        {.page_num = 4, .pa = 0}};
+t_pg shared_pages[4] = {{.page_num = 1, .pa = 0, .num_procs = 0},
+                        {.page_num = 2, .pa = 0, .num_procs = 0},
+                        {.page_num = 3, .pa = 0, .num_procs = 0},
+                        {.page_num = 4, .pa = 0, .num_procs = 0}};
 
 
 
@@ -131,7 +132,7 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
-  p->VA_LIMIT = TRAMPOLINE - PGSIZE; //inicializacion
+  p->VA_LIMIT = TRAPFRAME - PGSIZE; //inicializacion
   p->VA_PAGES[0] = 0;
   p->VA_PAGES[1] = 0;
   p->VA_PAGES[2] = 0;
@@ -375,6 +376,36 @@ exit(int status)
   iput(p->cwd);
   end_op();
   p->cwd = 0;
+
+  /*El proceso termina:
+      -recorrer las direcciones virtuales del proceso
+      -si accede a una página, decrementar el número de procesos con acceso dicha página en la estructura compartida
+      -invalidar la entrada en la tabla de páginas
+      -poner la dirección virtual de dicho proceso a 0
+    */
+  acquire(&p->lock);
+  pte_t *PTE;
+  for (int i = 0; i < 4; i++){
+    if (p->VA_PAGES[i] != 0){ //usa esta pagina compartida
+
+      //disminuimos numero de paginas compartidas
+      shared_pages[i].num_procs--;
+
+      //invalidamos la entrada en la tabla de paginas
+      PTE = walk (p->pagetable, p->VA_PAGES[i], 0);
+      *PTE &= ~PTE_V;
+
+      //Anulamos dicha dirección virtual
+      p->VA_PAGES[i] = 0;
+
+    }
+  }
+
+  //por ultimo, volvemos a inicializar VA_LIMIT para que al volver a usarse pueda partir de la paga 
+  p->VA_LIMIT = TRAPFRAME - PGSIZE;
+
+  release(&p->lock);
+
 
   acquire(&wait_lock);
 
@@ -704,6 +735,10 @@ shmem_access (int page_number)
 
   //devolver va de pagina
   va = p->VA_PAGES[page_number];
+
+  //num de procesos que comparten la pagina
+  shared_pages[page_number].num_procs++;
+
   release(&p->lock);
   return va; 
 }
@@ -712,9 +747,5 @@ shmem_access (int page_number)
 int
 shmem_count (int page_number){
   
-
-
-
-
 }
 

@@ -214,7 +214,7 @@ para esta página de nuevo, debemos saber dónde está. Con lo cual, implementar
   uint64 VA_PAGES[4];          // Para guardar las VAs de cada pagina
 
 (proc.c, allocproc())
-  p->VA_LIMIT = TRAMPOLINE - PGSIZE; //inicializacion
+  p->VA_LIMIT = TRAPFRAME - PGSIZE; //inicializacion
   p->VA_PAGES[0] = 0;
   p->VA_PAGES[1] = 0;
   p->VA_PAGES[2] = 0;
@@ -418,14 +418,86 @@ de procesos que comparten paginas: Tener una variable global que se incrementa s
 procesos que tengan acceso a las páginas, o ver por cada proceso a qué paginas tiene acceso. 
 
 En este caso preferimos la primera opción, ya que nos ahorramos hacer demasiadas comprobaciones. La modificación 
-de esta variable se hará usando lock.
-
-Primero, implementaremos la función y más adelante haremos las modificaciones necesarias en fork() y exit().
+de esta variable se hará usando lock. Primero, implementaremos la función y más adelante haremos las modificaciones necesarias en fork() y exit().
 
 
+El primer paso será añadir un nuevo campo a la estructura de datos compartida, que será el número de
+procesos que comparten una página. El acceso a este campo debe ser protegido evidentemente.
+
+typedef struct pg{
+  int page_num;
+  char *pa;
+  int num_procs;
+}t_pg;
+
+t_pg shared_pages[4] = {{.page_num = 1, .pa = 0, .num_procs = 0},
+                        {.page_num = 2, .pa = 0, .num_procs = 0},
+                        {.page_num = 3, .pa = 0, .num_procs = 0},
+                        {.page_num = 4, .pa = 0, .num_procs = 0}};
+
+...
+
+uint64
+shmem_access (int page_number)
+{
+ 
+ //...
+
+  //num de procesos que comparten la pagina
+  shared_pages[page_number].num_procs++;
+
+  release(&p->lock);
+  return va; 
+}
+
+...
+
+Ahora, modificaremos la función Exit(). Básicamente, lo que se debe hacer aquí es disminuir el numero de procesos que usa cada página,
+poner a 0 todas las direcciones virtuales de las paginas para cada proceso e invalidar la entrada en la tabla de paginas del proceso.
+
+/*El proceso termina:
+      -recorrer las direcciones virtuales del proceso
+      -si accede a una página, decrementar el número de procesos con acceso dicha página en la estructura compartida
+      -invalidar la entrada en la tabla de páginas
+      -poner la dirección virtual de dicho proceso a 0
+    */
+  acquire(&p->lock);
+  pte_t *PTE;
+  for (int i = 0; i < 4; i++){
+    if (p->VA_PAGES[i] != 0){ //usa esta pagina compartida
+
+      //disminuimos numero de paginas compartidas
+      shared_pages[i].num_procs--;
+
+      //invalidamos la entrada en la tabla de paginas
+      PTE = walk (p->pagetable, p->VA_PAGES[i], 0);
+      *PTE &= ~PTE_V;
+
+      //Anulamos dicha dirección virtual
+      p->VA_PAGES[i] = 0;
+
+    }
+  }
+
+  //por ultimo, volvemos a inicializar VA_LIMIT para que al volver a usarse pueda partir de la paga 
+  p->VA_LIMIT = TRAPFRAME - PGSIZE;
+
+  release(&p->lock);
 
 
+  ...
 
+
+  Lo que nos falta por modificar es la función fork().
+
+  Hemos de tener en cuenta, que para las páginas compartidas, el proceso hijo al crearse no debería
+  alocatar espacio físico para dichas páginas. Es el proceso que normalmente hay para copiar el espacio de direcciones del padre al hijo, pero 
+  en este caso no podemos hacer lo msimo con las páginas compartidas porque están ya creadas.
+
+  Lo que podemos hacer es ver a qué páginas tiene acceso el padre y llamar a la función shmem_acess para el hijo. Al hacer uvmcopy, estamos seguros de que no crea espacio 
+  físico de nuevo para estas páginas porque va de 0 a sz.
+
+  
 
 
 
