@@ -1,19 +1,19 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 int
@@ -24,12 +24,12 @@ main(int argc, char *argv[])
   
   for (i = 0; i < 4; i++) {
     n = shmem_count(i);
-		printf(1, "n = %d\n", n);
+		printf("n = %d\n", n);
     if (n != 1) {
       test_failed();
     }
   }
 	
 	test_passed();
-	exit();
+	exit(0);
 }
