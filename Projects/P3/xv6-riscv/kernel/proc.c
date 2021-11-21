@@ -306,6 +306,15 @@ fork(void)
     release(&np->lock);
     return -1;
   }
+
+  
+
+
+
+
+
+
+
   np->sz = p->sz;
 
   // copy saved user registers.
@@ -746,6 +755,6 @@ shmem_access (int page_number)
 
 int
 shmem_count (int page_number){
-  
+    return shared_pages[page_number].num_procs;
 }
 

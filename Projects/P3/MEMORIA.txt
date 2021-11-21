@@ -498,6 +498,19 @@ poner a 0 todas las direcciones virtuales de las paginas para cada proceso e inv
   físico de nuevo para estas páginas porque va de 0 a sz.
 
   
+  TODO!!
+
+
+
+
+
+
+  Finalmente, la implementación de la función en shmem_count.
+
+  int
+shmem_count (int page_number){
+    return shared_pages[page_number].num_procs;
+}
 
 
 
