@@ -497,12 +497,48 @@ poner a 0 todas las direcciones virtuales de las paginas para cada proceso e inv
   Lo que podemos hacer es ver a qué páginas tiene acceso el padre y llamar a la función shmem_acess para el hijo. Al hacer uvmcopy, estamos seguros de que no crea espacio 
   físico de nuevo para estas páginas porque va de 0 a sz.
 
-  
-  TODO!!
+
+  //...
+
+  /*Mapear al proceso hijo en su espacio de direcciones,
+  las paginas a las que tiene acceso el padre*/
+  for (int i = 0; i < 4; i++){
+    if (p->VA_PAGES[i] != 0){
+        shmem_access_child(i, np);
+    }
+  }
+
+  //..
+
+  La función shmem_access_child tiene la siguiente implementación:
 
 
+//Función personalizada para mapear las paginas compartidas cuando proceso padre crea hijo con fork
+int
+shmem_access_child (int page_number, struct proc *pchild)
+{
+  struct proc *p = pchild;
+
+  acquire(&shared_pages_lock);
+  if (p->VA_PAGES[page_number] == 0){ //si no se ha mapeado en espacio de direcciones virtuales
+    if(mappages(p->pagetable, p->VA_LIMIT, PGSIZE, (uint64)shared_pages[page_number].pa, PTE_R | PTE_U| PTE_W) < 0){
+      uvmfree(p->pagetable, 0);
+      return (uint64)null;
+
+    }
+      p->VA_PAGES[page_number] = p->VA_LIMIT;
+      p->VA_LIMIT = p->VA_LIMIT - PGSIZE; //actualizamos para siguiente pagina compartida
+
+      //num de procesos que comparten la pagina
+      shared_pages[page_number].num_procs++;
+
+  }
+  release(&shared_pages_lock);
+  return 0;
+}
 
 
+En este caso, esta función simplemente mapea las páginas a las que tiene acceso el padre.
 
 
   Finalmente, la implementación de la función en shmem_count.
@@ -515,6 +551,44 @@ shmem_count (int page_number){
 
 
 
+>>PROBLEMA TEST
+
+En el punto en el que estamos, intentamos pasar los tests. Hay 2 de la primera parte que no vamos a pasar porque la obviamos. 
+Actualmente, nos pasan 17. Los test que fallan son:
+
+  -shmem_access_exec
+  -shmem_access_exec2
+  -shmem_count_exec
+
+
+Estudiaremos el comportamiento del primer fichero por ejemplo. Lo que hace en el main es abrir acceso a 4 paginas compartidas.
+Después de haber hecho eso, hace fork para crear un hijo. Estando en el hijo, lo que se hace es llamar a la función exec().
+
+El fallo que nos aparece al correr los test es: panic: freewalk: leaf. La función en la que está se llama freewalk  y su función es basicamente
+liberar recursivamente páginas de la tabla de páginas. Esta función solo puede liberar aquellas páginas que hayan sido invalidadas antes, si no se muestra el error.
+
+Podemos ver que la función freewalk, se llama desde uvmfree. Esta función lo que hace es liberar paginas de memoria de usuario. Después, libera las páginas de la tabla
+de páginas. 
+
+Bien, uvmfree, ¿desde dónde se llama? Si miramos en proc.c, aparece en las siguientes funciones:
+  
+  -proc_pagetable(struct proc *p): Crea una tabla de páginas para un proceso concreto. Mapea las paginas en userspace de Trampoline y Trapframe.
+  -proc_freepagetable(pagetable_t pagetable, uint64 sz): libera la tabla de páginas de un proceso y también su memoria física a la que hace referencia.
+
+
+Estas dos funciones, ¿desde dónde se llaman también? En el exec.c, tanto uno como otro.
+Viendo los resultados de los tests, podemos asumir que el problema nace al llamar a la función exec(), porque todas 
+las cosas que se suceden en el test antes se han probado previamente y funcionan.
+
+Con lo cual, investiguemos más en detalle el fichero exec.c ...
+
+
+
+
+
+
+Este código se encuentra en la función freewalk(pagetable_t pagetable) de vm.c. . 
+La función freewalk, se llama también desde la función uvmfree
 
 
 

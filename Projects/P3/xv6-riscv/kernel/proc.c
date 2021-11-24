@@ -393,7 +393,7 @@ exit(int status)
       -poner la dirección virtual de dicho proceso a 0
     */
   acquire(&p->lock);
-  acquire(&shared_pages_lock);
+  //acquire(&shared_pages_lock); //PODRIA SER ESTO RAZON DE FALLO, SE HA COMENTADO
   pte_t *pte;
   for (int i = 0; i < 4; i++){
     if (p->VA_PAGES[i] != 0){ //usa esta pagina compartida
@@ -410,7 +410,7 @@ exit(int status)
 
     }
   }
-  release(&shared_pages_lock);
+  //release(&shared_pages_lock);
 
   //por ultimo, volvemos a inicializar VA_LIMIT para que al volver a usarse pueda partir de la paga 
   p->VA_LIMIT = TRAPFRAME - PGSIZE;
@@ -604,7 +604,10 @@ sleep(void *chan, struct spinlock *lk)
   p->chan = chan;
   p->state = SLEEPING;
 
+
   sched();
+
+
 
   // Tidy up.
   p->chan = 0;
