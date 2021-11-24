@@ -162,6 +162,7 @@ tester
 null dereference: 0 EC061101
 TEST FAILED
 
+
 test null FAILED (0 of 10)
  (null pointer dereference should kill process)
  tester failed
@@ -402,7 +403,6 @@ $ tester
 tester
 TEST PASSED
 
-
 test shmem_access_read_write PASSED (10 of 10)
  (making sure shared pages are readable and writable)
 
@@ -579,6 +579,8 @@ xv6 kernel is booting
 init: starting sh
 $ tester
 tester
+usertrap(): unexpected scause 0x000000000000000f pid=4
+            sepc=0x0000000000000066 stval=0x0000003fffffa000
 TEST PASSED
 
 test shmem_access_exec2 PASSED (10 of 10)
@@ -613,6 +615,7 @@ init: starting sh
 $ tester
 tester
 TEST PASSED
+
 
 test shmem_access_syscall_args PASSED (10 of 10)
  (making sure pointers from shared pages can be successfully passed to system calls. ***NOTE*** only open and write system calls are tested here; when grading, we may change the test to any other system call that may take pointers.)
@@ -683,6 +686,7 @@ init: starting sh
 $ tester
 tester
 TEST PASSED
+
 
 test shmem_count_zero PASSED (10 of 10)
  (shmem_count should return 0 if no one is referencing the page.)
@@ -816,6 +820,7 @@ $ tester
 tester
 TEST PASSED
 
+
 test shmem_count_fork PASSED (10 of 10)
  (shmem_count should return 2 after fork if the parent process has accessed a shared page.)
 
@@ -860,12 +865,14 @@ Parent count = 1
 Children count = 2
 Children count = 2
 Children count = 2
-Children count = 2n = 2
-TEST FAILED
+Children count = 2n = 1
+n = 1
+n = 1
+n = 1
+TEST PASSED
 
-test shmem_count_exec FAILED (0 of 10)
+test shmem_count_exec PASSED (10 of 10)
  (Exec should decrement count for shared pages. Parent accesses a shared page, then it forks. Child performs exec to start a new program. In the new program, the count for the shared page should be 1.)
- tester failed
 
 **********************************************************************
 Summary:
@@ -934,10 +941,9 @@ test shmem_count_one2 PASSED (10 of 10)
 test shmem_count_fork PASSED (10 of 10)
  (shmem_count should return 2 after fork if the parent process has accessed a shared page.)
 
-test shmem_count_exec FAILED (0 of 10)
+test shmem_count_exec PASSED (10 of 10)
  (Exec should decrement count for shared pages. Parent accesses a shared page, then it forks. Child performs exec to start a new program. In the new program, the count for the shared page should be 1.)
- tester failed
 
-Passed 19 of 22 tests.
-Overall 19 of 22
-Points 180 of 210
+Passed 20 of 22 tests.
+Overall 20 of 22
+Points 190 of 210

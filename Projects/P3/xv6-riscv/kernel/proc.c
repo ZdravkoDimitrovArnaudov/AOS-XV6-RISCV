@@ -758,6 +758,7 @@ shmem_access (int page_number)
 }
 
 
+//devuelve numero de procesos con acceso a las páginas compartidas
 int
 shmem_count (int page_number){
   
@@ -788,4 +789,17 @@ shmem_access_child (int page_number, struct proc *pchild)
   }
   release(&shared_pages_lock);
   return 0;
+}
+
+
+//Llamarse desde exec para decrementar accesos a las páginas cuando se carga nuevo programa
+void 
+reduce_shmem_access(struct proc *p){
+  acquire(&p->lock); 
+  for (int i = 0; i < 4; i++){
+    if (p->VA_PAGES[i] != 0){
+      shared_pages[i].num_procs--;
+    }
+  }
+  release(&p->lock);
 }

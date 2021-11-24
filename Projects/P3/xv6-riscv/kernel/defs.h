@@ -107,6 +107,7 @@ void            procdump(void);
 uint64          shmem_access (int page_number);
 int             shmem_count (int page_number);
 int           shmem_access_child (int page_number, struct proc *child);
+void            reduce_shmem_access(struct proc *p);
 
 // swtch.S
 void            swtch(struct context*, struct context*);

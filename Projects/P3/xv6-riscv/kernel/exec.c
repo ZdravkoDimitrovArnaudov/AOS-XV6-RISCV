@@ -21,29 +21,21 @@ exec(char *path, char **argv)
   pagetable_t pagetable = 0, oldpagetable;
   struct proc *p = myproc();
 
- //salvar las direcciones virtuales a las paginas que tiene acceso el proceso. También las direcciones físicas para poder mapearlas en la nueva tabla de paginas
-   uint64 direcciones_fisicas[4];
-   uint64 direcciones_virtuales[4];
-   uint64 VA_SHMEM;
+  //Anotamos por facilidad las VA de las paginas compartidas, para poder luego invalidar las ptes.
+  uint64 direcciones_virtuales[4];
 
-   for (int i = 0; i < 4; i++){
-     if (p->VA_PAGES[i] != 0){
-       direcciones_virtuales[i] = p->VA_PAGES[i];
-       direcciones_fisicas[i] = walkaddr (p->pagetable, direcciones_virtuales[i]); //no comprobamos si no están mapeadas porque solo lo hacemos en aquellos accesos a paginas compartidas 
-     } else {
+  for (int i = 0; i < 4; i++){
+    if (p->VA_PAGES[i] != 0){
+      direcciones_virtuales[i] = p->VA_PAGES[i];
+
+    } else {
      direcciones_virtuales[i] = 0;
-     direcciones_fisicas[i] = 0;
-     }
-   }
+    }
 
-   //para poder seguir asignando las direcciones virtuales
-   VA_SHMEM = p->VA_LIMIT;
+  }
 
-   
-
-  
-  
- 
+  //debemos decrementar el número de procesos que acceden a estas páginas
+  reduce_shmem_access(p);
 
   begin_op();
 
@@ -140,26 +132,15 @@ exec(char *path, char **argv)
   p->trapframe->sp = sp; // initial stack pointer
 
 
-  //invalidar previamente las entradas en la tabla de paginas
+  //Antes de poder liberar las tablas de paginas, es necesario previamente invalidarlas
+  //En caso contrario, panic freewalk leaf.
   pte_t *pte;
   for (int i = 0; i < 4; i++){
-    //printf ("VA[%p]\n", direcciones_virtuales[i]);
      if (direcciones_virtuales[i] != 0){
        pte = walk (oldpagetable, direcciones_virtuales[i], 0);
        *pte &= ~PTE_V;
-
-      //devolvemos las VA al proceso
-      p->VA_PAGES[i] = direcciones_virtuales[i];
-
-      //mapeamos la pagina en la nueva tabla
-      if(mappages(p->pagetable, p->VA_PAGES[i], PGSIZE, direcciones_fisicas[i], PTE_R | PTE_U| PTE_W) < 0){
-         goto bad;
-      }
      }
    }
-
-   //devolvemos LIMITE VA
-   p->VA_LIMIT = VA_SHMEM;
 
 
   proc_freepagetable(oldpagetable, oldsz);
