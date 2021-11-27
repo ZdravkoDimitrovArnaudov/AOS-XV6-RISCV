@@ -473,22 +473,16 @@ scheduler(void)
 
     for(p = proc; p < &proc[NPROC]; p++) {
       acquire(&p->lock);
-      if((p->state == RUNNABLE ) && ((p->priority == LOW_PRIORITY && high_priority_procs == 0) || (p->priority == HIGH_PRIORITY))) { //nos aseguramos de que no entran a ejecutar procesos de alta prioridad cuando aún no se ha actualizado correctamente la variable:&& high_priority_procs > 0
+      if((p->state == RUNNABLE ) && 
+      ((p->priority == LOW_PRIORITY && high_priority_procs == 0) || (p->priority == HIGH_PRIORITY))) { 
 
-
-      /* if (p->priority == HIGH_PRIORITY && high_priority_procs == 0){ FOR DEBUG
-        panic("ERROR.");
-
-      } */
-
-      if (p->priority == HIGH_PRIORITY){
-        p->hticks++;
-      } else {
-        p->lticks++;
-      }
+        //modificamos ticks de reloj
+        if (p->priority == HIGH_PRIORITY){
+          p->hticks++;
+        } else {
+          p->lticks++;
+        }
         
-        
-
         // Switch to chosen process.  It is the process's job
         // to release its lock and then reacquire it
         // before jumping back to us
@@ -718,7 +712,7 @@ procdump(void)
 int 
 getpinfo (uint64  addr){
 
-  //debemos definir al proceso proc y la estructura pstat.
+  //definición del proceso y estructura pstat
   struct proc *p;
   struct pstat ps;
   uint64 counter = 0;
@@ -740,7 +734,9 @@ getpinfo (uint64  addr){
 
     p = myproc(); //calling process
 
-    //la estuctura que hemos completado, se copiará desde la tabla de paginas del proceso a la estructura pstat que ha inicializado
+    //la estuctura que hemos completado desde el kernel, 
+    //se copiará a la tabla de páginas del proceso
+    //concretamente donde se esté su respectiva instancia de la estructura pstat.
     if (copyout (p->pagetable, addr, (char *)&ps, sizeof (ps)) < 0){
       return -1;
     }
@@ -754,17 +750,11 @@ setpri (int num)
 {
   struct proc *p = myproc();
   acquire(&p->lock);
-  if (p->priority== LOW_PRIORITY && num == HIGH_PRIORITY){ //solo si el proceso pasa de prioridad baja a alta
-
-    acquire(&priority_lock);
+  if (p->priority== LOW_PRIORITY && num == HIGH_PRIORITY){ 
     high_priority_procs++;
-    release(&priority_lock);
 
   } else if (p->priority == HIGH_PRIORITY && num == LOW_PRIORITY){
-    
-    acquire(&priority_lock);
     high_priority_procs--;
-    release(&priority_lock);
   }
     p->priority = num;
   

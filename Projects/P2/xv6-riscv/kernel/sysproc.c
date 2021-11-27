@@ -28,7 +28,7 @@ sys_getpinfo(void)
     return -1;
   }
 
-  if (ps == (uint64)null){ //NULL
+  if (ps == (uint64)null){ 
     return -1;
   }
 
@@ -40,6 +40,8 @@ uint64
 sys_setpri(void)
 {
   int num;
+
+  //obtenemos entero
   if(argint(0, &num) < 0){
     return -1;
   }
@@ -48,7 +50,7 @@ sys_setpri(void)
     return -1;
   }
 
-  return setpri(num); //cambiamos la prioridad al
+  return setpri(num); 
 }
 
 

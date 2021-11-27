@@ -39,7 +39,8 @@ main(int argc, char *argv[])
 	else if (pid == 0) {
     exec("echo", args); //echo represents shmem_access_exec_helper.c
     printf("exec failed!\n");
-    test_failed();
+
+
 		exit(0);	
 	}
 	else {

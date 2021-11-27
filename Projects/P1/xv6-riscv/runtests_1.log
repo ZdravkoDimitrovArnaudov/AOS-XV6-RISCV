@@ -1,0 +1,206 @@
+starting build
+
+**********************************************************************
+
+Test build
+build xv6 using make
+
+**********************************************************************
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+make: 'fs.img' is up to date.
+
+
+test build PASSED
+ (build xv6 using make)
+
+starting procs1
+
+**********************************************************************
+
+Test procs1
+call getprocs() from a user program
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P1/ctests/procs1.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-linux-gnu-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-linux-gnu-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-linux-gnu-objdump -S user/_tester > user/tester.asm
+riscv64-linux-gnu-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_getprocs 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 646 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test procs1 PASSED (20 of 20)
+ (call getprocs() from a user program)
+
+starting procs2
+
+**********************************************************************
+
+Test procs2
+call fork() before getprocs()
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P1/ctests/procs2.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-linux-gnu-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-linux-gnu-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-linux-gnu-objdump -S user/_tester > user/tester.asm
+riscv64-linux-gnu-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_getprocs 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 646 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test procs2 PASSED (20 of 20)
+ (call fork() before getprocs())
+
+starting procs3
+
+**********************************************************************
+
+Test procs3
+call getprocs() with a full process table
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P1/ctests/procs3.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-linux-gnu-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-linux-gnu-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-linux-gnu-objdump -S user/_tester > user/tester.asm
+riscv64-linux-gnu-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_getprocs 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 646 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+
+test procs3 PASSED (20 of 20)
+ (call getprocs() with a full process table)
+
+starting procs4
+
+**********************************************************************
+
+Test procs4
+call getprocs() with a process table filled with zombies
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P1/ctests/procs4.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-linux-gnu-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-linux-gnu-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-linux-gnu-objdump -S user/_tester > user/tester.asm
+riscv64-linux-gnu-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_getprocs 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 646 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test procs4 PASSED (20 of 20)
+ (call getprocs() with a process table filled with zombies)
+
+starting procs5
+
+**********************************************************************
+
+Test procs5
+call getprocs() after some entries turn back to UNUSED
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P1/ctests/procs5.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-linux-gnu-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-linux-gnu-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-linux-gnu-objdump -S user/_tester > user/tester.asm
+riscv64-linux-gnu-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_getprocs 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 647 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test procs5 PASSED (20 of 20)
+ (call getprocs() after some entries turn back to UNUSED)
+
+**********************************************************************
+Summary:
+test build PASSED
+ (build xv6 using make)
+
+test procs1 PASSED (20 of 20)
+ (call getprocs() from a user program)
+
+test procs2 PASSED (20 of 20)
+ (call fork() before getprocs())
+
+test procs3 PASSED (20 of 20)
+ (call getprocs() with a full process table)
+
+test procs4 PASSED (20 of 20)
+ (call getprocs() with a process table filled with zombies)
+
+test procs5 PASSED (20 of 20)
+ (call getprocs() after some entries turn back to UNUSED)
+
+Passed 6 of 6 tests.
+Overall 6 of 6
+Points 100 of 100
