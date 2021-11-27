@@ -8,14 +8,13 @@
 #include "pstat.h"
 #include <stdbool.h>
 
-//variable para indicar si hay procesos con alta prioridad pendientes de ejecutarse
-int high_priority_procs = 0;
-struct spinlock priority_lock;
-bool proc_break = false;
+
 
 struct cpu cpus[NCPU];
 
 struct proc proc[NPROC];
+bool proc_break = false;
+int high_priority_procs = 0;
 
 struct proc *initproc;
 
@@ -384,15 +383,11 @@ exit(int status)
   p->state = ZOMBIE;
 
   if (p->priority == HIGH_PRIORITY){
-    acquire(&priority_lock);
     high_priority_procs--;
-    release(&priority_lock);
 
     if (high_priority_procs == 0){
       proc_break = true;
     }
-
-    
   }
 
   release(&wait_lock);
@@ -584,10 +579,8 @@ sleep(void *chan, struct spinlock *lk)
   p->chan = chan;
   p->state = SLEEPING;
 
-  if (p->priority == HIGH_PRIORITY){ //disminuimos número de procesos con alta prioridaad pendientes de ejecutarse
-   acquire(&priority_lock);
+  if (p->priority == HIGH_PRIORITY){ 
     high_priority_procs--;
-    release(&priority_lock);
   }
 
   sched();
@@ -613,10 +606,8 @@ wakeup(void *chan)
       if(p->state == SLEEPING && p->chan == chan) {
         p->state = RUNNABLE;
 
-        if (p->priority == HIGH_PRIORITY){ //cuando se despierta de nuevo el proceso de alta prioridad, se incrementa la variable.
-          acquire(&priority_lock);
+        if (p->priority == HIGH_PRIORITY){ 
           high_priority_procs++;
-          release(&priority_lock);
         }
 
       }
@@ -755,9 +746,15 @@ setpri (int num)
 
   } else if (p->priority == HIGH_PRIORITY && num == LOW_PRIORITY){
     high_priority_procs--;
+    
+    if (high_priority_procs == 0){
+      proc_break = true;
+    }
   }
     p->priority = num;
   
   release(&p->lock);
   return 0;
 }
+
+
