@@ -1,0 +1,66 @@
+---------------------
+------MEMORIA P4-----
+---------------------
+
+Indice
+    1. Objetivos
+    2. Planteamiento
+    3. Desarrollo
+    4. Observaciones
+
+
+1.
+
+El objetivo de esta práctica consiste en poder añadir correctamente kernel threads.
+Necesitamos realizar 3 cosas:
+    -añadir una llamada al sistema que genere kernel threads, llamada clone() y otra que haga wait al thread con la llamada join().
+    -usar clone() para construir una librería de thread (en espacio de usuario) con llamadas thread_create() y thread_join();
+    -soporte para locks y variables condicionales.
+        +para locks: lock_init(), lock_acquire(), lock_release()
+        +para variables condicionales: cv_init(), cv_wait(), cv_signal().
+
+
+
+2.
+
+El prototipo de la llamada al sistema clone, deberá ser:
+    int clone (void(*fcn)(void*), void *arg, void*stack);
+
+Esta llamada crea un nuevo kernel thread que comparte el espacio de direcciones del proceso que lo crea.
+El nuevo thread/proceso emplea "stack" como su stack de usuario. Tendrá el tamaño de una página 
+y deberá estar alineada. El nuevo proceso, comienza ejecutando en la dirección indicada por el puntero fcn. 
+Al igual que el fork(), al final el PID del nuevo thread se comparte con el padre.
+
+
+La segunda nueva llamada al sistema es join(void **stack). Esta syscall, espera a que termine el proceso hijo
+que comparte el espacio de direcciones del proceso padre. Devuelve el PID del hijo esperado, o -1 si no existe.
+La localización del stack de usuario del hijo está copiado en el argumento "stack".
+
+Es necesario también pensar en cómo gestionar algunas llamadas al sistema existentes como wait y exit.
+Para wait, ¿será necesario esperar a un proceso hijo que no comparte el espacio de direcciones del padre?
+Para exit(), debe funcionar como antes. Para ambos procesos y threads se deberán hacer pocos cambios.
+
+>>LIBRERÍA DE THREAD 
+
+La librería de thread, deberá componer la llamada thread_create (void *start_routine)(void*), void *arg).
+Esta rutina tendrá que llamar a malloc() para crear el nuevo userstack, usar clone() para poder crear el thread hijo y ponerlo
+a ejecutar. Una llamada thread_join() también deberá ser usada, que emplea la llamada join del sistema, libera el user stack y luego devuelve.
+
+La librería de thread, también deberá tener un simple spinlock. Tiene que haberun tipo lock_t que uno emplea para declarar un
+lock y dos rutinas: lock_acquire(lock_t*) y lock_release(lock_t*), que adquieren y  liberan el lock.
+También, lock_init(lock_t *) nos servirá para inicializar el lock.
+
+Finalmente, deberemos tener una variable condicional y las respectivas rutinas: cond_t, cv_wait (cond_t*, lock_t*)
+y cv_signal(cond_t*). Estas rutinas deberían hacer lo esperado: poner al llamante a dormir (y liberar el lock) o despertar 
+al thread dormido respectivamente. Deberán añadirse llamadas al sistema adicionales para cumplir con esto.
+Dejalo para el final del proyecto.
+
+Para probar el código, usar los test. También, es recomendable crear pequeñas piezas de código para comprobar 
+que todo funciona.
+
+
+
+
+
+
+
