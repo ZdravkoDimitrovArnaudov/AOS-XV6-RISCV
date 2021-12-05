@@ -654,3 +654,77 @@ procdump(void)
     printf("\n");
   }
 }
+
+
+int clone(void(*fcn)(void*), void *arg, void*stack)
+{
+
+    int i, pid;
+  struct proc *np;
+  struct proc *p = myproc();
+
+  // Allocate process.
+  if((np = allocproc()) == 0){
+    return -1;
+  }
+
+  //Tenemos que copiar también al proceso hijo la tabla de páginas del proceso padre
+  np->pagetable = p->pagetable;
+  np->sz = p->sz;
+
+  // copy saved user registers.
+  *(np->trapframe) = *(p->trapframe);
+
+  // Cause fork to return 0 in the child.
+  np->trapframe->a0 = 0;
+
+  /*
+    -user_stack[2]: elementos que introducimos en la pila
+        +argumento de función
+        +PC de retorno falso
+    -modificar stack pointer 
+    -hacer que program counter apunte a la función
+  */
+  uint64 user_stack[2];
+  user_stack[0] = 0xffffffff;
+  user_stack[1] = (uint64) arg;
+  uint64 top_stack = (uint64) stack;
+  top_stack = top_stack - 8; //para almacenar el argumento y PC de retorno
+
+  //copyout
+  if (copyout(np->pagetable, top_stack, user_stack, 8) < 0) {
+        return -1;
+    }
+
+  //cambiar program counter a la función que debe ejecutar
+  np->trapframe->epc = (uint64) fcn;
+
+  //actualiza stack pointer
+  np->trapframe->sp = top_stack;
+
+
+  // increment reference counts on open file descriptors.
+  for(i = 0; i < NOFILE; i++)
+    if(p->ofile[i])
+      np->ofile[i] = filedup(p->ofile[i]);
+  np->cwd = idup(p->cwd);
+
+  safestrcpy(np->name, p->name, sizeof(p->name));
+
+  pid = np->pid;
+
+  release(&np->lock);
+
+  acquire(&wait_lock);
+  np->parent = p;
+  release(&wait_lock);
+
+  acquire(&np->lock);
+  np->state = RUNNABLE;
+  release(&np->lock);
+
+  return pid;
+
+}
+
+
