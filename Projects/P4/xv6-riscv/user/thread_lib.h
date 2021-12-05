@@ -1,0 +1,52 @@
+#include "kernel/defs.h"
+#include "user/user.h"
+#include "kernel/types.h"
+#include "kernel/param.h"
+#include "kernel/proc.h"
+
+
+#define PAGE_SIZE (4096)
+
+int thread_create(void (*start_routine)(void*),  void *arg){
+    
+    uint64 va;
+
+    //creamos el stack del thread con tamaño de pagina 1
+    void *stack;
+    if (!(stack = malloc (PAGE_SIZE))){
+        printf ("Error: No se ha podido allocatar el stack en el heap del proceso padre.\n");
+        return -1;
+    }
+
+    //comprobamos si la dirección está alineada a página. En caso contrario hacerlo.
+    va = (uint64) stack;
+    if ((va % PAGE_SIZE) != 0){
+        stack = stack + (PAGE_SIZE - (va % PAGE_SIZE));
+    }
+    
+    return clone (start_routine, arg, stack);
+}
+
+
+int thread_join()
+{
+
+    return 0;
+}
+
+
+void lock_acquire (lock_t *)
+{
+
+}
+
+void lock_release (lock_t *)
+{
+    
+}
+
+void lock_init (lock_t *)
+{
+    
+}
+

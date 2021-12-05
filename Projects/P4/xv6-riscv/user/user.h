@@ -1,5 +1,6 @@
 struct stat;
 struct rtcdate;
+typedef uint lock_t;
 
 // system calls
 int fork(void);
@@ -23,6 +24,7 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
+int clone(void(*fcn)(void*), void *arg, void*stack);
 
 // ulib.c
 int stat(const char*, struct stat*);

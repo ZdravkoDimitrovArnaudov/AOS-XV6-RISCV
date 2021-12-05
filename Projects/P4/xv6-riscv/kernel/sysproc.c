@@ -8,6 +8,38 @@
 #include "proc.h"
 
 uint64
+sys_clone (void)
+{
+  void *stack;
+  void *arg;
+  void *fcn;
+
+   //obtenemos puntero función
+   if(argaddr(0, &fcn) < 0){
+     return -1;
+   }
+
+   //obtenemos puntero a argumento de función
+   if(argaddr(1, &arg) < 0){
+     return -1;
+   }
+
+   //obtenemos putnero a stack de usuario
+   if(argaddr(2, &stack) < 0){
+     return -1;
+   }
+   
+  return clone(fcn, arg, stack);
+}
+
+
+
+
+
+
+
+
+uint64
 sys_exit(void)
 {
   int n;
