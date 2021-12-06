@@ -688,11 +688,12 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
   uint64 user_stack[2];
   user_stack[0] = 0xffffffff;
   user_stack[1] = (uint64) arg;
-  uint64 top_stack = (uint64) stack;
-  top_stack = top_stack - 8; //para almacenar el argumento y PC de retorno
+  np->bottom_ustack = (uint64) stack; //guardamos base del stack para poder liberarlo
+  np->top_ustack = np->bottom_ustack; 
+  np->top_ustack  = np->top_ustack  - 8; //para almacenar el argumento y PC de retorno
 
   //copyout
-  if (copyout(np->pagetable, top_stack, user_stack, 8) < 0) {
+  if (copyout(np->pagetable, np->top_ustack , user_stack, 8) < 0) {
         return -1;
     }
 
@@ -700,7 +701,7 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
   np->trapframe->epc = (uint64) fcn;
 
   //actualiza stack pointer
-  np->trapframe->sp = top_stack;
+  np->trapframe->sp = np->top_ustack;
 
 
   // increment reference counts on open file descriptors.
@@ -711,14 +712,17 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
 
   safestrcpy(np->name, p->name, sizeof(p->name));
 
+  //para devolverlo
   pid = np->pid;
 
   release(&np->lock);
 
+  //para registrar cual es su padre
   acquire(&wait_lock);
   np->parent = p;
   release(&wait_lock);
 
+  //para cambiar su estado a ejecutable
   acquire(&np->lock);
   np->state = RUNNABLE;
   release(&np->lock);
@@ -728,3 +732,80 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
 }
 
 
+int join (void **stack){
+
+  struct proc *np;
+  int havekids, pid;
+  struct proc *p = myproc();
+
+  acquire(&wait_lock);
+
+  for(;;){
+    // Scan through table looking for exited children.
+    havekids = 0;
+    for(np = proc; np < &proc[NPROC]; np++){
+      if(np->parent == p && np->pagetable == p->pagetable){ //modificamos la condición para que se seleccione solo al thread hijo del proceso
+
+
+        // make sure the child isn't still in exit() or swtch().
+        acquire(&np->lock);
+
+        havekids = 1;
+        if(np->state == ZOMBIE){
+          // Found one.
+
+          //copiamos en el argumento stack la dirección del stack de usuario para que pueda liberarse después con free
+          *stack = np->bottom_ustack; //Debe apuntar al principio o cabeza de stack?
+          pid = np->pid;
+          
+          //creo que para wait de thread no es necesario?
+
+         /*  if(addr != 0 && copyout(p->pagetable, addr, (char *)&np->xstate,
+                                  sizeof(np->xstate)) < 0) {
+            release(&np->lock);
+            release(&wait_lock);
+            return -1;
+          } */
+          
+
+         //modificamos código de freeproc, ya que no debemos usar todo
+
+          // if(p->trapframe)
+          //   kfree((void*)p->trapframe);
+          np->trapframe = 0;
+          // if(p->pagetable)
+          //   proc_freepagetable(p->pagetable, p->sz);
+
+          np->pagetable = 0; //no modifica tabla de paginas del padre
+          np->sz = 0; //no modifica sz del padre
+          np->pid = 0; //lock tomado
+          np->parent = 0;
+          np->name[0] = 0;
+          np->chan = 0; //?? no se que es, lock tomado
+          np->killed = 0; //lock tomado
+          np->xstate = 0; //lock está tomado
+          np->state = UNUSED; //lock tomado
+
+          
+          //limpiamos top_stack?
+
+          release(&np->lock); //libera thread
+          release(&wait_lock);
+          
+          return pid; //devolvemos TID 
+        }
+        release(&np->lock);
+      }
+    }
+
+    // No point waiting if we don't have any children.
+    if(!havekids || p->killed){
+      release(&wait_lock);
+      return -1;
+    }
+    
+    // Wait for a child to exit.
+    sleep(p, &wait_lock);  //DOC: wait-sleep
+  }
+
+}

@@ -1,4 +1,4 @@
-#include "kernel/defs.h"
+//#include "kernel/defs.h"
 #include "user/user.h"
 #include "kernel/types.h"
 #include "kernel/param.h"
@@ -15,6 +15,7 @@ int thread_create(void (*start_routine)(void*),  void *arg){
     void *stack;
     if (!(stack = malloc (PAGE_SIZE))){
         printf ("Error: No se ha podido allocatar el stack en el heap del proceso padre.\n");
+        free(stack);
         return -1;
     }
 
@@ -30,8 +31,13 @@ int thread_create(void (*start_routine)(void*),  void *arg){
 
 int thread_join()
 {
+    void *stack;
+    int child_tid;
+    if (child_tid = join(&stack) != -1){
+        free(stack); //hacemos que *stack apunte al user stack del thread y lo liberamos.
+    } 
 
-    return 0;
+    return child_tid;
 }
 
 

@@ -109,6 +109,7 @@ struct proc {
 
  //top of thread user stack
   uint64 top_ustack;
+  uint64 bottom_ustack
 
 
 };

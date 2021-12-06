@@ -32,8 +32,16 @@ sys_clone (void)
   return clone(fcn, arg, stack);
 }
 
+uint64
+sys_join (void)
+{
+  void **stack;
+  if(argaddr(0, &stack) < 0){
+     return -1;
+  }
 
-
+  return join (stack);
+}
 
 
 
