@@ -1,6 +1,6 @@
 /* clone and play with the argument */
-#include "types.h"
-#include "user.h"
+#include "kernel/types.h"
+#include "user/user.h"
 
 #undef NULL
 #define NULL ((void*)0)
@@ -16,7 +16,7 @@ volatile int global = 1;
    printf(1, "assert failed (%s)\n", # x); \
    printf(1, "TEST FAILED\n"); \
    kill(ppid); \
-   exit(); \
+   exit(0); \
 }
 
 void worker(void *arg_ptr);
@@ -34,8 +34,8 @@ main(int argc, char *argv[])
    assert(clone_pid > 0);
    while(global != 55);
    assert(arg == 1);
-   printf(1, "TEST PASSED\n");
-   exit();
+   printf("TEST PASSED\n");
+   exit(0);
 }
 
 void
@@ -44,5 +44,5 @@ worker(void *arg_ptr) {
    *(int*)arg_ptr = 1;
    assert(global == 1);
    global = tmp;
-   exit();
+   exit(0);
 }

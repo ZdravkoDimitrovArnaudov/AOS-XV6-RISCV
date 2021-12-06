@@ -1,8 +1,8 @@
 /* clone copies file descriptors, but doesn't share */
-#include "types.h"
-#include "user.h"
-#include "fcntl.h"
-#include "x86.h"
+#include "kernel/types.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
+#include "kernel/riscv.h"
 
 #undef NULL
 #define NULL ((void*)0)
@@ -17,7 +17,7 @@ volatile uint newfd = 0;
    printf(1, "assert failed (%s)\n", # x); \
    printf(1, "TEST FAILED\n"); \
    kill(ppid); \
-   exit(); \
+   exit(0); \
 }
 
 void worker(void *arg_ptr);
@@ -38,12 +38,12 @@ main(int argc, char *argv[])
    while(!newfd);
    assert(write(newfd, "goodbye\n", 8) == -1);
    printf(1, "TEST PASSED\n");
-   exit();
+   exit(0);
 }
 
 void
 worker(void *arg_ptr) {
    assert(write(3, "hello\n", 6) == 6);
    xchg(&newfd, open("tmp2", O_WRONLY|O_CREATE));
-   exit();
+   exit(0);
 }

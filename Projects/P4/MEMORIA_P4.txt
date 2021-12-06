@@ -619,9 +619,62 @@ El siguiente paso ahora, será modificar algunas llamadas existentes:
 
     -exit(): ahora el exit también deberá funcionar para procesos y threads, realmente poco cambio.
 
-Una vez acabadas estas dos funciones, pasaremos los tests y después continuaremos con locks.
 
-BREAK.
+
+>>WAIT()
+
+Como ya sabemos, hemos de esperar a aquellos procesos hijos que no compartan el espacio de direcciones (no sean threads).
+Además, cuando esta sea la última referencia al espacio de direcciones, es necesario limpiar el espacio de direcciones también.
+
+int
+wait(uint64 addr)
+{
+  struct proc *np;
+  int havekids, pid;
+  struct proc *p = myproc();
+
+  acquire(&wait_lock);
+
+  for(;;){
+    // Scan through table looking for exited children.
+    havekids = 0;
+    for(np = proc; np < &proc[NPROC]; np++){
+      if(np->parent == p && np->pagetable != p->pagetable){ //Proceso hijo no puede compartir el espacio de direcciones el padre
+        // make sure the child isn't still in exit() or swtch().
+        acquire(&np->lock);
+
+        havekids = 1;
+        if(np->state == ZOMBIE && np->referencias == 1){ //tiene 
+          // Found one.
+          pid = np->pid;
+          if(addr != 0 && copyout(p->pagetable, addr, (char *)&np->xstate,
+                                  sizeof(np->xstate)) < 0) {
+            release(&np->lock);
+            release(&wait_lock);
+            return -1;
+          }
+          freeproc(np);
+          release(&np->lock);
+          release(&wait_lock);
+          return pid;
+        }
+        release(&np->lock);
+      }
+    }
+
+También, debemos inicializar los campos nuevos en alloc:
+
+//...
+found:
+  p->pid = allocpid();
+  p->state = USED;
+
+  //inicializamos campos nuevos
+  p->bottom_ustack = 0;
+  p->top_ustack = 0;
+  p->referencias = 1;
+//...
+
 
 
 

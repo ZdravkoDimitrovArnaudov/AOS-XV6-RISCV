@@ -1,6 +1,7 @@
 /* test cv_wait and cv_signal, don't wakeup on wrong cv */
-#include "types.h"
-#include "user.h"
+#include "kernel/types.h"
+#include "user/user.h"
+#include "user/thread_lib.h"
 
 #undef NULL
 #define NULL ((void*)0)
@@ -13,11 +14,11 @@ lock_t lock;
 cond_t cond1, cond2;
 
 #define assert(x) if (x) {} else { \
-   printf(1, "%s: %d ", __FILE__, __LINE__); \
-   printf(1, "assert failed (%s)\n", # x); \
-   printf(1, "TEST FAILED\n"); \
+   printf("%s: %d ", __FILE__, __LINE__); \
+   printf("assert failed (%s)\n", # x); \
+   printf("TEST FAILED\n"); \
    kill(ppid); \
-   exit(); \
+   exit(0); \
 }
 
 void worker(void *arg_ptr);
@@ -48,8 +49,8 @@ main(int argc, char *argv[])
    int join_pid = thread_join();
    assert(join_pid == thread_pid);
 
-   printf(1, "TEST PASSED\n");
-   exit();
+   printf("TEST PASSED\n");
+   exit(0);
 }
 
 void
@@ -59,6 +60,6 @@ worker(void *arg_ptr) {
   cv_wait(&cond1, &lock);
   assert(global == 1);
   lock_release(&lock);
-  exit();
+  exit(0);
 }
 

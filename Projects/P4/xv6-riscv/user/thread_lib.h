@@ -1,4 +1,4 @@
-//#include "kernel/defs.h"
+#include "kernel/defs.h"
 #include "user/user.h"
 #include "kernel/types.h"
 #include "kernel/param.h"
@@ -6,6 +6,10 @@
 
 
 #define PAGE_SIZE (4096)
+typedef uint lock_t;
+
+extern int clone(void(*fcn)(void*), void *arg, void*stack);
+extern int join (void **stack);
 
 int thread_create(void (*start_routine)(void*),  void *arg){
     

@@ -120,6 +120,12 @@ found:
   p->pid = allocpid();
   p->state = USED;
 
+  //inicializamos campos nuevos
+  p->bottom_ustack = 0;
+  p->top_ustack = 0;
+  p->referencias = 1;
+
+
   // Allocate a trapframe page.
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
     freeproc(p);
@@ -393,12 +399,12 @@ wait(uint64 addr)
     // Scan through table looking for exited children.
     havekids = 0;
     for(np = proc; np < &proc[NPROC]; np++){
-      if(np->parent == p){
+      if(np->parent == p && np->pagetable != p->pagetable){ //Proceso hijo no puede compartir el espacio de direcciones el padre
         // make sure the child isn't still in exit() or swtch().
         acquire(&np->lock);
 
         havekids = 1;
-        if(np->state == ZOMBIE){
+        if(np->state == ZOMBIE && np->referencias == 1){ //tiene 
           // Found one.
           pid = np->pid;
           if(addr != 0 && copyout(p->pagetable, addr, (char *)&np->xstate,
@@ -715,6 +721,10 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
   //para devolverlo
   pid = np->pid;
 
+  //asignamos también al hijo las referencias que tiene el padre y sumamos al hijo
+  np->referencias = p->referencias;
+  np->referencias = np->referencias +1;
+
   release(&np->lock);
 
   //para registrar cual es su padre
@@ -786,6 +796,7 @@ int join (void **stack){
           np->xstate = 0; //lock está tomado
           np->state = UNUSED; //lock tomado
 
+          np->referencias = np->referencias -1;
           
           //limpiamos top_stack?
 

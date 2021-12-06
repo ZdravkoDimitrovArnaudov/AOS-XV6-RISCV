@@ -1,6 +1,6 @@
 /* join should not handle child processes (forked) */
-#include "types.h"
-#include "user.h"
+#include "kernel/types.h"
+#include "user/user.h"
 
 #undef NULL
 #define NULL ((void*)0)
@@ -11,11 +11,11 @@ int ppid;
 int global = 1;
 
 #define assert(x) if (x) {} else { \
-   printf(1, "%s: %d ", __FILE__, __LINE__); \
-   printf(1, "assert failed (%s)\n", # x); \
-   printf(1, "TEST FAILED\n"); \
+   printf("%s: %d ", __FILE__, __LINE__); \
+   printf("assert failed (%s)\n", # x); \
+   printf("TEST FAILED\n"); \
    kill(ppid); \
-   exit(); \
+   exit(0); \
 }
 
 int
@@ -25,7 +25,7 @@ main(int argc, char *argv[])
 
    int fork_pid = fork();
    if(fork_pid == 0) {
-     exit();
+     exit(0);
    }
    assert(fork_pid > 0);
 
@@ -34,5 +34,5 @@ main(int argc, char *argv[])
    assert(join_pid == -1);
 
    printf(1, "TEST PASSED\n");
-   exit();
+   exit(0);
 }

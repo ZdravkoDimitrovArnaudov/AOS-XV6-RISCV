@@ -1,6 +1,7 @@
 /* race condition in CV? (must atomically release lock and sleep) */
-#include "types.h"
-#include "user.h"
+#include "kernel/types.h"
+#include "user/user.h"
+#include "user/thread_lib.h"
 
 #undef NULL
 #define NULL ((void*)0)
@@ -16,11 +17,11 @@ lock_t lock;
 cond_t nonfull, nonempty;
 
 #define assert(x) if (x) {} else { \
-   printf(1, "%s: %d ", __FILE__, __LINE__); \
-   printf(1, "assert failed (%s)\n", # x); \
-   printf(1, "TEST FAILED\n"); \
+   printf("%s: %d ", __FILE__, __LINE__); \
+   printf("assert failed (%s)\n", # x); \
+   printf("TEST FAILED\n"); \
    kill(ppid); \
-   exit(); \
+   exit(0); \
 }
 
 void produce(void *arg);
@@ -43,10 +44,10 @@ main(int argc, char *argv[])
     sleep(1);
   }
 
-  printf(1, "%p\n", result);
+  printf("%p\n", result);
   if(result & 0x3ff)
-    printf(1, "TEST PASSED\n");
-  exit();
+    printf("TEST PASSED\n");
+  exit(0);
 }
 
 void

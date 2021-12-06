@@ -1,6 +1,7 @@
 /* test lock correctness */
-#include "types.h"
-#include "user.h"
+#include "kernel/types.h"
+#include "user/user.h"
+#include "user/thread_lib.h"
 
 #undef NULL
 #define NULL ((void*)0)
@@ -15,11 +16,11 @@ int loops = 1000;
 
 
 #define assert(x) if (x) {} else { \
-   printf(1, "%s: %d ", __FILE__, __LINE__); \
-   printf(1, "assert failed (%s)\n", # x); \
-   printf(1, "TEST FAILED\n"); \
+   printf("%s: %d ", __FILE__, __LINE__); \
+   printf("assert failed (%s)\n", # x); \
+   printf("TEST FAILED\n"); \
    kill(ppid); \
-   exit(); \
+   exit(0); \
 }
 
 void worker(void *arg_ptr);
@@ -45,7 +46,7 @@ main(int argc, char *argv[])
    assert(global == num_threads * loops);
 
    printf(1, "TEST PASSED\n");
-   exit();
+   exit(0);
 }
 
 void
@@ -58,6 +59,6 @@ worker(void *arg_ptr) {
       global = tmp + 1;
       lock_release(&lock);
    }
-   exit();
+   exit(0);
 }
 

@@ -1,6 +1,6 @@
 /* thread user library functions */
-#include "types.h"
-#include "user.h"
+#include "kernel/types.h"
+#include "user/user.h"
 
 #undef NULL
 #define NULL ((void*)0)
@@ -11,11 +11,11 @@ int ppid;
 int global = 1;
 
 #define assert(x) if (x) {} else { \
-   printf(1, "%s: %d ", __FILE__, __LINE__); \
-   printf(1, "assert failed (%s)\n", # x); \
-   printf(1, "TEST FAILED\n"); \
+   printf("%s: %d ", __FILE__, __LINE__); \
+   printf("assert failed (%s)\n", # x); \
+   printf("TEST FAILED\n"); \
    kill(ppid); \
-   exit(); \
+   exit(0); \
 }
 
 void worker(void *arg_ptr);
@@ -33,8 +33,8 @@ main(int argc, char *argv[])
    assert(join_pid == thread_pid);
    assert(global == 2);
 
-   printf(1, "TEST PASSED\n");
-   exit();
+   printf("TEST PASSED\n");
+   exit(0);
 }
 
 void
@@ -43,6 +43,6 @@ worker(void *arg_ptr) {
    assert(arg == 35);
    assert(global == 1);
    global++;
-   exit();
+   exit(0);
 }
 
