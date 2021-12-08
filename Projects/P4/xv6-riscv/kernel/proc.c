@@ -723,13 +723,6 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
 
 
 
-
-
-
-
-
-
-
   // increment reference counts on open file descriptors.
   for(i = 0; i < NOFILE; i++)
     if(p->ofile[i])
