@@ -693,15 +693,11 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
   */
 
 
-
- 
   uint64 user_stack[2];
+  user_stack[0] = (uint64) 0xffffffff; //PC retorno
+  user_stack[1] = (uint64)arg; //cast uint64
   np->bottom_ustack = (uint64) stack;
   np->top_ustack = np->bottom_ustack + PGSIZE;
-
-  user_stack[0] = 0xffffffff; //PC retorno
-  user_stack[1] = (uint64)arg; //cast uint64
-
   np->top_ustack -= 8; //para incorporar al stack el argumento y retorno
 
   printf ("Antes de hacer copyout.\n");
@@ -718,6 +714,20 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
 
   //actualiza stack pointer
   np->trapframe->sp = np->top_ustack;
+
+
+
+  //queremos comprobar si la dirección virtual de la función está mapeada en algún lugar de memoria.
+  uint64 pa = walkaddr(np->pagetable, np->trapframe->epc);
+  printf ("Dir física función a ejecutar: %p\n", pa);
+
+
+
+
+
+
+
+
 
 
   // increment reference counts on open file descriptors.

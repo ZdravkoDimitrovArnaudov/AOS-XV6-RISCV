@@ -44,8 +44,8 @@ main(int argc, char *argv[])
 
    int clone_pid = clone(worker, 0, stack);
    printf ("Resultado clone: %d\n", clone_pid);
-   printf ("El test ha pasado.");
-   join(&stack); //esperamos a que el proceso finalice
+   //printf ("El test ha pasado.");
+   //join(&stack); //esperamos a que el proceso finalice
    printf ("El valor de la variable global ha pasado a valer: %d\n", global);
    exit(0);
 }
