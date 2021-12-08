@@ -6,7 +6,7 @@
 
 
 #define PAGE_SIZE (4096)
-typedef uint lock_t;
+//typedef uint lock_t;
 
 extern int clone(void(*fcn)(void*), void *arg, void*stack);
 extern int join (void **stack);

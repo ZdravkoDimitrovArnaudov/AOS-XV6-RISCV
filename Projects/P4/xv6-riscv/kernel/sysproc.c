@@ -10,12 +10,12 @@
 uint64
 sys_clone (void)
 {
-  void *stack;
-  void *arg;
-  void *fcn;
+  uint64 stack;
+  uint64 arg;
+  uint64 fcn;
 
    //obtenemos puntero función
-   if(argaddr(0, &fcn) < 0){
+   if(argaddr(2, &fcn) < 0){
      return -1;
    }
 
@@ -25,26 +25,23 @@ sys_clone (void)
    }
 
    //obtenemos putnero a stack de usuario
-   if(argaddr(2, &stack) < 0){
+   if(argaddr(0, &stack) < 0){
      return -1;
    }
-   
-  return clone(fcn, arg, stack);
+
+  return clone((void *)fcn, (void *)arg, (void *)stack);
 }
 
 uint64
 sys_join (void)
 {
-  void **stack;
+  uint64 stack;
   if(argaddr(0, &stack) < 0){
      return -1;
   }
 
-  return join (stack);
+  return join ((void **)stack);
 }
-
-
-
 
 
 uint64

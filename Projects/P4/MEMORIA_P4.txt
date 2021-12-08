@@ -677,6 +677,14 @@ found:
 
 
 
+En exit seguramente no lleguemos a cambiar nada por el momento.
+
+
+
+Lo que haremos ahora, será modificar los test e intentar pasarlos. Por ahora, solo nos fijaremos en los tests
+asociados a las llamadas al sistema clone y join.
+
+
 
 
 

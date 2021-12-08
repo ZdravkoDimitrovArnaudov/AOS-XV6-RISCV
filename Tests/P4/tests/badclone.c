@@ -25,17 +25,17 @@ main(int argc, char *argv[])
    ppid = getpid();
    void *stack = malloc(PGSIZE*2);
    assert(stack != NULL);
-   if((uint)stack % PGSIZE == 0)
+   if((uint64)stack % PGSIZE == 0)
      stack += 4;
 
    assert(clone(worker, 0, stack) == -1);
 
    stack = sbrk(0);
-   if((uint)stack % PGSIZE)
-     stack = stack + (PGSIZE - (uint)stack % PGSIZE);
-   sbrk( ((uint)stack - (uint)sbrk(0)) + PGSIZE/2 );
-   assert((uint)stack % PGSIZE == 0);
-   assert((uint)sbrk(0) - (uint)stack == PGSIZE/2);
+   if((uint64)stack % PGSIZE)
+     stack = stack + (PGSIZE - (uint64)stack % PGSIZE);
+   sbrk( ((uint64)stack - (uint64)sbrk(0)) + PGSIZE/2 );
+   assert((uint64)stack % PGSIZE == 0);
+   assert((uint64)sbrk(0) - (uint64)stack == PGSIZE/2);
 
    assert(clone(worker, 0, stack) == -1);
 

@@ -691,17 +691,27 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
     -modificar stack pointer 
     -hacer que program counter apunte a la función
   */
+
+
+
+ 
   uint64 user_stack[2];
-  user_stack[0] = 0xffffffff;
-  user_stack[1] = (uint64) arg;
-  np->bottom_ustack = (uint64) stack; //guardamos base del stack para poder liberarlo
-  np->top_ustack = np->bottom_ustack; 
-  np->top_ustack  = np->top_ustack  - 8; //para almacenar el argumento y PC de retorno
+  np->bottom_ustack = (uint64) stack;
+  np->top_ustack = np->bottom_ustack + PGSIZE;
+
+  user_stack[0] = 0xffffffff; //PC retorno
+  user_stack[1] = (uint64)arg; //cast uint64
+
+  np->top_ustack -= 8; //para incorporar al stack el argumento y retorno
+
+  printf ("Antes de hacer copyout.\n");
 
   //copyout
-  if (copyout(np->pagetable, np->top_ustack , user_stack, 8) < 0) {
+  if (copyout(np->pagetable, np->top_ustack, (char *) user_stack, 8) < 0) {
         return -1;
     }
+
+  printf ("Copyout correcto al stack del thread.\n");
 
   //cambiar program counter a la función que debe ejecutar
   np->trapframe->epc = (uint64) fcn;
@@ -765,7 +775,7 @@ int join (void **stack){
           // Found one.
 
           //copiamos en el argumento stack la dirección del stack de usuario para que pueda liberarse después con free
-          *stack = np->bottom_ustack; //Debe apuntar al principio o cabeza de stack?
+          *stack = (void *) np->bottom_ustack; //Debe apuntar al principio o cabeza de stack?
           pid = np->pid;
           
           //creo que para wait de thread no es necesario?

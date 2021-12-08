@@ -50,14 +50,14 @@
             "name": "(gdb) Launch Remote Debugging of risc-xv6",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/Users/zdravko/Desktop/Universidad/cuarto_curso/Sistemas_Operativos_Avanzados/LAB/Lab/Projects/P1/xv6-riscv/kernel/kernel", 
-            "miDebuggerServerAddress": "localhost:25501",
+            "program": "/home/zdravko/Lab/Projects/P4/xv6-riscv/kernel/kernel", 
+            "miDebuggerServerAddress": "localhost:26000",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
             "environment": [],
             "externalConsole": true,
-            "MIDebuggerPath":"/usr/local/opt/riscv-gnu-toolchain/bin/riscv64-unknown-elf-gdb",
+            "MIDebuggerPath":"/usr/bin/gdb-multiarch",
             "linux": {
               "MIMode": "gdb"
             },
