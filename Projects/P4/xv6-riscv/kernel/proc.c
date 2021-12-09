@@ -674,7 +674,7 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
     return -1;
   }
 
-  //Tenemos que copiar también al proceso hijo la tabla de páginas del proceso padre
+  //Hacemos que el proceso hijo comparta la tabla de páginas del proceso padre
   np->pagetable = p->pagetable;
   np->sz = p->sz;
 
@@ -684,45 +684,33 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
   // Cause fork to return 0 in the child.
   np->trapframe->a0 = 0;
 
-  /*
-    -user_stack[2]: elementos que introducimos en la pila
-        +argumento de función
-        +PC de retorno falso
-    -modificar stack pointer 
-    -hacer que program counter apunte a la función
-  */
+  
+  //Apuntamos al final del stack y luego vamos insertamos
+  uint64 stack_args[2]; 
+  stack_args[0] =  (uint64)arg; //PC retorno
+  stack_args[1] =  0xffffffff; //cast uint64
 
+  np->bottom_ustack = (uint64) stack; //base de stack, para liberar en join
+  np->top_ustack = np->bottom_ustack + PGSIZE; //tope de stack
+  np->top_ustack -= 8; 
 
-  uint64 user_stack[2];
-  user_stack[0] = (uint64) 0xffffffff; //PC retorno
-  user_stack[1] = (uint64)arg; //cast uint64
-  np->bottom_ustack = (uint64) stack;
-  np->top_ustack = np->bottom_ustack + PGSIZE;
-  np->top_ustack -= 8; //para incorporar al stack el argumento y retorno
 
   printf ("Antes de hacer copyout.\n");
 
   //copyout
-  if (copyout(np->pagetable, np->top_ustack, (char *) user_stack, 8) < 0) {
+  if (copyout(np->pagetable, np->top_ustack, (char *) stack_args, 8) < 0) {
         return -1;
     }
 
+ 
   printf ("Copyout correcto al stack del thread.\n");
 
-  //cambiar program counter a la función que debe ejecutar
+   //cambiar program counter a la función que debe ejecutar
   np->trapframe->epc = (uint64) fcn;
 
   //actualiza stack pointer
   np->trapframe->sp = np->top_ustack;
-
-
-
-  //queremos comprobar si la dirección virtual de la función está mapeada en algún lugar de memoria.
-  uint64 pa = walkaddr(np->pagetable, np->trapframe->epc);
-  printf ("Dir física función a ejecutar: %p\n", pa);
-
-
-
+  
   // increment reference counts on open file descriptors.
   for(i = 0; i < NOFILE; i++)
     if(p->ofile[i])

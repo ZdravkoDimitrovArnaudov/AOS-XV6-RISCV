@@ -135,6 +135,7 @@ UPROGS=\
 	$U/_tester\
 	$U/_clone\
 	$U/_prueba_clone\
+	$U/_prueba_args\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)
