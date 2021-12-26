@@ -690,7 +690,85 @@ found:
 Ahora mismo estamos intentando pasar los tests de clone. Resulta que la función acaba bien, salvo 
 la parte de entrar a ejecutar la función. Pensamos que es por la separación entre espacio de usuario y kernel.
 Tenemos que pensar en alguna alternativa.
-  -Emplear páginas compartidas quizás, para que el proceso padre coloque en estas páginas las funciones que debe ejecutar y las variables globales.
+  
+Después de Depurar, nos hemos dado cuenta de que el thread hijo tiene acceso al trampolin y trapframe del padre.
+En consecuencia, modifica dichas partes cuando no debería hacerlo. Lo que debemos hacer es establecer un espacio de direcciones (tabla de páginas privada)
+secundario donde añadir copias de las páginas del padre. Luego, asegurarnos de que el thread usa dichas páginas y no las del padre.
+
+PSEUDOCÓDIGO
+  1.  averiguar cómo se define un espacio de direcciones
+  2.  establecer el espacio de direcciones secundario
+  3.  añadir las páginas correspondientes a este espacio de direcciones (clone)
+  4.  Asegurarnos de que el proceso hijo emplea dichas páginas.
+ (5). En exec posiblemente debamos hacer algún cambio
+
+
+
+
+1.
+
+
+Vamos a averiguar todas las cosas asociadas al establecimiento del espacio de direcciones.
+
+>>PROC.H 
+
+En este fichero parece haber una definición formal de instancia de tabla de páginas. Aquí seguramente nosotros debamos 
+añadir la definición de la segunda tabla de páginas privada.
+
+>>PROC.C 
+
+Una de las funciones importantes en las que debemos prestar atención es allocproc(). Lo que realiza esta función es buscar en la lista
+de procesos si hay una entrada vacía. Si existe, inicializa un estado a dicho proceso para que sea capaz de correr en el kernel y retornan con el lock 
+del proceso tomado.
+
+Dentro de esta función, allocata espacio de para la página de trapframe y también crea una nueva 
+tabla de páginas vacía. Por último, crea un nuevo contexto ejecutando en forkret, para retornar directamente 
+en espacio de usuario.
+
+Realmente, hay un factor importante al que debemos prestar atención. En allocproc, se asignan punteros al trapframe y espacio de direcciones. Sin embargo,
+los threads estos no los utilizan porque los cambian por los del padre. En lugar de crear otra tabla de páginas y trapframe adicional, podríamos reutilizar los creados en esta función.
+Para ello, en proc.h crearemos otro pagetable y trapframe secundario.
+
+Con lo cual, la función alloc añadimso lo siguiente:
+
+//.....
+
+  // Allocate a trapframe page.
+  if((p->trapframe = (struct trapframe *)kalloc()) == 0){
+    freeproc(p);
+    release(&p->lock);
+    return 0;
+  }
+
+  //salvamos puntero de trapframe
+  p->private_trapframe = p->trapframe;
+
+  // An empty user page table.
+  p->pagetable = proc_pagetable(p);
+  if(p->pagetable == 0){
+    freeproc(p);
+    release(&p->lock);
+    return 0;
+  }
+
+  //salvamos puntero pagetable
+  p->private_pagetable = p->pagetable;
+
+//.....
+
+
+A estas alturas, lo que tenemos es un proceso hijo thread que dispone de un espacio de direcciones privado con paginas trampoline y trapframe mapeadas en las direcciones más altas.
+El siguiente paso al que nos enfrentamos es:
+    - pensar en cómo copiar trampoline y trapframe a las páginas del hijo
+    - pensar en cómo hacer que el hijo emplee correctamente el espacio de direcciones del padre pero emplee trampoline y trapframe privados, no del padre.
+
+
+
+
+
+
+
+
 
 
 

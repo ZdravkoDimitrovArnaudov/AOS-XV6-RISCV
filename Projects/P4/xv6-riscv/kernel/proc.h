@@ -81,6 +81,7 @@ struct trapframe {
 };
 
 enum procstate { UNUSED, USED, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
+#define STACK_SIZE 8192
 
 // Per-process state
 struct proc {
@@ -100,7 +101,9 @@ struct proc {
   uint64 kstack;               // Virtual address of kernel stack
   uint64 sz;                   // Size of process memory (bytes)
   pagetable_t pagetable;       // User page table
+  pagetable_t private_pagetable; //tabla de páginas privada para albergar trapframe y trampoline adecuados.
   struct trapframe *trapframe; // data page for trampoline.S
+  struct trapframe *private_trapframe;
   struct context context;      // swtch() here to run process
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
@@ -110,6 +113,7 @@ struct proc {
  //top of thread user stack
   uint64 top_ustack;
   uint64 bottom_ustack;
+  uint64 ustack[STACK_SIZE];
 
   //referencias al propio espacio de direccioens
   int referencias;

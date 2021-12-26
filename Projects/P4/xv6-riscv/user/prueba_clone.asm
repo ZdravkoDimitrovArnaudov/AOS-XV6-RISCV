@@ -66,9 +66,9 @@ worker(void *arg_ptr) {
   7a:	83a50513          	addi	a0,a0,-1990 # 8b0 <malloc+0x12e>
   7e:	00000097          	auipc	ra,0x0
   82:	646080e7          	jalr	1606(ra) # 6c4 <printf>
-   int clone_pid = clone(worker, 0, stack);
+   int clone_pid = clone(worker, (void*)6, stack);
   86:	8626                	mv	a2,s1
-  88:	4581                	li	a1,0
+  88:	4599                	li	a1,6
   8a:	00000517          	auipc	a0,0x0
   8e:	f7650513          	addi	a0,a0,-138 # 0 <worker>
   92:	00000097          	auipc	ra,0x0

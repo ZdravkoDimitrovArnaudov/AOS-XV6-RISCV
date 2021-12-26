@@ -122,7 +122,7 @@ found:
 
   //inicializamos campos nuevos
   p->bottom_ustack = 0;
-  p->top_ustack = 0;
+  p->top_ustack = 0;  
   p->referencias = 1;
 
 
@@ -133,6 +133,9 @@ found:
     return 0;
   }
 
+  //salvamos puntero de trapframe
+  p->private_trapframe = p->trapframe;
+
   // An empty user page table.
   p->pagetable = proc_pagetable(p);
   if(p->pagetable == 0){
@@ -140,6 +143,9 @@ found:
     release(&p->lock);
     return 0;
   }
+
+  //salvamos puntero pagetable
+  p->private_pagetable = p->pagetable;
 
   // Set up new context to start executing at forkret,
   // which returns to user space.
@@ -674,6 +680,17 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
     return -1;
   }
 
+
+/*
+  COSAS QUE FALTAN POR HACER:
+    1.Copiar trampoline y trapframe del padre 
+    2.Pegar en trampoline y trapframe del hijo
+    3.Asegurarse de que hijo emplea trapframe adecuado.
+*/
+
+
+
+
   //Hacemos que el proceso hijo comparta la tabla de páginas del proceso padre
   np->pagetable = p->pagetable;
   np->sz = p->sz;
@@ -684,21 +701,20 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
   // Cause fork to return 0 in the child.
   np->trapframe->a0 = 0;
 
-  
   //Apuntamos al final del stack y luego vamos insertamos
   uint64 stack_args[2]; 
   stack_args[0] =  (uint64)arg; //PC retorno
-  stack_args[1] =  0xffffffff; //cast uint64
+  stack_args[1] =  0xffffffffffffffff; //cast uint64
 
   np->bottom_ustack = (uint64) stack; //base de stack, para liberar en join
   np->top_ustack = np->bottom_ustack + PGSIZE; //tope de stack
-  np->top_ustack -= 8; 
+  np->top_ustack -= 16; 
 
 
   printf ("Antes de hacer copyout.\n");
 
   //copyout
-  if (copyout(np->pagetable, np->top_ustack, (char *) stack_args, 8) < 0) {
+  if (copyout(np->pagetable, np->top_ustack, (char *) stack_args, 16) < 0) {
         return -1;
     }
 
@@ -706,10 +722,25 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
   printf ("Copyout correcto al stack del thread.\n");
 
    //cambiar program counter a la función que debe ejecutar
-  np->trapframe->epc = (uint64) fcn;
+  np->trapframe->epc= (uint64) fcn; 
 
   //actualiza stack pointer
-  np->trapframe->sp = np->top_ustack;
+  np->trapframe->sp= np->top_ustack; 
+ 
+
+
+
+  /* //queremos saber que hay en memoria fisica donde apunta fcn
+  uint64 pa;
+  pa = walkaddr (np->pagetable, np->trapframe->epc);
+
+  printf ("Dirección física fcn: %p\n", pa);
+ */
+  /* print_table(np->pagetable, 0);
+  print_table(np->pagetable, 1);
+  print_table(np->pagetable, 2);
+ */
+
   
   // increment reference counts on open file descriptors.
   for(i = 0; i < NOFILE; i++)
