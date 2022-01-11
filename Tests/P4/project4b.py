@@ -42,7 +42,7 @@ for testname in test_values.keys():
       'name': testname,
       'tester': 'tests/' + testname + '.c',
       'description': get_description(testname),
-      'timeout': 10,
+      'timeout': 300,
       'point_value' : test_values[testname]
       }
   newclass = type(testname, (Xv6Test,), members)

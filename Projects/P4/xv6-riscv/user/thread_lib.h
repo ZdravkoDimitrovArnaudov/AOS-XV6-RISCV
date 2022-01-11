@@ -1,15 +1,15 @@
-#include "kernel/defs.h"
-#include "user/user.h"
+//#include "kernel/defs.h"
 #include "kernel/types.h"
+#include "user/user.h"
 #include "kernel/param.h"
-#include "kernel/proc.h"
+//#include "kernel/proc.h"
 
 
 #define PAGE_SIZE (4096)
-//typedef uint lock_t;
+typedef uint lock_t;
 
 extern int clone(void(*fcn)(void*), void *arg, void*stack);
-extern int join (void **stack);
+extern int join (void *stack);
 
 int thread_create(void (*start_routine)(void*),  void *arg){
     
@@ -37,7 +37,7 @@ int thread_join()
 {
     void *stack;
     int child_tid;
-    if (child_tid = join(&stack) != -1){
+    if ((child_tid = join(&stack)) != -1){
         free(stack); //hacemos que *stack apunte al user stack del thread y lo liberamos.
     } 
 

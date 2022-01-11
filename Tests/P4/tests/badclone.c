@@ -31,12 +31,15 @@ main(int argc, char *argv[])
    assert(clone(worker, 0, stack) == -1);
 
    stack = sbrk(0);
+
    if((uint64)stack % PGSIZE)
      stack = stack + (PGSIZE - (uint64)stack % PGSIZE);
+
    sbrk( ((uint64)stack - (uint64)sbrk(0)) + PGSIZE/2 );
    assert((uint64)stack % PGSIZE == 0);
    assert((uint64)sbrk(0) - (uint64)stack == PGSIZE/2);
 
+   //sz ha de indicar la siguiente dirección valida, aqui la diferencia es media pagina.    
    assert(clone(worker, 0, stack) == -1);
 
    printf("TEST PASSED\n");

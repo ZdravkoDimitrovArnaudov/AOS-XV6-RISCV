@@ -27,16 +27,17 @@ main(int argc, char *argv[])
 
    void *stack = malloc(PGSIZE*2);
    assert(stack != NULL);
-   if((uint)stack % PGSIZE)
-     stack = stack + (4096 - (uint)stack % PGSIZE);
+   if((uint64)stack % PGSIZE)
+     stack = stack + (4096 - (uint64)stack % PGSIZE);
 
    int arg = 42;
    int clone_pid = clone(worker, &arg, stack);
    assert(clone_pid > 0);
 
    sbrk(PGSIZE);
-   void **join_stack = (void**) ((uint)sbrk(0) - 4);
-   assert(join((void**)((uint)join_stack + 2)) == -1);
+   void **join_stack = (void**) ((uint64)sbrk(0) - 8); //-4
+   assert(join((void**)((uint64)join_stack + 2)) == -1);
+   
    assert(join(join_stack) == clone_pid);
    assert(stack == *join_stack);
    assert(global == 2);

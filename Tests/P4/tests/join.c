@@ -27,8 +27,8 @@ main(int argc, char *argv[])
 
    void *stack = malloc(PGSIZE*2);
    assert(stack != NULL);
-   if((uint)stack % PGSIZE)
-     stack = stack + (4096 - (uint)stack % PGSIZE);
+   if((uint64)stack % PGSIZE)
+     stack = stack + (4096 - (uint64)stack % PGSIZE);
 
    int arg = 42;
    int clone_pid = clone(worker, &arg, stack);
@@ -36,6 +36,7 @@ main(int argc, char *argv[])
 
    void *join_stack;
    int join_pid = join(&join_stack);
+   printf ("PID del join: %d\n", join_pid);
    assert(join_pid == clone_pid);
 //   printf(1, "%p\n", stack);
 //   printf(1, "%p\n", join_stack);

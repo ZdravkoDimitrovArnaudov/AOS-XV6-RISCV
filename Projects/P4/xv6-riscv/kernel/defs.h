@@ -105,7 +105,11 @@ int             either_copyout(int user_dst, uint64 dst, void *src, uint64 len);
 int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
 int             clone(void(*fcn)(void*), void *arg, void*stack);
-int             join (void **stack);
+int             join (uint64 addr_stack);
+int             uvmcopy_thread(pagetable_t old, pagetable_t new);
+int             growproc_thread(pagetable_t old, pagetable_t new, uint64 sz, int n);
+int             check_grow_threads (struct proc *parent, int n, int addr_sz);
+ //struct proc* alloc_thread(void);
 
 // swtch.S
 void            swtch(struct context*, struct context*);
@@ -172,6 +176,9 @@ uint64          walkaddr(pagetable_t, uint64);
 int             copyout(pagetable_t, uint64, char *, uint64);
 int             copyin(pagetable_t, char *, uint64, uint64);
 int             copyinstr(pagetable_t, char *, uint64, uint64);
+uint64          walkaddr(pagetable_t pagetable, uint64 va);
+pte_t           *walk(pagetable_t pagetable, uint64 va, int alloc);
+int             uvmcopyThread(pagetable_t old, pagetable_t new, uint64 sz);
 
 void     print_table(pagetable_t pagetable, int level);
 void vmprint(pagetable_t pagetable);

@@ -1,6 +1,7 @@
 /* memory leaks from thread library? */
 #include "kernel/types.h"
 #include "user/user.h"
+#include "user/thread_lib.h"
 
 #undef NULL
 #define NULL ((void*)0)
@@ -33,10 +34,10 @@ main(int argc, char *argv[])
       join_pid = thread_join();
       assert(join_pid == thread_pid);
       assert(global == 5);
-      assert((uint)sbrk(0) < (150 * 4096) && "shouldn't even come close");
+      assert((uint64)sbrk(0) < (150 * 4096) && "shouldn't even come close");
    }
 
-   printf(1, "TEST PASSED\n");
+   printf("TEST PASSED\n");
    exit(0);
 }
 

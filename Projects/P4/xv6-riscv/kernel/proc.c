@@ -120,21 +120,20 @@ found:
   p->pid = allocpid();
   p->state = USED;
 
+
   //inicializamos campos nuevos
   p->bottom_ustack = 0;
   p->top_ustack = 0;  
-  p->referencias = 1;
+  p->referencias = 0;
+  p->thread = 0;
 
 
-  // Allocate a trapframe page.
+  // Allocate a trapframe page. Se alocata para el trapframe privado
   if((p->trapframe = (struct trapframe *)kalloc()) == 0){
     freeproc(p);
     release(&p->lock);
     return 0;
   }
-
-  //salvamos puntero de trapframe
-  p->private_trapframe = p->trapframe;
 
   // An empty user page table.
   p->pagetable = proc_pagetable(p);
@@ -143,9 +142,6 @@ found:
     release(&p->lock);
     return 0;
   }
-
-  //salvamos puntero pagetable
-  p->private_pagetable = p->pagetable;
 
   // Set up new context to start executing at forkret,
   // which returns to user space.
@@ -177,6 +173,33 @@ freeproc(struct proc *p)
   p->xstate = 0;
   p->state = UNUSED;
 }
+
+
+static void
+freethread(struct proc *p)
+{
+  if(p->trapframe)
+    kfree((void*)p->trapframe);
+  p->trapframe = 0;
+  if(p->pagetable){
+    uvmunmap(p->pagetable, TRAMPOLINE, 1, 0);
+    uvmunmap(p->pagetable, TRAPFRAME, 1, 0);
+    if(p->sz > 0)
+    uvmunmap(p->pagetable, 0, PGROUNDUP(p->sz)/PGSIZE, 0);
+    kfree((void*)p->pagetable);
+
+  }
+  p->pagetable = 0;
+  p->sz = 0;
+  p->pid = 0;
+  p->parent = 0;
+  p->name[0] = 0;
+  p->chan = 0;
+  p->killed = 0;
+  p->xstate = 0;
+  p->state = UNUSED;
+}
+
 
 // Create a user page table for a given process,
 // with no user memory, but with trampoline pages.
@@ -279,6 +302,54 @@ growproc(int n)
   return 0;
 }
 
+
+
+int check_grow_threads (struct proc *parent, int n, int sz)
+{
+  struct proc *np;
+  for(np = proc; np < &proc[NPROC]; np++){
+      if(np->parent == parent && np->thread == 1){
+        if((growproc_thread(parent->pagetable, np->pagetable, sz, n))<0){
+          printf ("Fallo al expandir en los hijos.\n");
+          return -1;
+        }
+
+      }
+  }
+
+  return 0;
+}
+
+
+
+int
+growproc_thread(pagetable_t old, pagetable_t new, uint64 sz, int n)
+{
+  pte_t *pte;
+  uint64 pa, i;
+  uint flags;
+
+  for(i = sz; i < sz + n; i += PGSIZE){
+    if((pte = walk(old, i, 0)) == 0)
+      panic("uvmcopy: pte should exist");
+    if((*pte & PTE_V) == 0)
+      panic("uvmcopy: page not present");
+    pa = PTE2PA(*pte);
+    flags = PTE_FLAGS(*pte);
+    /*if((mem = kalloc()) == 0)
+      goto err;
+    memmove(mem, (char*)pa, PGSIZE);*/
+    if(mappages(new, i, PGSIZE, (uint64)pa, flags) != 0){
+      goto err;
+    }
+  }
+  return 0;
+
+ err:
+  uvmunmap(new, 0, i / PGSIZE, 1);
+  return -1;
+}
+
 // Create a new process, copying the parent.
 // Sets up child kernel stack to return as if from fork() system call.
 int
@@ -303,6 +374,7 @@ fork(void)
 
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
+
 
   // Cause fork to return 0 in the child.
   np->trapframe->a0 = 0;
@@ -405,12 +477,12 @@ wait(uint64 addr)
     // Scan through table looking for exited children.
     havekids = 0;
     for(np = proc; np < &proc[NPROC]; np++){
-      if(np->parent == p && np->pagetable != p->pagetable){ //Proceso hijo no puede compartir el espacio de direcciones el padre
+      if(np->parent == p && !np->thread){ //Proceso hijo no puede compartir el espacio de direcciones el padre
         // make sure the child isn't still in exit() or swtch().
         acquire(&np->lock);
 
         havekids = 1;
-        if(np->state == ZOMBIE && np->referencias == 1){ //tiene 
+        if(np->state == ZOMBIE){ 
           // Found one.
           pid = np->pid;
           if(addr != 0 && copyout(p->pagetable, addr, (char *)&np->xstate,
@@ -419,7 +491,13 @@ wait(uint64 addr)
             release(&wait_lock);
             return -1;
           }
-          freeproc(np);
+          
+          if (np->thread == 1){
+            freethread(np);
+          } else {
+              freeproc(np);
+          }
+
           release(&np->lock);
           release(&wait_lock);
           return pid;
@@ -671,7 +749,7 @@ procdump(void)
 int clone(void(*fcn)(void*), void *arg, void*stack)
 {
 
-    int i, pid;
+  int i, pid;
   struct proc *np;
   struct proc *p = myproc();
 
@@ -680,68 +758,59 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
     return -1;
   }
 
+  // Copy user memory from parent to child.
+  if(uvmcopyThread(p->pagetable, np->pagetable, p->sz) < 0){
+    freeproc(np);
+    release(&np->lock);
+    return -1;
+  }
 
-/*
-  COSAS QUE FALTAN POR HACER:
-    1.Copiar trampoline y trapframe del padre 
-    2.Pegar en trampoline y trapframe del hijo
-    3.Asegurarse de que hijo emplea trapframe adecuado.
-*/
+   //comparten el mismo espacio de direcciones
+  //np->pagetable = p->pagetable;
 
-
-
-
-  //Hacemos que el proceso hijo comparta la tabla de páginas del proceso padre
-  np->pagetable = p->pagetable;
+  np->thread = 1;
   np->sz = p->sz;
 
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
 
+  //indicamos al hijo que empiece ejecutando en la función
+  np->trapframe->epc = (uint64) fcn;
+
   // Cause fork to return 0 in the child.
-  np->trapframe->a0 = 0;
+  np->trapframe->a0 = (uint64)arg;
+
+
 
   //Apuntamos al final del stack y luego vamos insertamos
   uint64 stack_args[2]; 
-  stack_args[0] =  (uint64)arg; //PC retorno
-  stack_args[1] =  0xffffffffffffffff; //cast uint64
-
+  stack_args[0] =  0xffffffff; 
+  stack_args[1] =  (uint64)arg;
+  
   np->bottom_ustack = (uint64) stack; //base de stack, para liberar en join
   np->top_ustack = np->bottom_ustack + PGSIZE; //tope de stack
-  np->top_ustack -= 16; 
+  np->top_ustack -= 16;
+  //np->top_ustack -=  np->top_ustack %16;
 
 
   printf ("Antes de hacer copyout.\n");
 
   //copyout
   if (copyout(np->pagetable, np->top_ustack, (char *) stack_args, 16) < 0) {
+     release(&np->lock);
+     //elease(&wait_lock);
         return -1;
     }
 
- 
-  printf ("Copyout correcto al stack del thread.\n");
 
-   //cambiar program counter a la función que debe ejecutar
-  np->trapframe->epc= (uint64) fcn; 
+
+  printf ("Copyout correcto al stack del thread.\n");
 
   //actualiza stack pointer
   np->trapframe->sp= np->top_ustack; 
- 
 
 
 
-  /* //queremos saber que hay en memoria fisica donde apunta fcn
-  uint64 pa;
-  pa = walkaddr (np->pagetable, np->trapframe->epc);
-
-  printf ("Dirección física fcn: %p\n", pa);
- */
-  /* print_table(np->pagetable, 0);
-  print_table(np->pagetable, 1);
-  print_table(np->pagetable, 2);
- */
-
-  
   // increment reference counts on open file descriptors.
   for(i = 0; i < NOFILE; i++)
     if(p->ofile[i])
@@ -750,43 +819,49 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
 
   safestrcpy(np->name, p->name, sizeof(p->name));
 
-  //para devolverlo
   pid = np->pid;
-
-  //asignamos también al hijo las referencias que tiene el padre y sumamos al hijo
-  np->referencias = p->referencias;
-  np->referencias = np->referencias +1;
 
   release(&np->lock);
 
-  //para registrar cual es su padre
   acquire(&wait_lock);
   np->parent = p;
   release(&wait_lock);
 
-  //para cambiar su estado a ejecutable
+  acquire(&p->lock);
+  p->referencias++;
+  release(&p->lock);
+
+
+
   acquire(&np->lock);
   np->state = RUNNABLE;
   release(&np->lock);
 
+
+  //actualizamos las referencias
+  
+
   return pid;
+
 
 }
 
 
-int join (void **stack){
+int join (uint64 addr_stack){
 
   struct proc *np;
   int havekids, pid;
+  void **stack;
   struct proc *p = myproc();
 
+  
   acquire(&wait_lock);
 
   for(;;){
     // Scan through table looking for exited children.
     havekids = 0;
     for(np = proc; np < &proc[NPROC]; np++){
-      if(np->parent == p && np->pagetable == p->pagetable){ //modificamos la condición para que se seleccione solo al thread hijo del proceso
+      if(np->parent == p && np->thread == 1){ //modificamos la condición para que se seleccione solo al thread hijo del proceso
 
 
         // make sure the child isn't still in exit() or swtch().
@@ -797,40 +872,33 @@ int join (void **stack){
           // Found one.
 
           //copiamos en el argumento stack la dirección del stack de usuario para que pueda liberarse después con free
-          *stack = (void *) np->bottom_ustack; //Debe apuntar al principio o cabeza de stack?
+          stack = (void**)np->bottom_ustack; 
           pid = np->pid;
+
+          np->sz = np->parent->sz;
+
+          printf ("ADDR: %d\n", addr_stack);
+          printf ("Voy a hacer copyout en join\n");
+          if ((copyout (np->pagetable, addr_stack, (char *)&stack, sizeof(uint64))) < 0){
+             release(&np->lock); //libera thread
+             release(&wait_lock);
+             return -1;
+          }
+         
+
+          printf ("Stack del join: %d\n", stack);
+
+          acquire(&p->lock);
+          p->referencias--;
+          release(&p->lock);
           
-          //creo que para wait de thread no es necesario?
+          if (np->thread == 1){
+            freethread(np);
 
-         /*  if(addr != 0 && copyout(p->pagetable, addr, (char *)&np->xstate,
-                                  sizeof(np->xstate)) < 0) {
-            release(&np->lock);
-            release(&wait_lock);
-            return -1;
-          } */
-          
+          } else {
+              freeproc(np);
+          }
 
-         //modificamos código de freeproc, ya que no debemos usar todo
-
-          // if(p->trapframe)
-          //   kfree((void*)p->trapframe);
-          np->trapframe = 0;
-          // if(p->pagetable)
-          //   proc_freepagetable(p->pagetable, p->sz);
-
-          np->pagetable = 0; //no modifica tabla de paginas del padre
-          np->sz = 0; //no modifica sz del padre
-          np->pid = 0; //lock tomado
-          np->parent = 0;
-          np->name[0] = 0;
-          np->chan = 0; //?? no se que es, lock tomado
-          np->killed = 0; //lock tomado
-          np->xstate = 0; //lock está tomado
-          np->state = UNUSED; //lock tomado
-
-          np->referencias = np->referencias -1;
-          
-          //limpiamos top_stack?
 
           release(&np->lock); //libera thread
           release(&wait_lock);
@@ -846,9 +914,57 @@ int join (void **stack){
       release(&wait_lock);
       return -1;
     }
+
+    
     
     // Wait for a child to exit.
     sleep(p, &wait_lock);  //DOC: wait-sleep
+
   }
 
 }
+
+
+/*struct proc*
+alloc_thread(void)
+{
+  struct proc *p;
+
+  for(p = proc; p < &proc[NPROC]; p++) {
+    acquire(&p->lock);
+    if(p->state == UNUSED) {
+      goto found;
+    } else {
+      release(&p->lock);
+    }
+  }
+  return 0;
+
+found:
+  p->pid = allocpid();
+  p->state = USED;
+
+
+  //inicializamos campos nuevos
+  p->bottom_ustack = 0;
+  p->top_ustack = 0;  
+  p->referencias = 0;
+  p->thread = 0;
+
+
+  // Allocate a trapframe page. Se alocata para el trapframe privado
+  if((p->trapframe = (struct trapframe *)kalloc()) == 0){
+    freeproc(p);
+    release(&p->lock);
+    return 0;
+  }
+
+
+  // Set up new context to start executing at forkret,
+  // which returns to user space.
+  memset(&p->context, 0, sizeof(p->context));
+  p->context.ra = (uint64)forkret;
+  p->context.sp = p->kstack + PGSIZE;
+
+  return p;
+}*/

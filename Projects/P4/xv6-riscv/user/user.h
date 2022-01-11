@@ -25,7 +25,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int clone(void(*fcn)(void*), void *arg, void*stack);
-int join (void **stack);
+int join (void *stack);
 
 // ulib.c
 int stat(const char*, struct stat*);
@@ -47,7 +47,7 @@ void *memcpy(void *, const void *, uint);
 
 
 //thread_lib.c
-int thread_create(void (*start_routine)(void*),  void *arg);
+int thread_create(void (*start_routine)(void*), void *arg);
 int thread_join(void);
 void lock_acquire (lock_t *);
 void lock_release (lock_t *);

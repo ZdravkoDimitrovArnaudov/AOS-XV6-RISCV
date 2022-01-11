@@ -32,6 +32,7 @@ main(int argc, char *argv[])
    int clone_pid = clone(worker, 0, stack); //crea un thread para operar una funcion worker con argumento 0 y dispone stack de 2 páginas
    assert(clone_pid > 0); //comprueba que no haya fallado el clone
    while(global != 5); //comprueba si el thread ha modificado correctamente la variable global a 5 y no es otro valor distinto.
+   printf ("El valor de la variable global es: %d\n",global);
    printf("TEST PASSED\n");
    exit(0);
 }

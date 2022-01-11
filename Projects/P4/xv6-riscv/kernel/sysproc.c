@@ -15,7 +15,7 @@ sys_clone (void)
   uint64 fcn;
 
    //obtenemos puntero función
-   if(argaddr(2, &fcn) < 0){
+   if(argaddr(0, &fcn) < 0){
      return -1;
    }
 
@@ -25,7 +25,15 @@ sys_clone (void)
    }
 
    //obtenemos putnero a stack de usuario
-   if(argaddr(0, &stack) < 0){
+   if(argaddr(2, &stack) < 0){
+     return -1;
+   }
+
+  struct proc *p = myproc();
+  uint64 sz = p->sz;
+
+   //comprobamos que stack este alineado a pagina
+   if ((stack % PGSIZE) != 0 || ((sz - stack) < PGSIZE)){
      return -1;
    }
 
@@ -37,10 +45,20 @@ sys_join (void)
 {
   uint64 stack;
   if(argaddr(0, &stack) < 0){
+     printf ("SYSPROC: argumento no valido\n");
      return -1;
   }
 
-  return join ((void **)stack);
+  printf ("SYSPROC: lo que vale stack es: %d\n", stack);
+
+  if (stack % 4 != 0){
+    printf ("SYSPROC: Dirección no alineada a word\n");
+    return -1;
+  }
+
+  //hay que comprobar que en la dirección hay algo (aqui o en proc.c)
+
+  return join (stack);
 }
 
 
@@ -83,9 +101,37 @@ sys_sbrk(void)
 
   if(argint(0, &n) < 0)
     return -1;
-  addr = myproc()->sz;
+  
+  struct proc *p = myproc();
+  addr = p->sz;
+
   if(growproc(n) < 0)
     return -1;
+
+  
+
+  /*
+    Si el padre tiene threads, también deben extenderse.
+    Para hacerlo, simplemente con la dirección fisica del proceso padre mapeamos 
+    la nueva extensión en los hijos.
+
+    No usamos growproc con el resto de procesos porque entonces estaríamos alocatando más 
+    páginas fisicas.
+  */
+  if (p->referencias > 0 &&  n > 0){ //tiene threads
+    if ((check_grow_threads (p, n,addr))<0){
+      return -1;
+    }
+
+  }
+
+
+
+
+  
+
+
+
   return addr;
 }
 

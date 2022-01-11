@@ -26,10 +26,10 @@ main(int argc, char *argv[])
    ppid = getpid();
    void *stack = malloc(PGSIZE*2);
    assert(stack != NULL);
-   if((uint)stack % PGSIZE)
-     stack = stack + (4096 - (uint)stack % PGSIZE);
+   if((uint64)stack % PGSIZE)
+     stack = stack + (4096 - (uint64)stack % PGSIZE);
 
-   int clone_pid = clone(worker, stack, stack);
+   int clone_pid = clone(worker, stack, stack); 
    assert(clone_pid > 0);
    while(global != 5);
    printf("TEST PASSED\n");
@@ -38,8 +38,10 @@ main(int argc, char *argv[])
 
 void
 worker(void *arg_ptr) {
-   assert((uint)&arg_ptr == ((uint)arg_ptr + PGSIZE - 4));
-   assert(*((uint*) (arg_ptr + PGSIZE - 8)) == 0xffffffff);
+   printf("Direccion arg: %d\n",(uint64)&arg_ptr);
+   printf ("Donde arg deberia estar: %d\n", ((uint64)arg_ptr + PGSIZE - 40));
+   assert((uint64)&arg_ptr == ((uint64)arg_ptr + PGSIZE - 40));
+   assert(*((uint64*) (arg_ptr + PGSIZE - 16)) == 0xffffffff);
    global = 5;
    exit(0);
 }

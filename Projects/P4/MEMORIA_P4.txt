@@ -757,11 +757,6 @@ Con lo cual, la función alloc añadimso lo siguiente:
 //.....
 
 
-A estas alturas, lo que tenemos es un proceso hijo thread que dispone de un espacio de direcciones privado con paginas trampoline y trapframe mapeadas en las direcciones más altas.
-El siguiente paso al que nos enfrentamos es:
-    - pensar en cómo copiar trampoline y trapframe a las páginas del hijo
-    - pensar en cómo hacer que el hijo emplee correctamente el espacio de direcciones del padre pero emplee trampoline y trapframe privados, no del padre.
-
 
 
 
