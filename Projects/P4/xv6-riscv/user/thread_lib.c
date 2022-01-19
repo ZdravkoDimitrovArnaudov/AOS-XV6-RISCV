@@ -45,18 +45,24 @@ int thread_join()
 }
 
 
-void lock_acquire (lock_t *)
-{
+void lock_acquire (lock_t *lock){
+    while( __sync_lock_test_and_set(lock, 1)!=0){
+
+    ;
+    }
+     __sync_synchronize();
+        
 
 }
 
-void lock_release (lock_t *)
-{
-    
+void lock_release (lock_t *lock){
+     __sync_synchronize();
+    __sync_lock_release(lock);
+   
 }
 
-void lock_init (lock_t *)
-{
+void lock_init (lock_t *lock){
+    lock = 0;
     
 }
 

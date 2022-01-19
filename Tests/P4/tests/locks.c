@@ -1,7 +1,7 @@
 /* test lock correctness */
 #include "kernel/types.h"
 #include "user/user.h"
-#include "user/thread_lib.h"
+//#include "user/thread_lib.h"
 
 #undef NULL
 #define NULL ((void*)0)
@@ -10,7 +10,7 @@
 
 int ppid;
 int global = 0;
-lock_t lock;
+lock_t lock = 0;
 int num_threads = 30;
 int loops = 1000;
 
@@ -43,9 +43,11 @@ main(int argc, char *argv[])
       assert(join_pid > 0);
    }
 
+   printf ("Global = %d, num_threads = %d\n", global, num_threads*loops);
+   printf ("\n");
    assert(global == num_threads * loops);
 
-   printf(1, "TEST PASSED\n");
+   printf("TEST PASSED\n");
    exit(0);
 }
 

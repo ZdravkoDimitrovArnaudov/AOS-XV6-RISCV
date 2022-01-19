@@ -40,7 +40,7 @@ wc(int fd, char *name)
       38:	fef42023          	sw	a5,-32(s0)
       if(buf[i] == '\n')
       3c:	00001717          	auipc	a4,0x1
-      40:	0ac70713          	addi	a4,a4,172 # 10e8 <buf>
+      40:	0bc70713          	addi	a4,a4,188 # 10f8 <buf>
       44:	fec42783          	lw	a5,-20(s0)
       48:	97ba                	add	a5,a5,a4
       4a:	0007c783          	lbu	a5,0(a5)
@@ -53,13 +53,13 @@ wc(int fd, char *name)
       5c:	fef42423          	sw	a5,-24(s0)
       if(strchr(" \r\t\n\v", buf[i]))
       60:	00001717          	auipc	a4,0x1
-      64:	08870713          	addi	a4,a4,136 # 10e8 <buf>
+      64:	09870713          	addi	a4,a4,152 # 10f8 <buf>
       68:	fec42783          	lw	a5,-20(s0)
       6c:	97ba                	add	a5,a5,a4
       6e:	0007c783          	lbu	a5,0(a5)
       72:	85be                	mv	a1,a5
       74:	00001517          	auipc	a0,0x1
-      78:	fbc50513          	addi	a0,a0,-68 # 1030 <lock_init+0x16>
+      78:	fcc50513          	addi	a0,a0,-52 # 1040 <lock_init+0x18>
       7c:	00000097          	auipc	ra,0x0
       80:	2f0080e7          	jalr	752(ra) # 36c <strchr>
       84:	87aa                	mv	a5,a0
@@ -92,7 +92,7 @@ wc(int fd, char *name)
       c2:	fcc42783          	lw	a5,-52(s0)
       c6:	20000613          	li	a2,512
       ca:	00001597          	auipc	a1,0x1
-      ce:	01e58593          	addi	a1,a1,30 # 10e8 <buf>
+      ce:	02e58593          	addi	a1,a1,46 # 10f8 <buf>
       d2:	853e                	mv	a0,a5
       d4:	00000097          	auipc	ra,0x0
       d8:	5fc080e7          	jalr	1532(ra) # 6d0 <read>
@@ -110,7 +110,7 @@ wc(int fd, char *name)
       f2:	0007df63          	bgez	a5,110 <wc+0x110>
     printf("wc: read error\n");
       f6:	00001517          	auipc	a0,0x1
-      fa:	f4250513          	addi	a0,a0,-190 # 1038 <lock_init+0x1e>
+      fa:	f5250513          	addi	a0,a0,-174 # 1048 <lock_init+0x20>
       fe:	00001097          	auipc	ra,0x1
      102:	af2080e7          	jalr	-1294(ra) # bf0 <printf>
     exit(1);
@@ -125,7 +125,7 @@ wc(int fd, char *name)
      11c:	fc043703          	ld	a4,-64(s0)
      120:	85be                	mv	a1,a5
      122:	00001517          	auipc	a0,0x1
-     126:	f2650513          	addi	a0,a0,-218 # 1048 <lock_init+0x2e>
+     126:	f3650513          	addi	a0,a0,-202 # 1058 <lock_init+0x30>
      12a:	00001097          	auipc	ra,0x1
      12e:	ac6080e7          	jalr	-1338(ra) # bf0 <printf>
 }
@@ -156,7 +156,7 @@ main(int argc, char *argv[])
      158:	02e7c063          	blt	a5,a4,178 <main+0x3c>
     wc(0, "");
      15c:	00001597          	auipc	a1,0x1
-     160:	efc58593          	addi	a1,a1,-260 # 1058 <lock_init+0x3e>
+     160:	f0c58593          	addi	a1,a1,-244 # 1068 <lock_init+0x40>
      164:	4501                	li	a0,0
      166:	00000097          	auipc	ra,0x0
      16a:	e9a080e7          	jalr	-358(ra) # 0 <wc>
@@ -193,7 +193,7 @@ main(int argc, char *argv[])
      1b6:	639c                	ld	a5,0(a5)
      1b8:	85be                	mv	a1,a5
      1ba:	00001517          	auipc	a0,0x1
-     1be:	ea650513          	addi	a0,a0,-346 # 1060 <lock_init+0x46>
+     1be:	eb650513          	addi	a0,a0,-330 # 1070 <lock_init+0x48>
      1c2:	00001097          	auipc	ra,0x1
      1c6:	a2e080e7          	jalr	-1490(ra) # bf0 <printf>
       exit(1);
@@ -1091,7 +1091,7 @@ printint(int fd, int xx, int base, int sgn)
      80c:	0017871b          	addiw	a4,a5,1
      810:	fee42623          	sw	a4,-20(s0)
      814:	00001697          	auipc	a3,0x1
-     818:	8bc68693          	addi	a3,a3,-1860 # 10d0 <digits>
+     818:	8cc68693          	addi	a3,a3,-1844 # 10e0 <digits>
      81c:	02061713          	slli	a4,a2,0x20
      820:	9301                	srli	a4,a4,0x20
      822:	9736                	add	a4,a4,a3
@@ -1178,7 +1178,7 @@ printptr(int fd, uint64 x) {
      8e2:	fd043783          	ld	a5,-48(s0)
      8e6:	93f1                	srli	a5,a5,0x3c
      8e8:	00000717          	auipc	a4,0x0
-     8ec:	7e870713          	addi	a4,a4,2024 # 10d0 <digits>
+     8ec:	7f870713          	addi	a4,a4,2040 # 10e0 <digits>
      8f0:	97ba                	add	a5,a5,a4
      8f2:	0007c703          	lbu	a4,0(a5)
      8f6:	fdc42783          	lw	a5,-36(s0)
@@ -1349,7 +1349,7 @@ vprintf(int fd, const char *fmt, va_list ap)
      aa6:	eb8d                	bnez	a5,ad8 <vprintf+0x1a6>
           s = "(null)";
      aa8:	00000797          	auipc	a5,0x0
-     aac:	5d078793          	addi	a5,a5,1488 # 1078 <lock_init+0x5e>
+     aac:	5e078793          	addi	a5,a5,1504 # 1088 <lock_init+0x60>
      ab0:	fef43423          	sd	a5,-24(s0)
         while(*s != 0){
      ab4:	a015                	j	ad8 <vprintf+0x1a6>
@@ -1539,7 +1539,7 @@ free(void *ap)
      c50:	fef43023          	sd	a5,-32(s0)
   for(p = freep; !(bp > p && bp < p->s.ptr); p = p->s.ptr)
      c54:	00000797          	auipc	a5,0x0
-     c58:	6a478793          	addi	a5,a5,1700 # 12f8 <freep>
+     c58:	6b478793          	addi	a5,a5,1716 # 1308 <freep>
      c5c:	639c                	ld	a5,0(a5)
      c5e:	fef43423          	sd	a5,-24(s0)
      c62:	a815                	j	c96 <free+0x56>
@@ -1633,7 +1633,7 @@ free(void *ap)
      d4a:	e398                	sd	a4,0(a5)
   freep = p;
      d4c:	00000797          	auipc	a5,0x0
-     d50:	5ac78793          	addi	a5,a5,1452 # 12f8 <freep>
+     d50:	5bc78793          	addi	a5,a5,1468 # 1308 <freep>
      d54:	fe843703          	ld	a4,-24(s0)
      d58:	e398                	sd	a4,0(a5)
 }
@@ -1695,7 +1695,7 @@ morecore(uint nu)
      dca:	e7a080e7          	jalr	-390(ra) # c40 <free>
   return freep;
      dce:	00000797          	auipc	a5,0x0
-     dd2:	52a78793          	addi	a5,a5,1322 # 12f8 <freep>
+     dd2:	53a78793          	addi	a5,a5,1338 # 1308 <freep>
      dd6:	639c                	ld	a5,0(a5)
 }
      dd8:	853e                	mv	a0,a5
@@ -1727,28 +1727,28 @@ malloc(uint nbytes)
      dfc:	fcf42e23          	sw	a5,-36(s0)
   if((prevp = freep) == 0){
      e00:	00000797          	auipc	a5,0x0
-     e04:	4f878793          	addi	a5,a5,1272 # 12f8 <freep>
+     e04:	50878793          	addi	a5,a5,1288 # 1308 <freep>
      e08:	639c                	ld	a5,0(a5)
      e0a:	fef43023          	sd	a5,-32(s0)
      e0e:	fe043783          	ld	a5,-32(s0)
      e12:	ef95                	bnez	a5,e4e <malloc+0x6c>
     base.s.ptr = freep = prevp = &base;
      e14:	00000797          	auipc	a5,0x0
-     e18:	4d478793          	addi	a5,a5,1236 # 12e8 <base>
+     e18:	4e478793          	addi	a5,a5,1252 # 12f8 <base>
      e1c:	fef43023          	sd	a5,-32(s0)
      e20:	00000797          	auipc	a5,0x0
-     e24:	4d878793          	addi	a5,a5,1240 # 12f8 <freep>
+     e24:	4e878793          	addi	a5,a5,1256 # 1308 <freep>
      e28:	fe043703          	ld	a4,-32(s0)
      e2c:	e398                	sd	a4,0(a5)
      e2e:	00000797          	auipc	a5,0x0
-     e32:	4ca78793          	addi	a5,a5,1226 # 12f8 <freep>
+     e32:	4da78793          	addi	a5,a5,1242 # 1308 <freep>
      e36:	6398                	ld	a4,0(a5)
      e38:	00000797          	auipc	a5,0x0
-     e3c:	4b078793          	addi	a5,a5,1200 # 12e8 <base>
+     e3c:	4c078793          	addi	a5,a5,1216 # 12f8 <base>
      e40:	e398                	sd	a4,0(a5)
     base.s.size = 0;
      e42:	00000797          	auipc	a5,0x0
-     e46:	4a678793          	addi	a5,a5,1190 # 12e8 <base>
+     e46:	4b678793          	addi	a5,a5,1206 # 12f8 <base>
      e4a:	0007a423          	sw	zero,8(a5)
   }
   for(p = prevp->s.ptr; ; prevp = p, p = p->s.ptr){
@@ -1798,7 +1798,7 @@ malloc(uint nbytes)
       }
       freep = prevp;
      ebc:	00000797          	auipc	a5,0x0
-     ec0:	43c78793          	addi	a5,a5,1084 # 12f8 <freep>
+     ec0:	44c78793          	addi	a5,a5,1100 # 1308 <freep>
      ec4:	fe043703          	ld	a4,-32(s0)
      ec8:	e398                	sd	a4,0(a5)
       return (void*)(p + 1);
@@ -1808,7 +1808,7 @@ malloc(uint nbytes)
     }
     if(p == freep)
      ed2:	00000797          	auipc	a5,0x0
-     ed6:	42678793          	addi	a5,a5,1062 # 12f8 <freep>
+     ed6:	43678793          	addi	a5,a5,1078 # 1308 <freep>
      eda:	639c                	ld	a5,0(a5)
      edc:	fe843703          	ld	a4,-24(s0)
      ee0:	02f71063          	bne	a4,a5,f00 <malloc+0x11e>
@@ -1866,7 +1866,7 @@ int thread_create(void (*start_routine)(void*),  void *arg){
      f40:	e38d                	bnez	a5,f62 <thread_create+0x44>
         printf ("Error: No se ha podido allocatar el stack en el heap del proceso padre.\n");
      f42:	00000517          	auipc	a0,0x0
-     f46:	13e50513          	addi	a0,a0,318 # 1080 <lock_init+0x66>
+     f46:	14e50513          	addi	a0,a0,334 # 1090 <lock_init+0x68>
      f4a:	00000097          	auipc	ra,0x0
      f4e:	ca6080e7          	jalr	-858(ra) # bf0 <printf>
         free(stack);
@@ -1955,45 +1955,53 @@ int thread_join()
 0000000000000ff6 <lock_acquire>:
 
 
-void lock_acquire (lock_t *)
+void lock_acquire (lock_t *lock)
 {
      ff6:	1101                	addi	sp,sp,-32
      ff8:	ec22                	sd	s0,24(sp)
      ffa:	1000                	addi	s0,sp,32
      ffc:	fea43423          	sd	a0,-24(s0)
+        lock = 0;
+    1000:	fe043423          	sd	zero,-24(s0)
 
 }
-    1000:	0001                	nop
-    1002:	6462                	ld	s0,24(sp)
-    1004:	6105                	addi	sp,sp,32
-    1006:	8082                	ret
+    1004:	0001                	nop
+    1006:	6462                	ld	s0,24(sp)
+    1008:	6105                	addi	sp,sp,32
+    100a:	8082                	ret
 
-0000000000001008 <lock_release>:
+000000000000100c <lock_release>:
 
-void lock_release (lock_t *)
+void lock_release (lock_t *lock)
 {
-    1008:	1101                	addi	sp,sp,-32
-    100a:	ec22                	sd	s0,24(sp)
-    100c:	1000                	addi	s0,sp,32
-    100e:	fea43423          	sd	a0,-24(s0)
+    100c:	1101                	addi	sp,sp,-32
+    100e:	ec22                	sd	s0,24(sp)
+    1010:	1000                	addi	s0,sp,32
+    1012:	fea43423          	sd	a0,-24(s0)
+        __sync_lock_test_and_set(lock, 1);
+    1016:	fe843783          	ld	a5,-24(s0)
+    101a:	4705                	li	a4,1
+    101c:	0ce7a72f          	amoswap.w.aq	a4,a4,(a5)
     
 }
-    1012:	0001                	nop
-    1014:	6462                	ld	s0,24(sp)
-    1016:	6105                	addi	sp,sp,32
-    1018:	8082                	ret
+    1020:	0001                	nop
+    1022:	6462                	ld	s0,24(sp)
+    1024:	6105                	addi	sp,sp,32
+    1026:	8082                	ret
 
-000000000000101a <lock_init>:
+0000000000001028 <lock_init>:
 
-void lock_init (lock_t *)
+void lock_init (lock_t *lock)
 {
-    101a:	1101                	addi	sp,sp,-32
-    101c:	ec22                	sd	s0,24(sp)
-    101e:	1000                	addi	s0,sp,32
-    1020:	fea43423          	sd	a0,-24(s0)
+    1028:	1101                	addi	sp,sp,-32
+    102a:	ec22                	sd	s0,24(sp)
+    102c:	1000                	addi	s0,sp,32
+    102e:	fea43423          	sd	a0,-24(s0)
+    lock = 0;
+    1032:	fe043423          	sd	zero,-24(s0)
     
 }
-    1024:	0001                	nop
-    1026:	6462                	ld	s0,24(sp)
-    1028:	6105                	addi	sp,sp,32
-    102a:	8082                	ret
+    1036:	0001                	nop
+    1038:	6462                	ld	s0,24(sp)
+    103a:	6105                	addi	sp,sp,32
+    103c:	8082                	ret

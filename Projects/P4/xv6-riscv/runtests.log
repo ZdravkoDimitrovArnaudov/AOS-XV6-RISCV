@@ -9,7 +9,103 @@ build xv6 using make
 Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
-make: 'fs.img' is up to date.
+riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/thread_lib.o user/thread_lib.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_cat user/cat.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_cat > user/cat.asm
+riscv64-unknown-elf-objdump -t user/_cat | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/cat.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_echo user/echo.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_echo > user/echo.asm
+riscv64-unknown-elf-objdump -t user/_echo | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/echo.sym
+# forktest has less library code linked in - needs to be small
+# in order to be able to max out the proc table.
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_forktest user/forktest.o user/ulib.o user/usys.o
+riscv64-unknown-elf-objdump -S user/_forktest > user/forktest.asm
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_grep user/grep.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_grep > user/grep.asm
+riscv64-unknown-elf-objdump -t user/_grep | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/grep.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_init user/init.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_init > user/init.asm
+riscv64-unknown-elf-objdump -t user/_init | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/init.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_kill user/kill.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_kill > user/kill.asm
+riscv64-unknown-elf-objdump -t user/_kill | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/kill.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_ln user/ln.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_ln > user/ln.asm
+riscv64-unknown-elf-objdump -t user/_ln | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/ln.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_ls user/ls.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_ls > user/ls.asm
+riscv64-unknown-elf-objdump -t user/_ls | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/ls.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_mkdir user/mkdir.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_mkdir > user/mkdir.asm
+riscv64-unknown-elf-objdump -t user/_mkdir | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/mkdir.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_rm user/rm.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_rm > user/rm.asm
+riscv64-unknown-elf-objdump -t user/_rm | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/rm.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_sh user/sh.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_sh > user/sh.asm
+riscv64-unknown-elf-objdump -t user/_sh | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/sh.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_stressfs user/stressfs.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_stressfs > user/stressfs.asm
+riscv64-unknown-elf-objdump -t user/_stressfs | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/stressfs.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_usertests user/usertests.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_usertests > user/usertests.asm
+riscv64-unknown-elf-objdump -t user/_usertests | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/usertests.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_grind user/grind.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_grind > user/grind.asm
+riscv64-unknown-elf-objdump -t user/_grind | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/grind.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_wc user/wc.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_wc > user/wc.asm
+riscv64-unknown-elf-objdump -t user/_wc | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/wc.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_zombie user/zombie.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_zombie > user/zombie.asm
+riscv64-unknown-elf-objdump -t user/_zombie | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/zombie.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_clone user/clone.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_clone > user/clone.asm
+riscv64-unknown-elf-objdump -t user/_clone | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/clone.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_prueba_clone user/prueba_clone.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_prueba_clone > user/prueba_clone.asm
+riscv64-unknown-elf-objdump -t user/_prueba_clone | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/prueba_clone.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_prueba_args user/prueba_args.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_prueba_args > user/prueba_args.asm
+riscv64-unknown-elf-objdump -t user/_prueba_args | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/prueba_args.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_clone2 user/clone2.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_clone2 > user/clone2.asm
+riscv64-unknown-elf-objdump -t user/_clone2 | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/clone2.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_stack user/stack.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_stack > user/stack.asm
+riscv64-unknown-elf-objdump -t user/_stack | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/stack.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_join user/join.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_join > user/join.asm
+riscv64-unknown-elf-objdump -t user/_join | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/join.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_join2 user/join2.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_join2 > user/join2.asm
+riscv64-unknown-elf-objdump -t user/_join2 | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/join2.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_join3 user/join3.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_join3 > user/join3.asm
+riscv64-unknown-elf-objdump -t user/_join3 | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/join3.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_join4 user/join4.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_join4 > user/join4.asm
+riscv64-unknown-elf-objdump -t user/_join4 | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/join4.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_multi user/multi.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_multi > user/multi.asm
+riscv64-unknown-elf-objdump -t user/_multi | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/multi.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_thread user/thread.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_thread > user/thread.asm
+riscv64-unknown-elf-objdump -t user/_thread | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/thread.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_sbrktest user/sbrktest.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_sbrktest > user/sbrktest.asm
+riscv64-unknown-elf-objdump -t user/_sbrktest | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/sbrktest.sym
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_thread_lib user/thread_lib.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld: warning: cannot find entry symbol main; defaulting to 0000000000000000
+riscv64-unknown-elf-objdump -S user/_thread_lib > user/thread_lib.asm
+riscv64-unknown-elf-objdump -t user/_thread_lib | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/thread_lib.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 761 blocks have been allocated
+balloc: write bitmap block at sector 45
 
 
 test build PASSED
@@ -33,7 +129,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 760 blocks have been allocated
+balloc: first 764 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -225,7 +321,6 @@ Voy a hacer copyout en join
 Stack del join: 86016
 TEST PASSED
 
-
 test multi PASSED (8 of 8)
  (multiple threads with some depth of function calls)
 
@@ -247,7 +342,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 758 blocks have been allocated
+balloc: first 762 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -288,7 +383,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 759 blocks have been allocated
+balloc: first 763 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -352,7 +447,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 758 blocks have been allocated
+balloc: first 762 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -386,16 +481,207 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-user/tester.c:4:10: fatal error: user/thread_lib.h: No such file or directory
-    4 | #include "user/thread_lib.h"
-      |          ^~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make: *** [<builtin>: user/tester.o] Error 1
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 763 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu 
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 
+xv6 kernel is booting
 
-test locks FAILED (0 of 8)
+init: starting sh
+$ tester
+tester
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 77824
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 69632
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 65536
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 61440
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 57344
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 53248
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 49152
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 45056
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 40960
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 36864
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 32768
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 28672
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 24576
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 20480
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 143360
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 139264
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 135168
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 131072
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 126976
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 122880
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 118784
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 114688
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 110592
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 106496
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 102400
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 98304
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 94208
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 90112
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 86016
+SYSPROC: lo que vale stack es: 16288
+ADDR: 16288
+Voy a hacer copyout en join
+Stack del join: 73728
+Global = 30000, num_threads = 30000
+
+TEST PASSED
+
+test locks PASSED (8 of 8)
  (test lock correctness)
- make failed (error 2)
 
 starting clone
 
@@ -415,7 +701,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 758 blocks have been allocated
+balloc: first 762 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -475,7 +761,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 758 blocks have been allocated
+balloc: first 763 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -508,7 +794,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 759 blocks have been allocated
+balloc: first 763 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -571,7 +857,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 758 blocks have been allocated
+balloc: first 763 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12605,7 +12891,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 758 blocks have been allocated
+balloc: first 762 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12639,7 +12925,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 759 blocks have been allocated
+balloc: first 763 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12680,7 +12966,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 759 blocks have been allocated
+balloc: first 763 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12715,7 +13001,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 759 blocks have been allocated
+balloc: first 763 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12753,7 +13039,7 @@ riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
 mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 758 blocks have been allocated
+balloc: first 763 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12777,7 +13063,7 @@ starting size
 **********************************************************************
 
 Test size
-check that address space size is updated in threads
+/* check that address space size is updated in threads
 
 **********************************************************************
 Running xv6 user progam ./../../../Tests/P4/tests/size.c
@@ -12785,16 +13071,205 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-user/tester.c:4:10: fatal error: user/thread_lib.h: No such file or directory
-    4 | #include "user/thread_lib.h"
-      |          ^~~~~~~~~~~~~~~~~~~
-compilation terminated.
-make: *** [<builtin>: user/tester.o] Error 1
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 763 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu 
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
 
+xv6 kernel is booting
 
-test size FAILED (0 of 7)
- (check that address space size is updated in threads)
- make failed (error 2)
+init: starting sh
+$ tester
+tester
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+Antes de hacer copyout.
+Copyout correcto al stack del thread.
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 77824
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 73728
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 69632
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 65536
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 61440
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 57344
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 53248
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 49152
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 45056
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 40960
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 36864
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 32768
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 28672
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 24576
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 20480
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 143360
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 139264
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 135168
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 131072
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 126976
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 122880
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 118784
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 114688
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 110592
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 106496
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 102400
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 98304
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 94208
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 90112
+SYSPROC: lo que vale stack es: 16272
+ADDR: 16272
+Voy a hacer copyout en join
+Stack del join: 86016
+TEST PASSED
+
+test size PASSED (7 of 7)
+ (/* check that address space size is updated in threads)
 
 **********************************************************************
 Summary:
@@ -12817,9 +13292,8 @@ test cond3 FAILED (0 of 7)
 test thread PASSED (10 of 10)
  (thread user library functions)
 
-test locks FAILED (0 of 8)
+test locks PASSED (8 of 8)
  (test lock correctness)
- make failed (error 2)
 
 test clone PASSED (9 of 9)
  (clone and verify that address space is shared)
@@ -12856,10 +13330,9 @@ test clone2 PASSED (6 of 6)
 test stack PASSED (8 of 8)
  (set up stack correctly (and without extra items))
 
-test size FAILED (0 of 7)
- (check that address space size is updated in threads)
- make failed (error 2)
+test size PASSED (7 of 7)
+ (/* check that address space size is updated in threads)
 
-Passed 14 of 19 tests.
-Overall 14 of 19
-Points 85 of 125
+Passed 16 of 19 tests.
+Overall 16 of 19
+Points 100 of 125

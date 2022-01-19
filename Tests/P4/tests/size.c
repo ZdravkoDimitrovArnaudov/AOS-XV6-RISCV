@@ -1,7 +1,7 @@
-/* check that address space size is updated in threads */
+///* check that address space size is updated in threads */
 #include "kernel/types.h"
 #include "user/user.h"
-#include "user/thread_lib.h"
+//#include "user/thread_lib.h"
 
 #undef NULL
 #define NULL ((void*)0)
@@ -44,7 +44,7 @@ main(int argc, char *argv[])
       assert(thread_pid > 0);
    }
 
-   size = (unsigned int)sbrk(0);
+   size = (uint64)sbrk(0);
 
    while (global < num_threads) {
       lock_release(&lock);
@@ -54,7 +54,7 @@ main(int argc, char *argv[])
 
    global = 0;
    sbrk(10000);
-   size = (unsigned int)sbrk(0);
+   size = (uint64)sbrk(0);
    lock_release(&lock);
 
    while (global < num_threads) {
@@ -77,12 +77,12 @@ main(int argc, char *argv[])
 void
 worker(void *arg_ptr) {
    lock_acquire(&lock);
-   assert((unsigned int)sbrk(0) == size);
+   assert((uint64)sbrk(0) == size);
    global++;
    lock_release(&lock);
 
    lock_acquire(&lock2);
-   assert((unsigned int)sbrk(0) == size);
+   assert((uint64)sbrk(0) == size);
    global++;
    lock_release(&lock2);
 
