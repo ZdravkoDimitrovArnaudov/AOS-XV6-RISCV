@@ -1,7 +1,7 @@
 /* multiple threads with some depth of function calls */
 #include "kernel/types.h"
 #include "user/user.h"
-#include "user/thread_lib.h"
+//#include "user/thread_lib.h"
 
 
 

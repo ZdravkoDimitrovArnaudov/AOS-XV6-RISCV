@@ -1,21 +1,21 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "fcntl.h"
-#include "fs.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
+#include "kernel/fs.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 #define NBLOCKS (NDIRECT+1)
@@ -39,50 +39,50 @@ main(int argc, char *argv[])
   
   //writes
   if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-    printf(1, "Failed to create the small file\n");
+    printf("Failed to create the small file\n");
     test_failed();
   }
-  
+  int a;
   if(write(fd, buf, SMALLWRITE) != SMALLWRITE){
-    printf(1, "Failed to do a small write\n");
+    printf("Failed to do a small write\n");
     test_failed();
   }
   
-  if(write(fd, buf+SMALLWRITE, BIGWRITE) != SIZE-SMALLWRITE){
-    printf(1, "Failed to do a truncated big write\n");
+  if((a=write(fd, buf+SMALLWRITE, BIGWRITE)) != SIZE-SMALLWRITE){
+    printf("Failed to do a truncated big write %d\n",a);
     test_failed();
   }
   close(fd);
   
   //read
   if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-    printf(1, "Failed to open the small file\n");
+    printf("Failed to open the small file\n");
     test_failed();
   }
   
   if(fstat(fd, &st) < 0){
-    printf(1, "Failed to get stat on the small file\n");
+    printf("Failed to get stat on the small file\n");
     test_failed();
   }
   
   if(st.size != SIZE){
-    printf(1, "Invalid file size.\n");
+    printf("Invalid file size. %d %d\n", st.size, SIZE);
     test_failed();
   }
   
   if(read(fd, buf2, SIZE) != SIZE){
-    printf(1, "Read failed!\n");
+    printf("Read failed!\n");
     test_failed();
   }
   close(fd);
   
   for(i = 0; i < SIZE; i++){
     if(buf[i] != buf2[i]){
-      printf(1, "Data mismatch.\n");
+      printf("Data mismatch.\n");
       test_failed();
     }
   }
   
   test_passed();
-	exit();
+	exit(0);
 }

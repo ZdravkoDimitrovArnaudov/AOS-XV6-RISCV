@@ -111,7 +111,7 @@ class Test13(Xv6Test):
   tester = "ctests/" + name + ".c"
   make_qemu_args = "CPUS=1"
   point_value = 10
-  timeout = 500
+  timeout = 10
 
 class Test14(Xv6Test):
   name = "stress"
@@ -159,7 +159,7 @@ class Test19(Xv6Test):
   tester = "ctests/" + name + ".c"
   make_qemu_args = "CPUS=1"
   point_value = 10
-  timeout = 500
+  timeout = 10
 
 import toolspath
 from testing.runtests import main

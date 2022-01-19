@@ -21,6 +21,10 @@
 #include "buf.h"
 #include "file.h"
 
+#include "stddef.h"
+
+#define SMALLFILE_SIZE 52
+
 #define min(a, b) ((a) < (b) ? (a) : (b))
 // there should be one superblock per disk device, but we run with
 // only one device
@@ -342,8 +346,11 @@ iput(struct inode *ip)
     acquiresleep(&ip->lock);
 
     release(&itable.lock);
-
-    itrunc(ip);
+    
+    if (ip->type != T_SMALLFILE){
+      itrunc(ip);
+    }
+    //itrunc(ip);
     ip->type = 0;
     iupdate(ip);
     ip->valid = 0;
@@ -456,14 +463,49 @@ int
 readi(struct inode *ip, int user_dst, uint64 dst, uint off, uint n)
 {
   uint tot, m;
-  struct buf *bp;
+  struct buf *bp = NULL;
+  void *aux_addr;
+  m = 0;
 
   if(off > ip->size || off + n < off)
     return 0;
+
   if(off + n > ip->size)
     n = ip->size - off;
 
-  for(tot=0; tot<n; tot+=m, off+=m, dst+=m){
+
+  if (ip->type == T_SMALLFILE){ //small file
+
+    if (ip->size <= 0){
+      return -1;
+    }
+
+    //no podemos leer más bytes que el tamaño que indica el inodo
+    if (n > ip->size){
+      n = ip->size;
+    }
+
+    //si intentamos leer más que el tamaño máximo del fichero
+    if (off + n > (sizeof(uint) * (NDIRECT +1))){
+      n = (sizeof(uint) * (NDIRECT +1)) - off; //acabamos leyendo lo que nos quede
+    }
+
+    //if(either_copyout(user_dst, dst, (void*)ip->addrs, n) == -1) {
+     // tot = -1;
+   // }
+
+    for (int i = off; i < off+n; i++){
+      aux_addr = (void *)ip->addrs + i;
+      if(either_copyout(user_dst, dst +i -off, (void*)aux_addr,  1) == -1) {
+      tot = -1;
+    }
+  }
+
+    tot = n;
+
+  } else { //regular file
+
+    for(tot=0; tot<n; tot+=m, off+=m, dst+=m){
     bp = bread(ip->dev, bmap(ip, off/BSIZE));
     m = min(n - tot, BSIZE - off%BSIZE);
     if(either_copyout(user_dst, dst, bp->data + (off % BSIZE), m) == -1) {
@@ -473,6 +515,9 @@ readi(struct inode *ip, int user_dst, uint64 dst, uint off, uint n)
     }
     brelse(bp);
   }
+
+  }
+
   return tot;
 }
 
@@ -488,22 +533,72 @@ writei(struct inode *ip, int user_src, uint64 src, uint off, uint n)
 {
   uint tot, m;
   struct buf *bp;
+  tot = 0;
+  void *aux_addr;
+  int size_array = 0;
 
-  if(off > ip->size || off + n < off)
-    return -1;
-  if(off + n > MAXFILE*BSIZE)
-    return -1;
 
-  for(tot=0; tot<n; tot+=m, off+=m, src+=m){
-    bp = bread(ip->dev, bmap(ip, off/BSIZE));
-    m = min(n - tot, BSIZE - off%BSIZE);
-    if(either_copyin(bp->data + (off % BSIZE), user_src, src, m) == -1) {
-      brelse(bp);
-      break;
-    }
-    log_write(bp);
-    brelse(bp);
+  if(off > ip->size || off + n < off){
+    return -1;
   }
+  
+  if (ip->type == T_SMALLFILE){ //small file
+
+    if(ip->size >  (sizeof(uint) * (NDIRECT +1))){
+      return -1;
+    }
+
+    if(off + n > (sizeof(uint) * (NDIRECT +1))){
+      n = (sizeof(uint) * (NDIRECT+1)) - off ;
+    }
+      
+
+
+    for (int i = off; i < off+n; i++){
+      aux_addr = (void *)ip->addrs + i;
+      if(either_copyin((void*)aux_addr, user_src, src +i - off, 1) == -1) {
+        tot = -1;
+      }
+      size_array++;
+    }
+
+    //escribimos en el espacio 
+   // if(either_copyin((void*)ip->addrs, user_src, src, n) == -1) {
+     //  return -1;
+   // }
+
+    //tot =n;
+
+
+    if (n > 0){ //hemos escrito
+      if (size_array + off >= ip->size){
+        ip->size = size_array + off;
+      } else {
+        ip->size += n;
+      }
+    tot = n;
+    iupdate(ip);
+  }
+
+  } else {
+
+
+    if(off + n > MAXFILE*BSIZE)
+      return -1;
+
+    for(tot=0; tot<n; tot+=m, off+=m, src+=m){
+      bp = bread(ip->dev, bmap(ip, off/BSIZE));
+      m = min(n - tot, BSIZE - off%BSIZE);
+      if(either_copyin(bp->data + (off % BSIZE), user_src, src, m) == -1) {
+        brelse(bp);
+        break;
+      }
+      log_write(bp);
+      brelse(bp);
+    }
+
+  }
+
 
   if(off > ip->size)
     ip->size = off;

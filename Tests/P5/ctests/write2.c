@@ -1,67 +1,81 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "fcntl.h"
-#include "fs.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
+#include "kernel/fs.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
-#define NITERATIONS 1000
+#define MAX (NDIRECT + 1)*4
 
 int
 main(int argc, char *argv[])
 {
   int fd;
-  char buf[NITERATIONS];
-  char result; //character read from file
+  char buf[MAX];
+  char buf2[MAX];
   int n;
   int i;
   
-  for(i = 0; i < NITERATIONS; i++){
+  for(i = 0; i < MAX; i++){
     buf[i] = (char)(i+(int)'0');
   }
   
-  //open, write 1 byte, close
-  for(i = 0; i < NITERATIONS; i++){
-    if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-      printf(1, "Failed to create the small file\n");
-      test_failed();
-    }
-    if((n = write(fd, &buf[i], 1)) != 1){
-      printf(1, "Write failed!\n");
-      test_failed();
-    }
-    close(fd);
+  if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
+    printf("Failed to create the small file\n");
+    test_failed();
+    exit(0);
   }
   
-  //read
-  if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-    printf(1, "Failed to open the small file\n");
+  if((n = write(fd, buf, MAX)) < 0){
+    printf("Write failed!\n");
     test_failed();
   }
-  if((n = read(fd, &result, 10)) != 1){
-    printf(1, "Read failed! %d\n", n);
-    test_failed();
-  }
+  printf("bytes written = %d\n", n);
   close(fd);
   
-  if(result != buf[NITERATIONS-1]){
-    printf(1, "Data mismatch.\n");
+  if(n != (NDIRECT+1)*4){
+    printf("Failed to write the right amount to the small file.\n");
     test_failed();
   }
-
+  
+  
+  if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
+    printf("Failed to create the small file\n");
+    exit(0);
+  }
+  
+  if((n = read(fd, buf2, MAX)) < 0){
+    printf("Read failed!\n");
+    exit(0);
+  }
+  printf("bytes read = %d\n", n);
+  close(fd);
+  
+  if(n != (NDIRECT+1)*4){
+    printf("Failed to read the right amount to the small file.\n");
+    test_failed();
+  }
+  
+  for(i = 0; i < (NDIRECT+1)*4; i++){
+    if(buf[i] != buf2[i]){
+      printf("Data mismatch.\n");
+      test_failed();
+    }
+  }
+  
   test_passed();
-	exit();
+  exit(0);
 }

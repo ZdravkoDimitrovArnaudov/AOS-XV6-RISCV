@@ -1,21 +1,21 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "fcntl.h"
-#include "fs.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
+#include "kernel/fs.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 #define MAX 500
@@ -37,9 +37,9 @@ main(int argc, char *argv[])
   
   int count = 0;
   while(1) {
-    printf(1, "creating large file: %s\n", name);
+    printf("creating large file: %s\n", name);
     if((fd = open(name, O_CREATE | O_RDWR)) < 0){
-      printf(1, "Failed to create a large file\n");
+      printf("Failed to create a large file\n");
       test_failed();
     }
     
@@ -61,20 +61,20 @@ main(int argc, char *argv[])
     name[0]++;
   }
   
-  printf(1, "all free blocks are used\n");
+  printf("all free blocks are used\n");
   
   if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-    printf(1, "Failed to create the small file\n");
+    printf("Failed to create the small file\n");
     test_failed();
   }
   
   if((n = write(fd, buf, SMALL_SIZE)) != SMALL_SIZE){
-    printf(1, "Write to small file failed!\n");
+    printf("Write to small file failed!\n");
     test_failed();
   }
-  printf(1, "bytes written = %d\n", n);
+  printf("bytes written = %d\n", n);
   close(fd);
   
   test_passed();
-  exit();
+  exit(0);
 }

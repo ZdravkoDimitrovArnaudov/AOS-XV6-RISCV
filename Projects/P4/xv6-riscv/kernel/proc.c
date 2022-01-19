@@ -119,6 +119,7 @@ allocproc(void)
 found:
   p->pid = allocpid();
   p->state = USED;
+  p->ASID = p->pid;
 
 
   //inicializamos campos nuevos
@@ -182,11 +183,11 @@ freethread(struct proc *p)
     kfree((void*)p->trapframe);
   p->trapframe = 0;
   if(p->pagetable){
-    uvmunmap(p->pagetable, TRAMPOLINE, 1, 0);
-    uvmunmap(p->pagetable, TRAPFRAME, 1, 0);
+    uvmunmap(p->pagetable, TRAMPOLINE, 1, 0); //desmapea pagina trampoline
+    uvmunmap(p->pagetable, TRAPFRAME, 1, 0); //desmapea pagina trapframe
     if(p->sz > 0)
-    uvmunmap(p->pagetable, 0, PGROUNDUP(p->sz)/PGSIZE, 0);
-    kfree((void*)p->pagetable);
+    uvmunmap(p->pagetable, 0, PGROUNDUP(p->sz)/PGSIZE, 0); //desmapea todo de 0 a sz, sin liberar las paginas fisicas
+    kfree((void*)p->pagetable); //kernel free de la tabla de páginas, no se están recorriendo todos los niveles
 
   }
   p->pagetable = 0;
@@ -308,7 +309,7 @@ int check_grow_threads (struct proc *parent, int n, int sz)
 {
   struct proc *np;
   for(np = proc; np < &proc[NPROC]; np++){
-      if(np->parent == parent && np->thread == 1){
+      if(np->thread == 1 && np->ASID == parent->ASID){
         if((growproc_thread(parent->pagetable, np->pagetable, sz, n))<0){
           printf ("Fallo al expandir en los hijos.\n");
           return -1;
@@ -771,6 +772,11 @@ int clone(void(*fcn)(void*), void *arg, void*stack)
   np->thread = 1;
   np->sz = p->sz;
 
+
+  //ASID thread = PID padre
+  np->ASID = p->ASID;
+
+
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
 
@@ -893,7 +899,7 @@ int join (uint64 addr_stack){
           release(&p->lock);
           
           if (np->thread == 1){
-            freethread(np);
+              freethread(np);
 
           } else {
               freeproc(np);
@@ -925,46 +931,34 @@ int join (uint64 addr_stack){
 }
 
 
-/*struct proc*
-alloc_thread(void)
+// Grow or shrink user memory by n bytes.
+// Return 0 on success, -1 on failure.
+int
+growproc_proceso_padre(int n, struct proc *padre)
 {
-  struct proc *p;
+  uint sz;
+  //struct proc *p = myproc();
 
-  for(p = proc; p < &proc[NPROC]; p++) {
-    acquire(&p->lock);
-    if(p->state == UNUSED) {
-      goto found;
-    } else {
-      release(&p->lock);
+  sz = padre->sz;
+  if(n > 0){
+    if((sz = uvmalloc(padre->pagetable, sz, sz + n)) == 0) {
+      return -1;
     }
+  } else if(n < 0){
+    sz = uvmdealloc(padre->pagetable, sz, sz + n);
   }
+  padre->sz = sz;
   return 0;
-
-found:
-  p->pid = allocpid();
-  p->state = USED;
+}
 
 
-  //inicializamos campos nuevos
-  p->bottom_ustack = 0;
-  p->top_ustack = 0;  
-  p->referencias = 0;
-  p->thread = 0;
-
-
-  // Allocate a trapframe page. Se alocata para el trapframe privado
-  if((p->trapframe = (struct trapframe *)kalloc()) == 0){
-    freeproc(p);
-    release(&p->lock);
-    return 0;
+struct proc* busca_padre (int pid_padre){
+  struct proc *p = myproc();
+  for(p = proc; p < &proc[NPROC]; p++){
+      if (p->pid == pid_padre){
+        return p;
+      }
   }
 
-
-  // Set up new context to start executing at forkret,
-  // which returns to user space.
-  memset(&p->context, 0, sizeof(p->context));
-  p->context.ra = (uint64)forkret;
-  p->context.sp = p->kstack + PGSIZE;
-
-  return p;
-}*/
+  return 0;
+}

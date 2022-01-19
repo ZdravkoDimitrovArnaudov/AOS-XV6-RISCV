@@ -1,20 +1,20 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "fcntl.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 #define MAX 50
@@ -38,7 +38,7 @@ main(int argc, char *argv[])
   
   //create
   if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE)) < 0){
-    printf(1, "Failed to create a small file\n");
+    printf("Failed to create a small file\n");
     test_failed();
   }
   close(fd);
@@ -46,12 +46,12 @@ main(int argc, char *argv[])
   
   //write
   if((fd = open("test_file.txt", O_RDWR)) < 0){
-    printf(1, "Failed to open a small file\n");
+    printf("Failed to open a small file\n");
     test_failed();
   }
  
   if(write(fd, buf, MAX) != MAX){
-    printf(1, "Write failed!\n");
+    printf("Write failed!\n");
     test_failed();
   }
   close(fd);
@@ -59,12 +59,12 @@ main(int argc, char *argv[])
   
   //write with O_RDONLY flag
   if((fd = open("test_file.txt", O_RDONLY)) < 0){
-    printf(1, "Failed to open a small file as read only\n");
+    printf("Failed to open a small file as read only\n");
     test_failed();
   }
   
   if(write(fd, buf2, MAX) >= 0){ //tries to overwrite data with new data
-    printf(1, "Write succeeded despite O_RDONLY flag!\n");
+    printf("Write succeeded despite O_RDONLY flag!\n");
     test_failed();
   }
   close(fd);
@@ -72,23 +72,23 @@ main(int argc, char *argv[])
   
   //read
   if((fd = open("test_file.txt", O_RDONLY)) < 0){
-    printf(1, "Failed to open a small file as read only\n");
+    printf("Failed to open a small file as read only\n");
     test_failed();
   }
   
   if(read(fd, buf3, MAX) != MAX){
-    printf(1, "Read failed!\n");
+    printf("Read failed!\n");
     test_failed();
   }
   close(fd);
   
   for(i = 0; i < MAX; i++){
     if(buf[i] != buf3[i]){
-      printf(1, "Data mismatch, possibly because second write succeeded despite O_RDONLY flag\n");
+      printf("Data mismatch, possibly because second write succeeded despite O_RDONLY flag\n");
       test_failed();
     }
   }
   
   test_passed();
-	exit();
+	exit(0);
 }

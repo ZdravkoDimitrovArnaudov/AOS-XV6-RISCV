@@ -154,6 +154,12 @@ filewrite(struct file *f, uint64 addr, int n)
     // might be writing a device like the console.
     int max = ((MAXOPBLOCKS-1-1-2) / 2) * BSIZE;
     int i = 0;
+
+    
+    if (f->ip->type == T_SMALLFILE && (f->off+n) > (sizeof(uint) * (NDIRECT+1))){
+      n = ((sizeof(uint) * (NDIRECT+1)) - f->off);
+    }
+
     while(i < n){
       int n1 = n - i;
       if(n1 > max)

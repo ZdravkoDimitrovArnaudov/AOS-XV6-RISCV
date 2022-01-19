@@ -1,21 +1,21 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "fcntl.h"
-#include "fs.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
+#include "kernel/fs.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 #define MAX 25
@@ -34,37 +34,41 @@ main(int argc, char *argv[])
   }
   
   if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-    printf(1, "Failed to create the small file\n");
+    printf("Failed to create the small file\n");
     test_failed();
-    exit();
+    exit(0);
   }
   
   if((n = write(fd, buf, MAX)) != MAX){
-    printf(1, "Write failed!\n");
+    printf("Write failed!\n");
     test_failed();
   }
-  printf(1, "bytes written = %d\n", n);
+  printf("bytes written = %d\n", n);
   close(fd);
   
   if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-    printf(1, "Failed to open the small file\n");
+    printf("Failed to open the small file\n");
     test_failed();
   }
   
   if((n = read(fd, buf2, MAX*2)) != MAX){
-    printf(1, "Read failed!\n");
+    printf("Read failed! : %d\n", n);
     test_failed();
   }
-  printf(1, "bytes read = %d\n", n);
+  printf("bytes read = %d\n", n);
   close(fd);
 
+  /*for (int i=0; i<MAX*2; i++)
+      printf("%c ,%c\n", buf[i], buf2[i]);
+  */
   for(i = 0; i < MAX; i++){
     if(buf[i] != buf2[i]){
-      printf(1, "Data mismatch.\n");
+      printf("Data mismatch.\n");
       test_failed();
     }
+    //printf("%d : %c ,%c\n", i, buf[i], buf2[i]);
   }
   
   test_passed();
-	exit();
+	exit(0);
 }

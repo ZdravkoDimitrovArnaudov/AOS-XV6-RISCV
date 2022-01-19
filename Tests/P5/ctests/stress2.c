@@ -1,27 +1,27 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "fcntl.h"
-#include "fs.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
+#include "kernel/fs.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 #define NBLOCKS (NDIRECT+1)
 #define SIZE NBLOCKS*4
-#define NITERATIONS 100
-#define NFILES 100
+#define NITERATIONS 10
+#define NFILES 10
 
 int
 main(int argc, char *argv[])
@@ -33,13 +33,13 @@ main(int argc, char *argv[])
   char buf2[SIZE];
   
   for(i = 0; i < NITERATIONS; i++){
-    printf(1, "iteration %d\n", i);
+    printf("iteration %d\n", i);
     
     //create and write
     for(j = 0; j < NFILES; j++){
       //printf(1, "write file %d\n", j);
       if((fd = open(filename, O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-        printf(1, "Failed to create a small file\n");
+        printf("Failed to create a small file\n");
         test_failed();
       }
       
@@ -50,7 +50,7 @@ main(int argc, char *argv[])
       }
       
       if(write(fd, buf, SIZE) != SIZE){
-        printf(1, "Failed to write to small file\n");
+        printf("Failed to write to small file\n");
         test_failed();
       }
       close(fd);
@@ -63,11 +63,11 @@ main(int argc, char *argv[])
     for(j = 0; j < NFILES; j++){
       //printf(1, "read file %d\n", j);
       if((fd = open(filename, O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-        printf(1, "Failed to open the small file\n");
+        printf("Failed to open the small file\n");
         test_failed();
       }
       if(read(fd, buf2, SIZE) != SIZE){
-        printf(1, "Read failed!\n");
+        printf("Read failed!\n");
         test_failed();
       }
       close(fd);
@@ -81,7 +81,7 @@ main(int argc, char *argv[])
       //check data
       for(k = 0; k < SIZE; k++){
         if(buf[k] != buf2[k]){
-          printf(1, "Data mismatch.\n");
+          printf("Data mismatch.\n");
           test_failed();
         }
       }
@@ -97,17 +97,17 @@ main(int argc, char *argv[])
       
       pid = fork();
       if(pid < 0){
-        printf(1, "Fork failed\n");
+        printf("Fork failed\n");
         test_failed();
       }
       else if(pid == 0) {
         char *args[3] = {"rm", filename, 0};
         exec(args[0], args);
-        printf(1, "exec failed!\n");
+        printf("exec failed!\n");
         test_failed();
       }
       else {
-        wait();
+        wait(0);
       }
       
       filename[0]++;
@@ -117,5 +117,5 @@ main(int argc, char *argv[])
   }
   
   test_passed();
-  exit();
+  exit(0);
 }

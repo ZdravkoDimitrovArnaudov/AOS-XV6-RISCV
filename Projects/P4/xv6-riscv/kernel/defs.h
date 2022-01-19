@@ -109,6 +109,10 @@ int             join (uint64 addr_stack);
 int             uvmcopy_thread(pagetable_t old, pagetable_t new);
 int             growproc_thread(pagetable_t old, pagetable_t new, uint64 sz, int n);
 int             check_grow_threads (struct proc *parent, int n, int addr_sz);
+int             growproc_proceso_padre(int n, struct proc *padre);
+struct          proc* busca_padre (int pid_padre);
+
+
  //struct proc* alloc_thread(void);
 
 // swtch.S

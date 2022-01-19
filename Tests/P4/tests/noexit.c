@@ -1,7 +1,7 @@
 /* no exit call in thread, should trap at bogus address */
 #include "kernel/types.h"
 #include "user/user.h"
-#include "user/thread_lib.h"
+//#include "user/thread_lib.h"
 
 #undef NULL
 #define NULL ((void*)0)

@@ -252,8 +252,12 @@ create(char *path, short type, short major, short minor)
   if((ip = dirlookup(dp, name, 0)) != 0){
     iunlockput(dp);
     ilock(ip);
-    if(type == T_FILE && (ip->type == T_FILE || ip->type == T_DEVICE))
+    if(type == T_FILE && (ip->type == T_FILE || ip->type == T_DEVICE)) //MODIFICAR
       return ip;
+
+    if(type == T_SMALLFILE && (ip->type == T_SMALLFILE || ip->type == T_DEVICE)) //smallfile
+      return ip;
+
     iunlockput(ip);
     return 0;
   }
@@ -298,7 +302,16 @@ sys_open(void)
   begin_op();
 
   if(omode & O_CREATE){
-    ip = create(path, T_FILE, 0, 0);
+
+    //discerninr fichero normal de small file
+
+    if (omode & O_SMALLFILE){//small file
+      ip = create(path, T_SMALLFILE, 0, 0);
+    
+    } else { //default file
+      ip = create(path, T_FILE, 0, 0);
+    }
+
     if(ip == 0){
       end_op();
       return -1;
@@ -341,7 +354,7 @@ sys_open(void)
   f->readable = !(omode & O_WRONLY);
   f->writable = (omode & O_WRONLY) || (omode & O_RDWR);
 
-  if((omode & O_TRUNC) && ip->type == T_FILE){
+  if((omode & O_TRUNC) && ip->type == T_FILE){ //CAMBIAR
     itrunc(ip);
   }
 

@@ -1,20 +1,20 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "fcntl.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 int
@@ -24,25 +24,25 @@ main(int argc, char *argv[])
   struct stat st;
   
   if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE)) < 0){
-    printf(1, "Failed to create a small file\n");
+    printf("Failed to create a small file\n");
     test_failed();
-    exit();
+    exit(0);
   }
   
   if(fstat(fd, &st) < 0){
     close(fd);
-    printf(1, "Failed to get stat on the small file\n");
+    printf("Failed to get stat on the small file\n");
     test_failed();
-    exit();
+    exit(0);
   }
   
   if (st.type != T_SMALLFILE) {
-    printf(1, "Did not create a small file\n");
+    printf("Did not create a small file\n");
     test_failed();
   }
   else {
     test_passed();
   }
   
-	exit();
+	exit(0);
 }

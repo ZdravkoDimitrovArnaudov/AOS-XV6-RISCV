@@ -1,0 +1,1378 @@
+starting build
+
+**********************************************************************
+
+Test build
+build xv6 using make
+
+**********************************************************************
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+make: 'fs.img' is up to date.
+
+
+test build PASSED
+ (build xv6 using make)
+
+starting macros
+
+**********************************************************************
+
+Test macros
+Make sure the macros are the right value.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/macros.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 627 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o kernel/fs.o kernel/fs.c
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o kernel/file.o kernel/file.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -T kernel/kernel.ld -o kernel/kernel kernel/entry.o kernel/start.o kernel/console.o kernel/printf.o kernel/uart.o kernel/kalloc.o kernel/spinlock.o kernel/string.o kernel/main.o kernel/vm.o kernel/proc.o kernel/swtch.o kernel/trampoline.o kernel/trap.o kernel/syscall.o kernel/sysproc.o kernel/bio.o kernel/fs.o kernel/log.o kernel/sleeplock.o kernel/file.o kernel/pipe.o kernel/exec.o kernel/sysfile.o kernel/kernelvec.o kernel/plic.o kernel/virtio_disk.o 
+riscv64-unknown-elf-objdump -S kernel/kernel > kernel/kernel.asm
+riscv64-unknown-elf-objdump -t kernel/kernel | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > kernel/kernel.sym
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test macros PASSED (5 of 5)
+ (Make sure the macros are the right value.)
+
+starting create
+
+**********************************************************************
+
+Test create
+Creates a small file and makes sure the type is properly set.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/create.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 628 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test create PASSED (10 of 10)
+ (Creates a small file and makes sure the type is properly set.)
+
+starting create2
+
+**********************************************************************
+
+Test create2
+Should not create a small file if O_SMALLFILE is passed in but not O_CREATE.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/create2.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 628 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test create2 PASSED (10 of 10)
+ (Should not create a small file if O_SMALLFILE is passed in but not O_CREATE.)
+
+starting open
+
+**********************************************************************
+
+Test open
+Open() called a second time without O_CREATE and O_SMALLFILE. Checks file's type to make sure it is T_SMALLFILE and that read and write still work
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/open.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 630 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+
+test open PASSED (10 of 10)
+ (Open() called a second time without O_CREATE and O_SMALLFILE. Checks file's type to make sure it is T_SMALLFILE and that read and write still work)
+
+starting read
+
+**********************************************************************
+
+Test read
+Tries to read more than possible and makes sure only amount available is read.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/read.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 629 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+bytes written = 25
+bytes read = 25
+TEST PASSED
+
+
+test read PASSED (10 of 10)
+ (Tries to read more than possible and makes sure only amount available is read.)
+
+starting read2
+
+**********************************************************************
+
+Test read2
+Reads one byte at a time from small file.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/read2.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 629 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test read2 PASSED (10 of 10)
+ (Reads one byte at a time from small file.)
+
+starting write
+
+**********************************************************************
+
+Test write
+Tries to write more than possible to a small file and makes sure only 52 bytes are written.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/write.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 629 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+bytes written = 52
+bytes read = 52
+TEST PASSED
+
+test write PASSED (10 of 10)
+ (Tries to write more than possible to a small file and makes sure only 52 bytes are written.)
+
+starting write2
+
+**********************************************************************
+
+Test write2
+Repeatedly opens, writes, closes a small file. The last write should be the one that is persisted.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/write2.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 629 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+bytes written = 52
+bytes read = 52
+TEST PASSED
+
+test write2 PASSED (10 of 10)
+ (Repeatedly opens, writes, closes a small file. The last write should be the one that is persisted.)
+
+starting write3
+
+**********************************************************************
+
+Test write3
+Repeatedly opens, writes to the end, closes a small file until file is full.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/write3.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 630 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+a :52
+TEST PASSED
+
+test write3 PASSED (10 of 10)
+ (Repeatedly opens, writes to the end, closes a small file until file is full.)
+
+starting write4
+
+**********************************************************************
+
+Test write4
+Small write followed by a big write to a small file should truncate the big write upto max small file size.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/write4.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 630 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test write4 PASSED (10 of 10)
+ (Small write followed by a big write to a small file should truncate the big write upto max small file size.)
+
+starting readonly
+
+**********************************************************************
+
+Test readonly
+Makes sure small files can be opened as read only and writes would fail.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/readonly.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 630 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test readonly PASSED (10 of 10)
+ (Makes sure small files can be opened as read only and writes would fail.)
+
+starting writeonly
+
+**********************************************************************
+
+Test writeonly
+Makes sure small files can be opened as write only and reads would fail.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/writeonly.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 631 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test writeonly PASSED (10 of 10)
+ (Makes sure small files can be opened as write only and reads would fail.)
+
+starting remove
+
+**********************************************************************
+
+Test remove
+Makes sure removing a small file does not corrupt the file system by freeing blocks.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/remove.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 629 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test remove PASSED (10 of 10)
+ (Makes sure removing a small file does not corrupt the file system by freeing blocks.)
+
+starting fulldisk
+
+**********************************************************************
+
+Test fulldisk
+First uses all free blocks on disk for normal files and then makes sure small files can still be created. ***Note that the test will take a while since big files are created.***
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/fulldisk.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 629 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+creating large file: 0
+creating large file: 1
+creating large file: 2
+panic: balloc: out of blocks
+
+
+test fulldisk FAILED (0 of 10)
+ (First uses all free blocks on disk for normal files and then makes sure small files can still be created. ***Note that the test will take a while since big files are created.***)
+ Timelimit (10.0s) exceeded
+
+starting stress
+
+**********************************************************************
+
+Test stress
+Creates and deletes a lot of small files one at a time to make sure nothing breaks under a heavy load.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/stress.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 630 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+iteration 0
+iteration 1
+iteration 2
+iteration 3
+iteration 4
+iteration 5
+iteration 6
+iteration 7
+iteration 8
+iteration 9
+iteration 10
+iteration 11
+iteration 12
+iteration 13
+iteration 14
+iteration 15
+iteration 16
+iteration 17
+iteration 18
+iteration 19
+iteration 20
+iteration 21
+iteration 22
+iteration 23
+iteration 24
+iteration 25
+iteration 26
+iteration 27
+iteration 28
+iteration 29
+iteration 30
+iteration 31
+iteration 32
+iteration 33
+iteration 34
+iteration 35
+iteration 36
+iteration 37
+iteration 38
+iteration 39
+iteration 40
+iteration 41
+iteration 42
+iteration 43
+iteration 44
+iteration 45
+iteration 46
+iteration 47
+iteration 48
+iteration 49
+iteration 50
+iteration 51
+iteration 52
+iteration 53
+iteration 54
+iteration 55
+iteration 56
+iteration 57
+iteration 58
+iteration 59
+iteration 60
+iteration 61
+iteration 62
+iteration 63
+iteration 64
+iteration 65
+iteration 66
+iteration 67
+iteration 68
+iteration 69
+iteration 70
+iteration 71
+iteration 72
+iteration 73
+iteration 74
+iteration 75
+iteration 76
+iteration 77
+iteration 78
+iteration 79
+iteration 80
+iteration 81
+iteration 82
+iteration 83
+iteration 84
+iteration 85
+iteration 86
+iteration 87
+iteration 88
+iteration 89
+iteration 90
+iteration 91
+iteration 92
+iteration 93
+iteration 94
+iteration 95
+iteration 96
+iteration 97
+iteration 98
+iteration 99
+TEST PASSED
+
+test stress PASSED (10 of 10)
+ (Creates and deletes a lot of small files one at a time to make sure nothing breaks under a heavy load.)
+
+starting stress2
+
+**********************************************************************
+
+Test stress2
+Creates and deletes a lot of small files 100 of them at a time to make sure nothing breaks under a heavy load. ***Note that the test will take a VERY long time since a lot of files are created.***
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/stress2.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 631 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+iteration 0
+iteration 1
+iteration 2
+iteration 3
+iteration 4
+iteration 5
+iteration 6
+iteration 7
+iteration 8
+iteration 9
+TEST PASSED
+
+test stress2 PASSED (10 of 10)
+ (Creates and deletes a lot of small files 100 of them at a time to make sure nothing breaks under a heavy load. ***Note that the test will take a VERY long time since a lot of files are created.***)
+
+starting smallbig
+
+**********************************************************************
+
+Test smallbig
+Creates bunch of small files; then creates bunch of big files to make sure normal files are not affected.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/smallbig.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 632 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+TEST PASSED
+
+test smallbig PASSED (10 of 10)
+ (Creates bunch of small files; then creates bunch of big files to make sure normal files are not affected.)
+
+starting inode
+
+**********************************************************************
+
+Test inode
+Uses all inodes in the file system; then repeatedly deleted and creates a file and makes sure the correct inode is reused for the new file.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/inode.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 631 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+latest_inode = 22
+creating file at inode 23
+creating file at inode 24
+creating file at inode 25
+creating file at inode 26
+creating file at inode 27
+creating file at inode 28
+creating file at inode 29
+creating file at inode 30
+creating file at inode 31
+creating file at inode 32
+creating file at inode 33
+creating file at inode 34
+creating file at inode 35
+creating file at inode 36
+creating file at inode 37
+creating file at inode 38
+creating file at inode 39
+creating file at inode 40
+creating file at inode 41
+creating file at inode 42
+creating file at inode 43
+creating file at inode 44
+creating file at inode 45
+creating file at inode 46
+creating file at inode 47
+creating file at inode 48
+creating file at inode 49
+creating file at inode 50
+creating file at inode 51
+creating file at inode 52
+creating file at inode 53
+creating file at inode 54
+creating file at inode 55
+creating file at inode 56
+creating file at inode 57
+creating file at inode 58
+creating file at inode 59
+creating file at inode 60
+creating file at inode 61
+creating file at inode 62
+creating file at inode 63
+creating file at inode 64
+creating file at inode 65
+creating file at inode 66
+creating file at inode 67
+creating file at inode 68
+creating file at inode 69
+creating file at inode 70
+creating file at inode 71
+creating file at inode 72
+creating file at inode 73
+creating file at inode 74
+creating file at inode 75
+creating file at inode 76
+creating file at inode 77
+creating file at inode 78
+creating file at inode 79
+creating file at inode 80
+creating file at inode 81
+creating file at inode 82
+creating file at inode 83
+creating file at inode 84
+creating file at inode 85
+creating file at inode 86
+creating file at inode 87
+creating file at inode 88
+creating file at inode 89
+creating file at inode 90
+creating file at inode 91
+creating file at inode 92
+creating file at inode 93
+creating file at inode 94
+creating file at inode 95
+creating file at inode 96
+creating file at inode 97
+creating file at inode 98
+creating file at inode 99
+creating file at inode 100
+creating file at inode 101
+creating file at inode 102
+creating file at inode 103
+creating file at inode 104
+creating file at inode 105
+creating file at inode 106
+creating file at inode 107
+creating file at inode 108
+creating file at inode 109
+creating file at inode 110
+creating file at inode 111
+creating file at inode 112
+creating file at inode 113
+creating file at inode 114
+creating file at inode 115
+creating file at inode 116
+creating file at inode 117
+creating file at inode 118
+creating file at inode 119
+creating file at inode 120
+creating file at inode 121
+creating file at inode 122
+creating file at inode 123
+creating file at inode 124
+creating file at inode 125
+creating file at inode 126
+creating file at inode 127
+creating file at inode 128
+creating file at inode 129
+creating file at inode 130
+creating file at inode 131
+creating file at inode 132
+creating file at inode 133
+creating file at inode 134
+creating file at inode 135
+creating file at inode 136
+creating file at inode 137
+creating file at inode 138
+creating file at inode 139
+creating file at inode 140
+creating file at inode 141
+creating file at inode 142
+creating file at inode 143
+creating file at inode 144
+creating file at inode 145
+creating file at inode 146
+creating file at inode 147
+creating file at inode 148
+creating file at inode 149
+creating file at inode 150
+creating file at inode 151
+creating file at inode 152
+creating file at inode 153
+creating file at inode 154
+creating file at inode 155
+creating file at inode 156
+creating file at inode 157
+creating file at inode 158
+creating file at inode 159
+creating file at inode 160
+creating file at inode 161
+creating file at inode 162
+creating file at inode 163
+creating file at inode 164
+creating file at inode 165
+creating file at inode 166
+creating file at inode 167
+creating file at inode 168
+creating file at inode 169
+creating file at inode 170
+creating file at inode 171
+creating file at inode 172
+creating file at inode 173
+creating file at inode 174
+creating file at inode 175
+creating file at inode 176
+creating file at inode 177
+creating file at inode 178
+creating file at inode 179
+creating file at inode 180
+creating file at inode 181
+creating file at inode 182
+creating file at inode 183
+creating file at inode 184
+creating file at inode 185
+creating file at inode 186
+creating file at inode 187
+creating file at inode 188
+creating file at inode 189
+creating file at inode 190
+creating file at inode 191
+creating file at inode 192
+creating file at inode 193
+creating file at inode 194
+creating file at inode 195
+creating file at inode 196
+creating file at inode 197
+creating file at inode 198
+creating file at inode 199
+used up all inodes
+deleting and recreating file at inode 32
+deleting and recreating file at inode 41
+deleting and recreating file at inode 50
+deleting and recreating file at inode 59
+deleting and recreating file at inode 68
+deleting and recreating file at inode 77
+deleting and recreating file at inode 86
+deleting and recreating file at inode 95
+deleting and recreating file at inode 104
+deleting and recreating file at inode 113
+deleting and recreating file at inode 122
+deleting and recreating file at inode 131
+deleting and recreating file at inode 140
+deleting and recreating file at inode 149
+deleting and recreating file at inode 158
+deleting and recreating file at inode 167
+deleting and recreating file at inode 176
+deleting and recreating file at inode 185
+deleting and recreating file at inode 194
+TEST PASSED
+
+test inode PASSED (10 of 10)
+ (Uses all inodes in the file system; then repeatedly deleted and creates a file and makes sure the correct inode is reused for the new file.)
+
+starting inode2
+
+**********************************************************************
+
+Test inode2
+Uses all inodes in the file system; then repeatedly deletes bunch of files and then creates that many files and makes sure the correct inodes are reused for the new files.
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/inode2.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 631 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+latest_inode = 22
+creating file at inode 23
+creating file at inode 24
+creating file at inode 25
+creating file at inode 26
+creating file at inode 27
+creating file at inode 28
+creating file at inode 29
+creating file at inode 30
+creating file at inode 31
+creating file at inode 32
+creating file at inode 33
+creating file at inode 34
+creating file at inode 35
+creating file at inode 36
+creating file at inode 37
+creating file at inode 38
+creating file at inode 39
+creating file at inode 40
+creating file at inode 41
+creating file at inode 42
+creating file at inode 43
+creating file at inode 44
+creating file at inode 45
+creating file at inode 46
+creating file at inode 47
+creating file at inode 48
+creating file at inode 49
+creating file at inode 50
+creating file at inode 51
+creating file at inode 52
+creating file at inode 53
+creating file at inode 54
+creating file at inode 55
+creating file at inode 56
+creating file at inode 57
+creating file at inode 58
+creating file at inode 59
+creating file at inode 60
+creating file at inode 61
+creating file at inode 62
+creating file at inode 63
+creating file at inode 64
+creating file at inode 65
+creating file at inode 66
+creating file at inode 67
+creating file at inode 68
+creating file at inode 69
+creating file at inode 70
+creating file at inode 71
+creating file at inode 72
+creating file at inode 73
+creating file at inode 74
+creating file at inode 75
+creating file at inode 76
+creating file at inode 77
+creating file at inode 78
+creating file at inode 79
+creating file at inode 80
+creating file at inode 81
+creating file at inode 82
+creating file at inode 83
+creating file at inode 84
+creating file at inode 85
+creating file at inode 86
+creating file at inode 87
+creating file at inode 88
+creating file at inode 89
+creating file at inode 90
+creating file at inode 91
+creating file at inode 92
+creating file at inode 93
+creating file at inode 94
+creating file at inode 95
+creating file at inode 96
+creating file at inode 97
+creating file at inode 98
+creating file at inode 99
+creating file at inode 100
+creating file at inode 101
+creating file at inode 102
+creating file at inode 103
+creating file at inode 104
+creating file at inode 105
+creating file at inode 106
+creating file at inode 107
+creating file at inode 108
+creating file at inode 109
+creating file at inode 110
+creating file at inode 111
+creating file at inode 112
+creating file at inode 113
+creating file at inode 114
+creating file at inode 115
+creating file at inode 116
+creating file at inode 117
+creating file at inode 118
+creating file at inode 119
+creating file at inode 120
+creating file at inode 121
+creating file at inode 122
+creating file at inode 123
+creating file at inode 124
+creating file at inode 125
+creating file at inode 126
+creating file at inode 127
+creating file at inode 128
+creating file at inode 129
+creating file at inode 130
+creating file at inode 131
+creating file at inode 132
+creating file at inode 133
+creating file at inode 134
+creating file at inode 135
+creating file at inode 136
+creating file at inode 137
+creating file at inode 138
+creating file at inode 139
+creating file at inode 140
+creating file at inode 141
+creating file at inode 142
+creating file at inode 143
+creating file at inode 144
+creating file at inode 145
+creating file at inode 146
+creating file at inode 147
+creating file at inode 148
+creating file at inode 149
+creating file at inode 150
+creating file at inode 151
+creating file at inode 152
+creating file at inode 153
+creating file at inode 154
+creating file at inode 155
+creating file at inode 156
+creating file at inode 157
+creating file at inode 158
+creating file at inode 159
+creating file at inode 160
+creating file at inode 161
+creating file at inode 162
+creating file at inode 163
+creating file at inode 164
+creating file at inode 165
+creating file at inode 166
+creating file at inode 167
+creating file at inode 168
+creating file at inode 169
+creating file at inode 170
+creating file at inode 171
+creating file at inode 172
+creating file at inode 173
+creating file at inode 174
+creating file at inode 175
+creating file at inode 176
+creating file at inode 177
+creating file at inode 178
+creating file at inode 179
+creating file at inode 180
+creating file at inode 181
+creating file at inode 182
+creating file at inode 183
+creating file at inode 184
+creating file at inode 185
+creating file at inode 186
+creating file at inode 187
+creating file at inode 188
+creating file at inode 189
+creating file at inode 190
+creating file at inode 191
+creating file at inode 192
+creating file at inode 193
+creating file at inode 194
+creating file at inode 195
+creating file at inode 196
+creating file at inode 197
+creating file at inode 198
+creating file at inode 199
+used up all inodes
+deleting file at inode 32
+deleting file at inode 41
+deleting file at inode 50
+deleting file at inode 59
+deleting file at inode 68
+deleting file at inode 77
+deleting file at inode 86
+deleting file at inode 95
+deleting file at inode 104
+deleting file at inode 113
+deleting file at inode 122
+deleting file at inode 131
+deleting file at inode 140
+deleting file at inode 149
+deleting file at inode 158
+deleting file at inode 167
+deleting file at inode 176
+deleting file at inode 185
+deleting file at inode 194
+testing existence of file at inode 32
+testing existence of file at inode 41
+testing existence of file at inode 50
+testing existence of file at inode 59
+testing existence of file at inode 68
+testing existence of file at inode 77
+testing existence of file at inode 86
+testing existence of file at inode 95
+testing existence of file at inode 104
+testing existence of file at inode 113
+testing existence of file at inode 122
+testing existence of file at inode 131
+testing existence of file at inode 140
+testing existence of file at inode 149
+testing existence of file at inode 158
+testing existence of file at inode 167
+testing existence of file at inode 176
+testing existence of file at inode 185
+testing existence of file at inode 194
+recreating file at inode 32
+recreating file at inode 41
+recreating file at inode 50
+recreating file at inode 59
+recreating file at inode 68
+recreating file at inode 77
+recreating file at inode 86
+recreating file at inode 95
+recreating file at inode 104
+recreating file at inode 113
+recreating file at inode 122
+recreating file at inode 131
+recreating file at inode 140
+recreating file at inode 149
+recreating file at inode 158
+recreating file at inode 167
+recreating file at inode 176
+recreating file at inode 185
+recreating file at inode 194
+TEST PASSED
+
+
+test inode2 PASSED (10 of 10)
+ (Uses all inodes in the file system; then repeatedly deletes bunch of files and then creates that many files and makes sure the correct inodes are reused for the new files.)
+
+starting usertests
+
+**********************************************************************
+
+Test usertests
+Running standard tests to make sure you did not break anything for normal files. ***Note that the test will take a while since a lot of things are being tested.***
+
+**********************************************************************
+Running xv6 user progam ./../../../Tests/P5/ctests/usertests.c
+Trying to build project using make
+make kernel fs.img
+make: Nothing to be done for 'kernel'.
+riscv64-unknown-elf-gcc -Wall -Werror -O -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
+riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_open 
+nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
+balloc: first 690 blocks have been allocated
+balloc: write bitmap block at sector 45
+make qemu CPUS=1
+qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
+
+xv6 kernel is booting
+
+init: starting sh
+$ tester
+tester
+usertests starting
+bigarg test: ok
+bss test: ok
+sbrk test
+usertrap(): unexpected scause 0x000000000000000d pid=6
+            sepc=0x0000000000002ca4 stval=0x00000000000a0000
+usertrap(): unexpected scause 0x000000000000000d pid=7
+            sepc=0x0000000000002ca4 stval=0x00000000000ac350
+usertrap(): unexpected scause 0x000000000000000d pid=8
+            sepc=0x0000000000002ca4 stval=0x00000000000b86a0
+usertrap(): unexpected scause 0x000000000000000d pid=9
+            sepc=0x0000000000002ca4 stval=0x00000000000c49f0
+usertrap(): unexpected scause 0x000000000000000d pid=10
+            sepc=0x0000000000002ca4 stval=0x00000000000d0d40
+usertrap(): unexpected scause 0x000000000000000d pid=11
+            sepc=0x0000000000002ca4 stval=0x00000000000dd090
+usertrap(): unexpected scause 0x000000000000000d pid=12
+            sepc=0x0000000000002ca4 stval=0x00000000000e93e0
+usertrap(): unexpected scause 0x000000000000000d pid=13
+            sepc=0x0000000000002ca4 stval=0x00000000000f5730
+usertrap(): unexpected scause 0x000000000000000d pid=14
+            sepc=0x0000000000002ca4 stval=0x0000000000101a80
+usertrap(): unexpected scause 0x000000000000000d pid=15
+            sepc=0x0000000000002ca4 stval=0x000000000010ddd0
+usertrap(): unexpected scause 0x000000000000000d pid=16
+            sepc=0x0000000000002ca4 stval=0x000000000011a120
+usertrap(): unexpected scause 0x000000000000000d pid=17
+            sepc=0x0000000000002ca4 stval=0x0000000000126470
+usertrap(): unexpected scause 0x000000000000000d pid=18
+            sepc=0x0000000000002ca4 stval=0x00000000001327c0
+usertrap(): unexpected scause 0x000000000000000d pid=19
+            sepc=0x0000000000002ca4 stval=0x000000000013eb10
+usertrap(): unexpected scause 0x000000000000000d pid=20
+            sepc=0x0000000000002ca4 stval=0x000000000014ae60
+usertrap(): unexpected scause 0x000000000000000d pid=21
+            sepc=0x0000000000002ca4 stval=0x00000000001571b0
+usertrap(): unexpected scause 0x000000000000000d pid=22
+            sepc=0x0000000000002ca4 stval=0x0000000000163500
+usertrap(): unexpected scause 0x000000000000000d pid=23
+            sepc=0x0000000000002ca4 stval=0x000000000016f850
+usertrap(): unexpected scause 0x000000000000000d pid=24
+            sepc=0x0000000000002ca4 stval=0x000000000017bba0
+usertrap(): unexpected scause 0x000000000000000d pid=25
+            sepc=0x0000000000002ca4 stval=0x0000000000187ef0
+usertrap(): unexpected scause 0x000000000000000d pid=26
+            sepc=0x0000000000002ca4 stval=0x0000000000194240
+usertrap(): unexpected scause 0x000000000000000d pid=27
+            sepc=0x0000000000002ca4 stval=0x00000000001a0590
+usertrap(): unexpected scause 0x000000000000000d pid=28
+            sepc=0x0000000000002ca4 stval=0x00000000001ac8e0
+usertrap(): unexpected scause 0x000000000000000d pid=29
+            sepc=0x0000000000002ca4 stval=0x00000000001b8c30
+usertrap(): unexpected scause 0x000000000000000d pid=30
+            sepc=0x0000000000002ca4 stval=0x00000000001c4f80
+usertrap(): unexpected scause 0x000000000000000d pid=31
+            sepc=0x0000000000002ca4 stval=0x00000000001d12d0
+usertrap(): unexpected scause 0x000000000000000d pid=32
+            sepc=0x0000000000002ca4 stval=0x00000000001dd620
+sbrk test ok
+open test: ok
+small file test: ok
+big files test: ok
+create test: ok
+mem test: ok
+pipe1: ok
+preempt: kill... wait... ok
+exitwait: 
+
+test usertests FAILED (0 of 10)
+ (Running standard tests to make sure you did not break anything for normal files. ***Note that the test will take a while since a lot of things are being tested.***)
+ Timelimit (10.0s) exceeded
+
+**********************************************************************
+Summary:
+test build PASSED
+ (build xv6 using make)
+
+test macros PASSED (5 of 5)
+ (Make sure the macros are the right value.)
+
+test create PASSED (10 of 10)
+ (Creates a small file and makes sure the type is properly set.)
+
+test create2 PASSED (10 of 10)
+ (Should not create a small file if O_SMALLFILE is passed in but not O_CREATE.)
+
+test open PASSED (10 of 10)
+ (Open() called a second time without O_CREATE and O_SMALLFILE. Checks file's type to make sure it is T_SMALLFILE and that read and write still work)
+
+test read PASSED (10 of 10)
+ (Tries to read more than possible and makes sure only amount available is read.)
+
+test read2 PASSED (10 of 10)
+ (Reads one byte at a time from small file.)
+
+test write PASSED (10 of 10)
+ (Tries to write more than possible to a small file and makes sure only 52 bytes are written.)
+
+test write2 PASSED (10 of 10)
+ (Repeatedly opens, writes, closes a small file. The last write should be the one that is persisted.)
+
+test write3 PASSED (10 of 10)
+ (Repeatedly opens, writes to the end, closes a small file until file is full.)
+
+test write4 PASSED (10 of 10)
+ (Small write followed by a big write to a small file should truncate the big write upto max small file size.)
+
+test readonly PASSED (10 of 10)
+ (Makes sure small files can be opened as read only and writes would fail.)
+
+test writeonly PASSED (10 of 10)
+ (Makes sure small files can be opened as write only and reads would fail.)
+
+test remove PASSED (10 of 10)
+ (Makes sure removing a small file does not corrupt the file system by freeing blocks.)
+
+test fulldisk FAILED (0 of 10)
+ (First uses all free blocks on disk for normal files and then makes sure small files can still be created. ***Note that the test will take a while since big files are created.***)
+ Timelimit (10.0s) exceeded
+
+test stress PASSED (10 of 10)
+ (Creates and deletes a lot of small files one at a time to make sure nothing breaks under a heavy load.)
+
+test stress2 PASSED (10 of 10)
+ (Creates and deletes a lot of small files 100 of them at a time to make sure nothing breaks under a heavy load. ***Note that the test will take a VERY long time since a lot of files are created.***)
+
+test smallbig PASSED (10 of 10)
+ (Creates bunch of small files; then creates bunch of big files to make sure normal files are not affected.)
+
+test inode PASSED (10 of 10)
+ (Uses all inodes in the file system; then repeatedly deleted and creates a file and makes sure the correct inode is reused for the new file.)
+
+test inode2 PASSED (10 of 10)
+ (Uses all inodes in the file system; then repeatedly deletes bunch of files and then creates that many files and makes sure the correct inodes are reused for the new files.)
+
+test usertests FAILED (0 of 10)
+ (Running standard tests to make sure you did not break anything for normal files. ***Note that the test will take a while since a lot of things are being tested.***)
+ Timelimit (10.0s) exceeded
+
+Passed 19 of 21 tests.
+Overall 19 of 21
+Points 175 of 195

@@ -1,21 +1,21 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "fcntl.h"
-#include "fs.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
+#include "kernel/fs.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 #define NBLOCKS (NDIRECT+1)
@@ -38,13 +38,14 @@ main(int argc, char *argv[])
   //open, write 1 byte to the end, close
   for(i = 0; i < SIZE+5; i++){
     if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-      printf(1, "Failed to create the small file\n");
+      printf("Failed to create the small file\n");
       test_failed();
     }
     
     while(read(fd, &tmp, 1) == 1) { } //go to end of file
     
-    if(write(fd, &buf[i], 1) != 1){
+    if((write(fd, &buf[i], 1)) != 1){
+      printf("a :%d\n", i); //ROMPE EN i =1 porque? -> write devuelve -1
       break;
     }
     close(fd);
@@ -52,33 +53,33 @@ main(int argc, char *argv[])
   
   //read
   if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-    printf(1, "Failed to open the small file\n");
+    printf("Failed to open the small file\n");
     test_failed();
   }
   
   if(fstat(fd, &st) < 0){
-    printf(1, "Failed to get stat on the small file\n");
+    printf("Failed to get stat on the small file\n");
     test_failed();
   }
   
   if(st.size != SIZE){
-    printf(1, "Invalid file size.\n");
+    printf("Invalid file size. %d, %d\n", st.size, SIZE);
     test_failed();
   }
   
   if(read(fd, buf2, SIZE) != SIZE){
-    printf(1, "Read failed!\n");
+    printf("Read failed!\n");
     test_failed();
   }
   close(fd);
   
   for(i = 0; i < SIZE; i++){
     if(buf[i] != buf2[i]){
-      printf(1, "Data mismatch.\n");
+      printf("Data mismatch.\n");
       test_failed();
     }
   }
   
   test_passed();
-	exit();
+	exit(0);
 }

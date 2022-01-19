@@ -1,7 +1,7 @@
 /* thread user library functions */
 #include "kernel/types.h"
 #include "user/user.h"
-#include "user/thread_lib.h"
+//#include "user/thread_lib.h"
 
 #undef NULL
 #define NULL ((void*)0)

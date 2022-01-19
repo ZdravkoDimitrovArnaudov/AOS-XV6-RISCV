@@ -98,17 +98,50 @@ sys_sbrk(void)
 {
   int addr;
   int n;
+  int referencias;
 
   if(argint(0, &n) < 0)
     return -1;
+
+
+  /*Cuando tenemos thrads, realizaremos la misma operación con sbrk.
+  El proceso consiste en que desde el proceso padre, se alocata la pagina física
+  y se mapea en el resto de threads hijos recursivos (solucionado por el ASID).
+  */
   
   struct proc *p = myproc();
-  addr = p->sz;
+  struct proc *proceso_padre_threads;
+  //tenemos que determinar si somos el proceso padre o thread
 
-  if(growproc(n) < 0)
-    return -1;
 
-  
+  if (p->thread == 0){ //soy proceso
+    
+    addr = p->sz;
+    if(growproc(n) < 0){
+      return -1;
+    }
+
+    proceso_padre_threads = p;
+    referencias = p->referencias;
+
+
+  } else { //soy thread hijo
+
+      //tengo que buscar al proceso padre o abuelo, bisabuelo... propietario del espacio de direcciones con ASID = pid
+
+      struct proc *proceso;
+       if ((proceso = busca_padre(p->ASID)) == 0);
+
+      addr = proceso->sz;
+      if(growproc_proceso_padre(n, proceso) < 0){
+        return -1;
+      }
+
+      proceso_padre_threads = proceso;
+      referencias = proceso->referencias;
+    
+  }
+
 
   /*
     Si el padre tiene threads, también deben extenderse.
@@ -117,20 +150,16 @@ sys_sbrk(void)
 
     No usamos growproc con el resto de procesos porque entonces estaríamos alocatando más 
     páginas fisicas.
+
+    De nuevo, si lo ejecuta un thread, debe pasar el puntero del padre proceso.
   */
-  if (p->referencias > 0 &&  n > 0){ //tiene threads
-    if ((check_grow_threads (p, n,addr))<0){
+
+  if ((n > 0 && referencias > 0) || p->thread == 1){ //O el proceso que ejecuta sbrk tiene más de una referencia o es un thread, alocatamos y mapeamos del padre a todos los procesos hijo
+    if ((check_grow_threads (proceso_padre_threads, n,addr))<0){
       return -1;
     }
 
   }
-
-
-
-
-  
-
-
 
   return addr;
 }

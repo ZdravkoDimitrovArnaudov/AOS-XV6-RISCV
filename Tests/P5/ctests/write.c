@@ -1,21 +1,21 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "fcntl.h"
-#include "fs.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
+#include "kernel/fs.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 #define MAX (NDIRECT + 1)*4
@@ -34,48 +34,48 @@ main(int argc, char *argv[])
   }
   
   if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-    printf(1, "Failed to create the small file\n");
+    printf("Failed to create the small file\n");
     test_failed();
-    exit();
+    exit(0);
   }
   
   if((n = write(fd, buf, MAX)) < 0){
-    printf(1, "Write failed!\n");
+    printf("Write failed!\n");
     test_failed();
   }
-  printf(1, "bytes written = %d\n", n);
+  printf("bytes written = %d\n", n);
   close(fd);
   
   if(n != (NDIRECT+1)*4){
-    printf(1, "Failed to write the right amount to the small file.\n");
+    printf("Failed to write the right amount to the small file.\n");
     test_failed();
   }
   
   
   if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-    printf(1, "Failed to create the small file\n");
-    exit();
+    printf("Failed to create the small file\n");
+    exit(0);
   }
   
   if((n = read(fd, buf2, MAX)) < 0){
-    printf(1, "Read failed!\n");
-    exit();
+    printf("Read failed!\n");
+    exit(0);
   }
-  printf(1, "bytes read = %d\n", n);
+  printf("bytes read = %d\n", n);
   close(fd);
   
   if(n != (NDIRECT+1)*4){
-    printf(1, "Failed to read the right amount to the small file.\n");
+    printf("Failed to read the right amount to the small file.\n");
     test_failed();
   }
   
   for(i = 0; i < (NDIRECT+1)*4; i++){
     if(buf[i] != buf2[i]){
-      printf(1, "Data mismatch.\n");
+      printf("Data mismatch.\n");
       test_failed();
     }
   }
   
   test_passed();
-  exit();
+  exit(0);
 }

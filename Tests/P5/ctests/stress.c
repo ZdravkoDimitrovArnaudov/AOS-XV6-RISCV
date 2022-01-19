@@ -1,26 +1,26 @@
-#include "types.h"
-#include "stat.h"
-#include "user.h"
-#include "fcntl.h"
-#include "fs.h"
+#include "kernel/types.h"
+#include "kernel/stat.h"
+#include "user/user.h"
+#include "kernel/fcntl.h"
+#include "kernel/fs.h"
 
 void
 test_failed()
 {
-	printf(1, "TEST FAILED\n");
-	exit();
+	printf("TEST FAILED\n");
+	exit(0);
 }
 
 void
 test_passed()
 {
- printf(1, "TEST PASSED\n");
- exit();
+ printf("TEST PASSED\n");
+ exit(0);
 }
 
 #define NBLOCKS (NDIRECT+1)
 #define SIZE NBLOCKS*4
-#define NITERATIONS 1000
+#define NITERATIONS 100
 
 int
 main(int argc, char *argv[])
@@ -37,26 +37,26 @@ main(int argc, char *argv[])
   }
   
   for(i = 0; i < NITERATIONS; i++){
-    printf(1, "iteration %d\n", i);
+    printf("iteration %d\n", i);
     
     //create and write
     if((fd = open(filename, O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-      printf(1, "Failed to create a small file\n");
+      printf("Failed to create a small file\n");
       test_failed();
     }
     if(write(fd, buf, SIZE) != SIZE){
-      printf(1, "Failed to write to small file\n");
+      printf("Failed to write to small file\n");
       test_failed();
     }
     close(fd);
     
     //read
     if((fd = open("test_file.txt", O_CREATE | O_SMALLFILE | O_RDWR)) < 0){
-      printf(1, "Failed to open the small file\n");
+      printf("Failed to open the small file\n");
       test_failed();
     }
     if(read(fd, buf2, SIZE) != SIZE){
-      printf(1, "Read failed!\n");
+      printf("Read failed!\n");
       test_failed();
     }
     close(fd);
@@ -64,7 +64,7 @@ main(int argc, char *argv[])
     //check data
     for(j = 0; j < SIZE; j++){
       if(buf[j] != buf2[j]){
-        printf(1, "Data mismatch.\n");
+        printf("Data mismatch.\n");
         test_failed();
       }
     }
@@ -72,20 +72,20 @@ main(int argc, char *argv[])
     //remove small file
     pid = fork();
     if(pid < 0){
-      printf(1, "Fork failed\n");
+      printf("Fork failed\n");
       test_failed();
     }
     else if(pid == 0) {
       char *args[3] = {"rm", filename, 0};
       exec(args[0], args);
-      printf(1, "exec failed!\n");
+      printf("exec failed!\n");
       test_failed();
     }
     else {
-      wait();
+      wait(0);
     }
   }
   
   test_passed();
-  exit();
+  exit(0);
 }

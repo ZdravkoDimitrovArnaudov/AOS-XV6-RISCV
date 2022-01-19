@@ -28,12 +28,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 718 blocks have been allocated
+balloc: first 760 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -225,6 +225,7 @@ Voy a hacer copyout en join
 Stack del join: 86016
 TEST PASSED
 
+
 test multi PASSED (8 of 8)
  (multiple threads with some depth of function calls)
 
@@ -241,12 +242,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 717 blocks have been allocated
+balloc: first 758 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -260,7 +261,7 @@ Antes de hacer copyout.
 Copyout correcto al stack del thread.
 SYSPROC: lo que vale stack es: 16272
 usertrap(): unexpected scause 0x000000000000000d pid=4
-            sepc=0x000000000000008a stval=0x0000000000014018
+            sepc=0x0000000000001070 stval=0x0000000000014018
 ADDR: 16272
 Voy a hacer copyout en join
 Stack del join: 77824
@@ -282,12 +283,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 716 blocks have been allocated
+balloc: first 759 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -322,24 +323,10 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-user/tester.c:14:1: error: unknown type name 'cond_t'; did you mean 'const'?
-   14 | cond_t cond;
-      | ^~~~~~
-      | const
-user/tester.c: In function 'main':
-user/tester.c:45:6: error: implicit declaration of function 'cv_signal' [-Werror=implicit-function-declaration]
-   45 |      cv_signal(&cond);
-      |      ^~~~~~~~~
-user/tester.c:57:12: error: expected ')' before string constant
-   57 |    printf(0"TEST PASSED\n");
-      |          ~ ^~~~~~~~~~~~~~~
-      |            )
-user/tester.c: In function 'worker':
-user/tester.c:64:3: error: implicit declaration of function 'cv_wait'; did you mean 'wait'? [-Werror=implicit-function-declaration]
-   64 |   cv_wait(&cond, &lock);
-      |   ^~~~~~~
-      |   wait
-cc1: all warnings being treated as errors
+user/tester.c:4:10: fatal error: user/thread_lib.h: No such file or directory
+    4 | #include "user/thread_lib.h"
+      |          ^~~~~~~~~~~~~~~~~~~
+compilation terminated.
 make: *** [<builtin>: user/tester.o] Error 1
 
 
@@ -360,12 +347,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 717 blocks have been allocated
+balloc: first 758 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -399,17 +386,10 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-user/tester.c: In function 'main':
-user/tester.c:48:11: error: passing argument 1 of 'printf' makes pointer from integer without a cast [-Werror=int-conversion]
-   48 |    printf(1, "TEST PASSED\n");
-      |           ^
-      |           |
-      |           int
-In file included from user/tester.c:3:
-./user/user.h:37:13: note: expected 'const char *' but argument is of type 'int'
-   37 | void printf(const char*, ...);
-      |             ^~~~~~~~~~~
-cc1: all warnings being treated as errors
+user/tester.c:4:10: fatal error: user/thread_lib.h: No such file or directory
+    4 | #include "user/thread_lib.h"
+      |          ^~~~~~~~~~~~~~~~~~~
+compilation terminated.
 make: *** [<builtin>: user/tester.o] Error 1
 
 
@@ -430,12 +410,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 715 blocks have been allocated
+balloc: first 758 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -466,20 +446,10 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-user/tester.c:14:1: error: unknown type name 'cond_t'; did you mean 'const'?
-   14 | cond_t cond1, cond2;
-      | ^~~~~~
-      | const
-user/tester.c: In function 'main':
-user/tester.c:40:4: error: implicit declaration of function 'cv_signal' [-Werror=implicit-function-declaration]
-   40 |    cv_signal(&cond2);
-      |    ^~~~~~~~~
-user/tester.c: In function 'worker':
-user/tester.c:60:3: error: implicit declaration of function 'cv_wait'; did you mean 'wait'? [-Werror=implicit-function-declaration]
-   60 |   cv_wait(&cond1, &lock);
-      |   ^~~~~~~
-      |   wait
-cc1: all warnings being treated as errors
+user/tester.c:4:10: fatal error: user/thread_lib.h: No such file or directory
+    4 | #include "user/thread_lib.h"
+      |          ^~~~~~~~~~~~~~~~~~~
+compilation terminated.
 make: *** [<builtin>: user/tester.o] Error 1
 
 
@@ -500,12 +470,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 715 blocks have been allocated
+balloc: first 758 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -533,12 +503,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 716 blocks have been allocated
+balloc: first 759 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -572,20 +542,10 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-user/tester.c:14:1: error: unknown type name 'cond_t'; did you mean 'const'?
-   14 | cond_t cond;
-      | ^~~~~~
-      | const
-user/tester.c: In function 'main':
-user/tester.c:40:4: error: implicit declaration of function 'cv_signal' [-Werror=implicit-function-declaration]
-   40 |    cv_signal(&cond);
-      |    ^~~~~~~~~
-user/tester.c: In function 'worker':
-user/tester.c:56:3: error: implicit declaration of function 'cv_wait'; did you mean 'wait'? [-Werror=implicit-function-declaration]
-   56 |   cv_wait(&cond, &lock);
-      |   ^~~~~~~
-      |   wait
-cc1: all warnings being treated as errors
+user/tester.c:4:10: fatal error: user/thread_lib.h: No such file or directory
+    4 | #include "user/thread_lib.h"
+      |          ^~~~~~~~~~~~~~~~~~~
+compilation terminated.
 make: *** [<builtin>: user/tester.o] Error 1
 
 
@@ -606,12 +566,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 717 blocks have been allocated
+balloc: first 758 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12623,6 +12583,7 @@ Voy a hacer copyout en join
 Stack del join: 77824
 TEST PASSED
 
+
 test thread2 PASSED (7 of 7)
  (memory leaks from thread library?)
 
@@ -12639,12 +12600,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 715 blocks have been allocated
+balloc: first 758 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12654,7 +12615,7 @@ xv6 kernel is booting
 init: starting sh
 $ tester
 tester
-SYSPROC: lo que vale stack es: 12240
+SYSPROC: lo que vale stack es: 16336
 TEST PASSED
 
 test join3 PASSED (3 of 3)
@@ -12673,12 +12634,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 716 blocks have been allocated
+balloc: first 759 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12714,12 +12675,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 716 blocks have been allocated
+balloc: first 759 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12749,12 +12710,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 716 blocks have been allocated
+balloc: first 759 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12787,12 +12748,12 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o
+riscv64-unknown-elf-ld -z max-page-size=4096 -N -e main -Ttext 0 -o user/_tester user/tester.o user/ulib.o user/usys.o user/printf.o user/umalloc.o user/thread_lib.o
 riscv64-unknown-elf-objdump -S user/_tester > user/tester.asm
 riscv64-unknown-elf-objdump -t user/_tester | sed '1,/SYMBOL TABLE/d; s/ .* / /; /^$/d' > user/tester.sym
-mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread 
+mkfs/mkfs fs.img README user/_cat user/_echo user/_forktest user/_grep user/_init user/_kill user/_ln user/_ls user/_mkdir user/_rm user/_sh user/_stressfs user/_usertests user/_grind user/_wc user/_zombie user/_tester user/_clone user/_prueba_clone user/_prueba_args user/_clone2 user/_stack user/_join user/_join2 user/_join3 user/_join4 user/_multi user/_thread user/_sbrktest user/_thread_lib 
 nmeta 46 (boot, super, log blocks 30 inode blocks 13, bitmap blocks 1) blocks 954 total 1000
-balloc: first 715 blocks have been allocated
+balloc: first 758 blocks have been allocated
 balloc: write bitmap block at sector 45
 make qemu 
 qemu-system-riscv64 -machine virt -bios none -kernel kernel/kernel -m 128M -smp 1 -nographic -drive file=fs.img,if=none,format=raw,id=x0 -device virtio-blk-device,drive=x0,bus=virtio-mmio-bus.0
@@ -12824,27 +12785,10 @@ Trying to build project using make
 make kernel fs.img
 make: Nothing to be done for 'kernel'.
 riscv64-unknown-elf-gcc -Wall -Werror  -O0 -g -fno-omit-frame-pointer -ggdb -MD -mcmodel=medany -ffreestanding -fno-common -nostdlib -mno-relax -I. -fno-stack-protector -fno-pie -no-pie   -c -o user/tester.o user/tester.c
-user/tester.c: In function 'main':
-user/tester.c:47:11: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
-   47 |    size = (unsigned int)sbrk(0);
-      |           ^
-user/tester.c:57:11: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
-   57 |    size = (unsigned int)sbrk(0);
-      |           ^
-user/tester.c: In function 'worker':
-user/tester.c:80:11: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
-   80 |    assert((unsigned int)sbrk(0) == size);
-      |           ^
-user/tester.c:18:23: note: in definition of macro 'assert'
-   18 | #define assert(x) if (x) {} else { \
-      |                       ^
-user/tester.c:85:11: error: cast from pointer to integer of different size [-Werror=pointer-to-int-cast]
-   85 |    assert((unsigned int)sbrk(0) == size);
-      |           ^
-user/tester.c:18:23: note: in definition of macro 'assert'
-   18 | #define assert(x) if (x) {} else { \
-      |                       ^
-cc1: all warnings being treated as errors
+user/tester.c:4:10: fatal error: user/thread_lib.h: No such file or directory
+    4 | #include "user/thread_lib.h"
+      |          ^~~~~~~~~~~~~~~~~~~
+compilation terminated.
 make: *** [<builtin>: user/tester.o] Error 1
 
 
