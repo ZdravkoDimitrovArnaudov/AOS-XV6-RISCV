@@ -183,6 +183,7 @@ int             copyinstr(pagetable_t, char *, uint64, uint64);
 uint64          walkaddr(pagetable_t pagetable, uint64 va);
 pte_t           *walk(pagetable_t pagetable, uint64 va, int alloc);
 int             uvmcopyThread(pagetable_t old, pagetable_t new, uint64 sz);
+//void            freewalk(pagetable_t pagetable);
 
 void     print_table(pagetable_t pagetable, int level);
 void vmprint(pagetable_t pagetable);

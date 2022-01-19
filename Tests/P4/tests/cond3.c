@@ -1,7 +1,7 @@
 /* test cv_wait and cv_signal, signal, don't broadcast */
 #include "kernel/types.h"
 #include "user/user.h"
-#include "user/thread_lib.h"
+//#include "user/thread_lib.h"
 
 #undef NULL
 #define NULL ((void*)0)
@@ -54,7 +54,7 @@ main(int argc, char *argv[])
      lock_release(&lock);
    }
 
-   printf(0"TEST PASSED\n");
+   printf("TEST PASSED\n");
    exit(0);
 }
 

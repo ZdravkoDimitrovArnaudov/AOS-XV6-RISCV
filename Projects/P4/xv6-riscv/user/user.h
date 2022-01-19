@@ -1,6 +1,7 @@
 struct stat;
 struct rtcdate;
 typedef uint lock_t;
+typedef uint cond_t;
 
 // system calls
 int fork(void);
@@ -52,4 +53,8 @@ int thread_join(void);
 void lock_acquire (lock_t *);
 void lock_release (lock_t *);
 void lock_init (lock_t *);
+void cv_wait (cond_t *cv, lock_t *lock);
+void cv_signal (cond_t *cv);
+void cv_init (cond_t *cv);
+
 

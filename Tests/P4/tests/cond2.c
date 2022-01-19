@@ -1,7 +1,7 @@
 /* test cv_wait and cv_signal, don't wakeup on wrong cv */
 #include "kernel/types.h"
 #include "user/user.h"
-#include "user/thread_lib.h"
+//#include "user/thread_lib.h"
 
 #undef NULL
 #define NULL ((void*)0)

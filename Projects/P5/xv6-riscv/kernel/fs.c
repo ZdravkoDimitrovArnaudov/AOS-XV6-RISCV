@@ -464,19 +464,18 @@ readi(struct inode *ip, int user_dst, uint64 dst, uint off, uint n)
 {
   uint tot, m;
   struct buf *bp = NULL;
-  void *aux_addr;
   m = 0;
 
   if(off > ip->size || off + n < off)
     return 0;
 
-  if(off + n > ip->size)
+  if(off + n > ip->size) 
     n = ip->size - off;
 
 
   if (ip->type == T_SMALLFILE){ //small file
 
-    if (ip->size <= 0){
+    if (ip->size <= 0){ //fichero vacio
       return -1;
     }
 
@@ -490,20 +489,16 @@ readi(struct inode *ip, int user_dst, uint64 dst, uint off, uint n)
       n = (sizeof(uint) * (NDIRECT +1)) - off; //acabamos leyendo lo que nos quede
     }
 
-    //if(either_copyout(user_dst, dst, (void*)ip->addrs, n) == -1) {
-     // tot = -1;
-   // }
+    if(either_copyout(user_dst, dst, (void*)ip->addrs+off, n) == -1) {
+     tot = -1;
+    } else {
 
-    for (int i = off; i < off+n; i++){
-      aux_addr = (void *)ip->addrs + i;
-      if(either_copyout(user_dst, dst +i -off, (void*)aux_addr,  1) == -1) {
-      tot = -1;
+      tot = n;
     }
-  }
 
-    tot = n;
 
-  } else { //regular file
+
+  } else { //others
 
     for(tot=0; tot<n; tot+=m, off+=m, dst+=m){
     bp = bread(ip->dev, bmap(ip, off/BSIZE));
@@ -517,6 +512,8 @@ readi(struct inode *ip, int user_dst, uint64 dst, uint off, uint n)
   }
 
   }
+
+  
 
   return tot;
 }
@@ -534,8 +531,8 @@ writei(struct inode *ip, int user_src, uint64 src, uint off, uint n)
   uint tot, m;
   struct buf *bp;
   tot = 0;
-  void *aux_addr;
-  int size_array = 0;
+
+
 
 
   if(off > ip->size || off + n < off){
@@ -544,43 +541,33 @@ writei(struct inode *ip, int user_src, uint64 src, uint off, uint n)
   
   if (ip->type == T_SMALLFILE){ //small file
 
-    if(ip->size >  (sizeof(uint) * (NDIRECT +1))){
+    if(ip->size >  (sizeof(uint) * (NDIRECT +1))){ //tamaño de fichero no es mayor que 52
       return -1;
     }
 
-    if(off + n > (sizeof(uint) * (NDIRECT +1))){
+    if(off + n > (sizeof(uint) * (NDIRECT +1))){ //desde donde estoy hasta donde voy a escribir, no puede superar los 52B. Hay que reajustar los bytes que se van a escribir.
       n = (sizeof(uint) * (NDIRECT+1)) - off ;
     }
+    
+
+    //escribimos en el espacio correspondiente en el inodo
+   if(either_copyin((void*)ip->addrs + off, user_src, src, n) == -1) {
+       tot = -1;;
+   } else {
+     tot = n;
+   }
+
+  
+  if (tot > 0){ //hemos escrito
+    if (n+ off >= ip->size){
+        ip->size = n + off;
+    } 
       
-
-
-    for (int i = off; i < off+n; i++){
-      aux_addr = (void *)ip->addrs + i;
-      if(either_copyin((void*)aux_addr, user_src, src +i - off, 1) == -1) {
-        tot = -1;
-      }
-      size_array++;
-    }
-
-    //escribimos en el espacio 
-   // if(either_copyin((void*)ip->addrs, user_src, src, n) == -1) {
-     //  return -1;
-   // }
-
-    //tot =n;
-
-
-    if (n > 0){ //hemos escrito
-      if (size_array + off >= ip->size){
-        ip->size = size_array + off;
-      } else {
-        ip->size += n;
-      }
-    tot = n;
+     
     iupdate(ip);
   }
 
-  } else {
+  } else { //others
 
 
     if(off + n > MAXFILE*BSIZE)

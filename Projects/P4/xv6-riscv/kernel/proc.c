@@ -16,6 +16,7 @@ int nextpid = 1;
 struct spinlock pid_lock;
 
 extern void forkret(void);
+extern void freewalk(pagetable_t pagetable);
 static void freeproc(struct proc *p);
 
 extern char trampoline[]; // trampoline.S
@@ -179,16 +180,15 @@ freeproc(struct proc *p)
 static void
 freethread(struct proc *p)
 {
-  if(p->trapframe)
+if(p->trapframe)
     kfree((void*)p->trapframe);
   p->trapframe = 0;
   if(p->pagetable){
-    uvmunmap(p->pagetable, TRAMPOLINE, 1, 0); //desmapea pagina trampoline
-    uvmunmap(p->pagetable, TRAPFRAME, 1, 0); //desmapea pagina trapframe
-    if(p->sz > 0)
-    uvmunmap(p->pagetable, 0, PGROUNDUP(p->sz)/PGSIZE, 0); //desmapea todo de 0 a sz, sin liberar las paginas fisicas
-    kfree((void*)p->pagetable); //kernel free de la tabla de páginas, no se están recorriendo todos los niveles
-
+    uvmunmap(p->pagetable, TRAMPOLINE, 1, 0);
+    uvmunmap(p->pagetable, TRAPFRAME, 1, 0);
+    if(p->sz > 0) // uvmfree but doNOT_free
+      uvmunmap(p->pagetable, 0, PGROUNDUP(p->sz)/PGSIZE, 0); // Invalidate pte but not free physical
+    freewalk(p->pagetable); // Recursively free page-table pages. Page table already invalidated
   }
   p->pagetable = 0;
   p->sz = 0;
@@ -199,6 +199,10 @@ freethread(struct proc *p)
   p->killed = 0;
   p->xstate = 0;
   p->state = UNUSED;
+  p->ASID = 0;
+  p->bottom_ustack = 0;
+  p->top_ustack = 0;
+
 }
 
 

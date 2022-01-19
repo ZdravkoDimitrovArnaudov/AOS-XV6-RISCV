@@ -7,6 +7,7 @@
 
 #define PAGE_SIZE (4096)
 typedef uint lock_t;
+typedef uint cont_t;
 
 extern int clone(void(*fcn)(void*), void *arg, void*stack);
 extern int join (void *stack);
@@ -66,3 +67,26 @@ void lock_init (lock_t *lock){
     
 }
 
+
+void cv_wait (cont_t *cv, lock_t *lock){
+    while( __sync_lock_test_and_set(cv, 0)!=1){
+        lock_release(lock);
+        sleep(1);
+        lock_acquire(lock);
+    }
+
+     __sync_synchronize();
+
+}
+
+
+void cv_signal (cont_t *cv){
+     __sync_synchronize();
+     __sync_lock_test_and_set(cv, 1);
+
+}
+
+
+void cv_init (cont_t *cv){
+    cv = 0;
+}

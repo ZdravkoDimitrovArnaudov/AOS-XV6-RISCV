@@ -159,7 +159,7 @@ class Test19(Xv6Test):
   tester = "ctests/" + name + ".c"
   make_qemu_args = "CPUS=1"
   point_value = 10
-  timeout = 10
+  timeout = 200
 
 import toolspath
 from testing.runtests import main

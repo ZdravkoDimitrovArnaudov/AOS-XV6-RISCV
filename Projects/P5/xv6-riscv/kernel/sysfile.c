@@ -252,7 +252,7 @@ create(char *path, short type, short major, short minor)
   if((ip = dirlookup(dp, name, 0)) != 0){
     iunlockput(dp);
     ilock(ip);
-    if(type == T_FILE && (ip->type == T_FILE || ip->type == T_DEVICE)) //MODIFICAR
+    if(type == T_FILE && (ip->type == T_FILE || ip->type == T_DEVICE)) 
       return ip;
 
     if(type == T_SMALLFILE && (ip->type == T_SMALLFILE || ip->type == T_DEVICE)) //smallfile
@@ -354,7 +354,7 @@ sys_open(void)
   f->readable = !(omode & O_WRONLY);
   f->writable = (omode & O_WRONLY) || (omode & O_RDWR);
 
-  if((omode & O_TRUNC) && ip->type == T_FILE){ //CAMBIAR
+  if((omode & O_TRUNC) && ip->type == T_FILE){ 
     itrunc(ip);
   }
 
